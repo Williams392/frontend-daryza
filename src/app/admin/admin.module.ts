@@ -14,8 +14,12 @@ import { SubCategoriaComponent } from './gestion-inventario/sub-categoria/sub-ca
 import { NewSubCategoriaComponent } from './gestion-inventario/sub-categoria/new-sub-categoria/new-sub-categoria.component';
 import { ProductoComponent } from './gestion-inventario/producto/producto/producto.component';
 import { NewProductoComponent } from './gestion-inventario/producto/new-producto/new-producto.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import {MatButtonModule} from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,13 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     AdminRoutingModule,
 
+    HttpClientModule,
+    ReactiveFormsModule,
+
     FormsModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatSnackBarModule
 
   ]
 })
