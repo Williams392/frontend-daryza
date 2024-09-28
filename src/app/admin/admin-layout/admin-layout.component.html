@@ -1,0 +1,124 @@
+<body>
+    <div class="wrapper">
+
+        
+        <aside id="sidebar" [class.collapsed]="isCollapsed">
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <a routerLink="/admin/dashboard">DARYZA</a>
+                </div>
+          
+                <ul class="sidebar-nav">
+
+                    <li class="sidebar-header">Admin</li>
+                    
+                    <li class="sidebar-item">
+                        <a routerLink="/admin/dashboard" class="sidebar-link">
+                        <i class="bi bi-grid-fill pe-2"></i> DASHBOARD
+                        </a>
+                    </li>
+                    
+                    <li class="sidebar-item dropdown">
+                        <a href="#" class="sidebar-link dropdown-toggle" (click)="toggleGestionMenu($event)" aria-expanded="false">
+                        <i class="bi bi-box-seam pe-2"></i> INVENTARIO
+                        </a>
+                        <ul id="gestionMenu" class="list-unstyled collapse">
+                        <li class="sidebar-subitem">
+                            <a routerLink="/admin/productos" class="sidebar-link">
+                            <i class="bi bi-boxes pe-2"></i> PRODUCTO
+                            </a>
+                        </li>
+                        <li class="sidebar-subitem">
+                            <a routerLink="/admin/marcas" class="sidebar-link">
+                            <i class="bi bi-tags pe-2"></i> MARCA
+                            </a>
+                        </li>
+                        </ul>
+                    </li>
+                    
+            
+                    <li class="sidebar-item dropdown">
+                        <a href="#" class="sidebar-link dropdown-toggle" (click)="toggleVentasMenu($event)" aria-expanded="false">
+                            <i class="bi bi-bar-chart-fill pe-2"></i> VENTAS
+                        </a>
+                        <ul id="ventasMenu" class="list-unstyled collapse">
+                            <li class="sidebar-subitem">
+                            <a routerLink="/admin/ventas1" class="sidebar-link">
+                                <i class="bi bi-cash-stack pe-2"></i> Ventas 1
+                            </a>
+                            </li>
+                            <li class="sidebar-subitem">
+                            <a routerLink="/admin/ventas2" class="sidebar-link">
+                                <i class="bi bi-cash-stack pe-2"></i> Ventas 2
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+            
+                    <li class="sidebar-item">
+                        <a routerLink="/admin/configuracion" class="sidebar-link collapsed">
+                            <i class="bi bi-gear-fill pe-2"></i> CONFIGURACION
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </aside>
+          
+        
+        <div class="main">
+                
+            <nav class="navbar navbar-expand px-3 border-bottom">
+    
+                <button class="btn" id="sidebar-toggle" type="button">
+                    <button class="navbar-toggler-icon" id="sidebar-toggle" (click)="toggleSidebar()"></button>
+                </button>
+        
+                <div class="ml-auto" style="font-size: 150%;" >
+                    <button class="navbar-toggler-icon" id="salir" type="button" class="page-link" (click)="inicioPAGINA()">
+                        <i class="bi bi-door-closed"></i>
+                    </button>
+                </div>
+    
+            </nav>
+
+            
+            <!-- ACA ADENTRO VA EL DASHBOARD y todo las demas PAGINAS: -->
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+            
+                    <!-- <div class="card border-0"> : Esto da el color Blanco. -->
+                    <div>
+                                
+                        <!-- Nested Views -->
+                        <router-outlet></router-outlet>
+                                
+                    </div>
+    
+                </div>
+            </main>
+
+
+            <footer class="footer bg-blue-600 text-white p-3">
+                <div class="container mx-auto flex justify-between items-center">
+        
+                    <div class="text-lg font-bold">
+                        <h3>Daryza</h3>
+                    </div>
+        
+                    <div class="flex space-x-8">
+        
+                        <p>Nosotros</p>
+                        
+                    </div>
+        
+                </div>
+            </footer>
+
+
+        </div>
+        
+    </div>
+
+</body>
+    
