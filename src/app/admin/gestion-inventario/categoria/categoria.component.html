@@ -12,7 +12,7 @@
 
     <div class="bg-white">
         <div style="display: flex; align-items: center; padding: 10px;">
-            <i class="bi bi-collection" style="font-size: 25px;"></i>
+            <i style="font-size: 25px;"></i>  <!-- class="bi bi-collection"  -->
             <p style="font-size: 24px; line-height: 1.2; margin: 0 0 0 10px;">AGREGAR CATEGORÍA</p>
         </div>  
         <hr>
@@ -62,16 +62,16 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let categoria of paginatedCategorias">
-                        <td>{{ categoria.id }}</td>
+                        <td>{{ categoria.id_categoria }}</td>
                         <td>{{ categoria.nombre }}</td>
                         <td>{{ categoria.estado ? 'Activo' : 'Inactivo' }}</td>
                         <td>{{ categoria.created_at }}</td>
                         <td>{{ categoria.update_at }}</td>
                         <td>
-                            <button (click)="editarCategoria(categoria.id!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
+                            <button (click)="editarCategoria(categoria.id_categoria!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
                         </td>
                         <td>
-                            <button (click)="eliminarCategoria(categoria.id!)" class="btn btn-danger">Eliminar</button>
+                            <button (click)="eliminarCategoria(categoria.id_categoria!)" class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>

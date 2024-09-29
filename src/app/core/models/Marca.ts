@@ -1,5 +1,5 @@
 export class Marca {
-    id?: number;
+    id_marca?: number;
     nombre?: string;
     estado?: boolean;
     created_at?: string | null;  // Cambia a string | null

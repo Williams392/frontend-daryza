@@ -56,16 +56,16 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let unidad of paginatedUnidadesMedida">
-                        <td>{{ unidad.id }}</td>
+                        <td>{{ unidad.id_unidad_medida }}</td>
                         <td>{{ unidad.nombre }}</td>
                         <td>{{ unidad.abreviacion }}</td>
                         <td>{{ unidad.created_at }}</td>
                         <td>{{ unidad.update_at }}</td>
                         <td>
-                            <button (click)="editarUnidadMedida(unidad.id!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
+                            <button (click)="editarUnidadMedida(unidad.id_unidad_medida!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
                         </td>
                         <td>
-                            <button (click)="eliminarUnidadMedida(unidad.id!)" class="btn btn-danger">Eliminar</button>
+                            <button (click)="eliminarUnidadMedida(unidad.id_unidad_medida!)" class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>

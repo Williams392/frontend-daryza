@@ -55,15 +55,15 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let marca of marcas">
-                        <td>{{ marca.id }}</td>
+                        <td>{{ marca.id_marca }}</td>
                         <td>{{ marca.nombre }}</td>
                         <td>{{ marca.created_at }}</td>
                         <td>{{ marca.update_at }}</td>
                         <td>
-                        <button (click)="editarMarca(marca.id!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
+                        <button (click)="editarMarca(marca.id_marca!)" class="btn btn-sm me-3" mat-flat-button color="primary">Editar</button>
                         </td>
                         <td>
-                        <button (click)="eliminarMarca(marca.id!)" class="btn btn-danger">Eliminar</button>
+                        <button (click)="eliminarMarca(marca.id_marca!)" class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 </tbody>

@@ -1,6 +1,6 @@
 
 export class UnidadMedida {
-    id?: number;
+    id_unidad_medida?: number;
     nombre?: string;
     abreviacion?: string;
     created_at?: string | null;

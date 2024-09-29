@@ -47,8 +47,8 @@ export class CategoriaComponent implements OnInit {
 
   guardarCategoria() {
     if (this.categoriaForm.valid) {
-        if (this.categoria.id) {
-            this.categoriaService.putActualizarCategoria(this.categoria.id, this.categoria).subscribe({
+        if (this.categoria.id_categoria) {
+            this.categoriaService.putActualizarCategoria(this.categoria.id_categoria, this.categoria).subscribe({
                 next: () => this.onSuccess('Categoría actualizada con éxito'),
                 error: () => this.onError('Error al actualizar la categoría')
             });

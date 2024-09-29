@@ -49,8 +49,8 @@ export class UnidadMedidaComponent implements OnInit {
 
   guardarUnidadMedida() {
     if (this.unidadMedidaForm.valid) {
-      if (this.unidadMedida.id) {
-        this.unidadMedidaService.putActualizarUnidadMedida(this.unidadMedida.id, this.unidadMedida).subscribe({
+      if (this.unidadMedida.id_unidad_medida) {
+        this.unidadMedidaService.putActualizarUnidadMedida(this.unidadMedida.id_unidad_medida, this.unidadMedida).subscribe({
           next: () => this.onSuccess('Unidad de Medida actualizada con éxito'),
           error: () => this.onError('Error al actualizar la Unidad de Medida')
         });

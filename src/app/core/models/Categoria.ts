@@ -1,5 +1,5 @@
 export interface Categoria {
-    id?: number;
+    id_categoria?: number;
     nombre: string;
     estado: boolean;
     created_at?: string | null;  // Permite null

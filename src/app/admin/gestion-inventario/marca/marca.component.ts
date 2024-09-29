@@ -51,8 +51,8 @@ export class MarcaComponent {
   // Guardar o actualizar marca
   guardarMarca() {
     if (this.marcaForm.valid) {
-      if (this.marca.id) {
-        this.marcaService.putActualizarMarca(this.marca.id, this.marca).subscribe({
+      if (this.marca.id_marca) {
+        this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
           next: () => this.onSuccess('Marca actualizada con éxito'),
           error: () => this.onError('Error al actualizar la marca')
         });
