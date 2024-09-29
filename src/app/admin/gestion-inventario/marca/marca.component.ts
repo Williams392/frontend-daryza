@@ -1,19 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
-import { MarcaService } from '../../../../core/services/marca.service';
-import { Marca } from '../../../../core/models/Marca';
+import { DatePipe } from '@angular/common';
+
+import { MarcaService } from '../../../core/services/marca.service';
+import { Marca } from '../../../core/models/Marca';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-marcas',
-  templateUrl: './marcas.component.html',
-  styleUrl: './marcas.component.css',
+  selector: 'app-marca',
+  templateUrl: './marca.component.html',
+  styleUrl: './marca.component.css',
   providers: [DatePipe]
 })
-export class MarcasComponent {
-
+export class MarcaComponent {
   @ViewChild('marcaForm', { static: false }) marcaForm!: NgForm;
   marcas: Marca[] = [];
   marca: Marca = new Marca();
