@@ -21,23 +21,31 @@
     <div class="container bg-white">
 
         <form (ngSubmit)="guardarCategoria()" #categoriaForm="ngForm" style="padding: 15px;">
-
+        
             <div class="mb-3">
                 <label for="nombreCategoria" class="form-label">Nombre de la Categoría</label>
                 <input type="text" class="form-control" id="nombreCategoria" name="nombreCategoria" required
                        [(ngModel)]="categoria.nombre" #nombreCategoria="ngModel">
             </div>
-
+    
+            <!-- Switch para controlar el estado de la categoría -->
+            <div class="mb-3">
+                <label for="estadoCategoria" class="form-label">Estado</label>
+                <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="estadoCategoria" [(ngModel)]="categoria.estado" name="estadoCategoria">
+                <label class="form-check-label" for="estadoCategoria">{{ categoria.estado ? 'Activo' : 'Inactivo' }}</label>
+                </div>
+            </div>
+    
             <div class="container text-center">
-                <!-- Botones alineados y con estilo consistente -->
                 <button class="text-center full-width me-2" style="padding: 20px;" mat-raised-button color="primary">Guardar</button>
                 <button class="full-width" type="reset" style="padding: 20px;" mat-raised-button color="accent" (click)="cancelar()">Cancelar</button>
             </div>
-
+    
         </form>
-
+    
         <br>
-
+    
         <!-- Tabla de categorías -->
         <div class="container">
             <table class="table table-striped table-hover align-middle">
@@ -68,7 +76,7 @@
                     </tr>
                 </tbody>
             </table>
-
+    
             <!-- Paginación -->
             <div class="pagination-container">
                 <nav *ngIf="totalPages > 1" aria-label="Page navigation example">
@@ -92,4 +100,6 @@
             </div>
         </div>
     </div>
+    
+    
 </div>

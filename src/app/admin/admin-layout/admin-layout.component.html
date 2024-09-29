@@ -20,7 +20,7 @@
                     
                     <li class="sidebar-item dropdown">
                         <a href="#" class="sidebar-link dropdown-toggle" (click)="toggleGestionMenu($event)" aria-expanded="false">
-                        <i class="bi bi-box-seam pe-2"></i> INVENTARIO
+                        <i class="bi bi-box-seam pe-2"></i> ALMACEN
                         </a>
                         <ul id="gestionMenu" class="list-unstyled collapse">
                             <li class="sidebar-subitem">
@@ -30,22 +30,22 @@
                             </li>
                             <li class="sidebar-subitem">
                                 <a routerLink="/admin/marcas" class="sidebar-link">
-                                    <i class="bi bi-tags pe-2"></i> MARCA
+                                    <i class="bi bi-shop pe-2"></i> MARCA
                                 </a>
                             </li>
                             <li class="sidebar-subitem">
                                 <a routerLink="/admin/categoria" class="sidebar-link">
-                                    <i class="bi bi-tags pe-2"></i> CATEGORIA
+                                    <i class="bi bi-grid pe-2"></i> CATEGORIA
                                 </a>
                             </li>
                             <li class="sidebar-subitem">
                                 <a routerLink="/admin/unidad_medida" class="sidebar-link">
-                                    <i class="bi bi-tags pe-2"></i> UNIDAD DE MEDIDA
+                                    <i class="bi bi-rulers pe-2"></i> UNIDAD DE MEDIDA
                                 </a>
-                            </li>
+                            </li>                           
+                            
                         </ul>
                     </li>
-                    
             
                     <li class="sidebar-item dropdown">
                         <a href="#" class="sidebar-link dropdown-toggle" (click)="toggleVentasMenu($event)" aria-expanded="false">
@@ -65,6 +65,12 @@
                         </ul>
                     </li>
             
+                    <li class="sidebar-item">
+                        <a routerLink="/admin/configuracion" class="sidebar-link collapsed">
+                            <i class="bi bi-person-fill pe-2"></i> CLIENTE
+                        </a>
+                    </li>                    
+
                     <li class="sidebar-item">
                         <a routerLink="/admin/configuracion" class="sidebar-link collapsed">
                             <i class="bi bi-gear-fill pe-2"></i> CONFIGURACION

@@ -47,19 +47,20 @@ export class CategoriaComponent implements OnInit {
 
   guardarCategoria() {
     if (this.categoriaForm.valid) {
-      if (this.categoria.id) {
-        this.categoriaService.putActualizarCategoria(this.categoria.id, this.categoria).subscribe({
-          next: () => this.onSuccess('Categoría actualizada con éxito'),
-          error: () => this.onError('Error al actualizar la categoría')
-        });
-      } else {
-        this.categoriaService.postAgregarCategoria(this.categoria).subscribe({
-          next: () => this.onSuccess('Categoría guardada con éxito'),
-          error: () => this.onError('Error al guardar la categoría')
-        });
-      }
+        if (this.categoria.id) {
+            this.categoriaService.putActualizarCategoria(this.categoria.id, this.categoria).subscribe({
+                next: () => this.onSuccess('Categoría actualizada con éxito'),
+                error: () => this.onError('Error al actualizar la categoría')
+            });
+        } else {
+            this.categoriaService.postAgregarCategoria(this.categoria).subscribe({
+                next: () => this.onSuccess('Categoría guardada con éxito'),
+                error: () => this.onError('Error al guardar la categoría')
+            });
+        }
     }
   }
+
 
   eliminarCategoria(id: number) {
     this.categoriaService.eliminarCategoria(id).subscribe(() => {
