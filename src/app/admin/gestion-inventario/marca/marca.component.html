@@ -20,72 +20,87 @@
     </div>    
 
     <div class="container bg-white" style="padding-bottom: 20px;">
-        
-        <form (ngSubmit)="guardarMarca()" #marcaForm="ngForm" style="padding: 15px;">
-            <div class="mb-3">
-                <label for="nombreMarca" class="form-label">Nombre de la Marca</label>
-                <input type="text" class="form-control" id="nombreMarca" name="nombreMarca" required
-                       [(ngModel)]="marca.nombre" #nombreMarca="ngModel">
+
+        <div class="bg-white">
+            <div style="display: flex; align-items: center; padding: 10px 5px 10px 5px;">
+                <i class="" style="font-size: 25px;"></i>
+                <button class="btn btn-primary ms-auto" (click)="abrirModal()">Agregar Marca</button>
             </div>
-        
-            <div class="container text-center">
-                <button class="text-center full-width me-2" style="padding: 20px;" mat-raised-button color="primary">Guardar</button>
-                <button class="full-width" type="reset" style="padding: 20px;" mat-raised-button color="accent" (click)="cancelar()">Cancelar</button>
-            </div>
-        </form>
-      
-        <!-- Tabla de marcas con paginación de Angular Material -->
+            <hr>
+        </div>
+    
         <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
             <table mat-table [dataSource]="dataSource" class="mat-table">
-    
-                <!-- ID Column -->
+                <!-- Columns definition -->
                 <ng-container matColumnDef="id_marca">
-                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
                     <td mat-cell *matCellDef="let marca"> {{ marca.id_marca }} </td>
                 </ng-container>
-    
-                <!-- Nombre Column -->
+        
                 <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
                     <td mat-cell *matCellDef="let marca"> {{ marca.nombre }} </td>
                 </ng-container>
-    
-                <!-- Fecha Creacion Column -->
+        
                 <ng-container matColumnDef="created_at">
-                    <th mat-header-cell *matHeaderCellDef> Fecha Creación </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha Creación </th>
                     <td mat-cell *matCellDef="let marca"> {{ marca.created_at }} </td>
                 </ng-container>
-    
-                <!-- Fecha Actualizacion Column -->
+        
                 <ng-container matColumnDef="update_at">
-                    <th mat-header-cell *matHeaderCellDef> Fecha Actualización </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha Actualización </th>
                     <td mat-cell *matCellDef="let marca"> {{ marca.update_at }} </td>
                 </ng-container>
-    
-                <!-- Editar Column -->
+        
                 <ng-container matColumnDef="editar">
-                    <th mat-header-cell *matHeaderCellDef> Editar </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
                     <td mat-cell *matCellDef="let marca">
-                        <button (click)="editarMarca(marca.id_marca!)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
+                        <button (click)="editarMarca(marca)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
                     </td>
                 </ng-container>
-    
-                <!-- Eliminar Column -->
+        
                 <ng-container matColumnDef="eliminar">
-                    <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
                     <td mat-cell *matCellDef="let marca">
                         <button (click)="eliminarMarca(marca.id_marca!)" class="btn btn-danger">Eliminar</button>
                     </td>
                 </ng-container>
-    
-                <!-- Header and Row declarations -->
+        
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-    
+        
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
+
     </div>
     
+    <!-- Modal para agregar marca -->
+    <div class="modal fade" id="agregarMarcaModal" tabindex="-1" role="dialog" aria-labelledby="agregarMarcaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarMarcaModalLabel">Agregar Marca</h5>
+                    <button type="button" class="close" (click)="cerrarModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="guardarMarca()" #marcaForm="ngForm">
+                        <div class="mb-3">
+                            <label for="nombreMarca" class="form-label">Nombre de la Marca</label>
+                            <input type="text" class="form-control" id="nombreMarca" name="nombreMarca" required
+                                [(ngModel)]="marca.nombre" #nombreMarca="ngModel">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
   

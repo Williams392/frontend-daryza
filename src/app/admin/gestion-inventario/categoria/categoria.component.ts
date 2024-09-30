@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CategoriaService } from '../../../core/services/categoria.service';
-
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { CategoriaService } from '../../../core/services/categoria.service';
 import Swal from 'sweetalert2';
 import { Categoria } from '../../../core/models/Categoria';
+
 
 @Component({
   selector: 'app-categoria',
@@ -14,14 +16,12 @@ import { Categoria } from '../../../core/models/Categoria';
 })
 export class CategoriaComponent implements OnInit {
   @ViewChild('categoriaForm', { static: false }) categoriaForm!: NgForm;
-  categorias: Categoria[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  displayedColumns: string[] = ['id_categoria', 'nombre', 'estado', 'created_at', 'update_at', 'editar', 'eliminar'];
+  dataSource = new MatTableDataSource<Categoria>();
+
   categoria: Categoria = { nombre: '', estado: true };
-  
-  paginatedCategorias: Categoria[] = [];
-  pageSize = 5;
-  currentPage = 1;
-  totalPages: number = 0;
-  pages: number[] = [];
 
   constructor(
     private categoriaService: CategoriaService,
@@ -32,35 +32,50 @@ export class CategoriaComponent implements OnInit {
     this.obtenerCategorias();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.getPageSize();
+    this.paginator.page.subscribe(() => {
+        this.setPageSize(this.paginator.pageSize);
+    });
+  }
+
+  // -------------- Mantener el Elementos por Pagina. --------------
+  getPageSize(): number {
+    const pageSize = localStorage.getItem('pageSize');
+    return pageSize ? +pageSize : 5; // Valor por defecto 5
+  }
+
+  setPageSize(size: number) {
+      localStorage.setItem('pageSize', size.toString());
+  }
+  // ------------------------------------------
+
   obtenerCategorias() {
     this.categoriaService.getCategoriaLista().subscribe(categorias => {
-      this.categorias = categorias.map(categoria => ({
+      this.dataSource.data = categorias.map(categoria => ({
         ...categoria,
         created_at: this.datePipe.transform(categoria.created_at, 'yyyy-MM-dd HH:mm'),
         update_at: this.datePipe.transform(categoria.update_at, 'yyyy-MM-dd HH:mm')
       }));
-      this.totalPages = Math.ceil(this.categorias.length / this.pageSize);
-      this.updatePages();
-      this.irAlaPagina(1);
     });
   }
 
   guardarCategoria() {
     if (this.categoriaForm.valid) {
-        if (this.categoria.id_categoria) {
-            this.categoriaService.putActualizarCategoria(this.categoria.id_categoria, this.categoria).subscribe({
-                next: () => this.onSuccess('Categoría actualizada con éxito'),
-                error: () => this.onError('Error al actualizar la categoría')
-            });
-        } else {
-            this.categoriaService.postAgregarCategoria(this.categoria).subscribe({
-                next: () => this.onSuccess('Categoría guardada con éxito'),
-                error: () => this.onError('Error al guardar la categoría')
-            });
-        }
+      if (this.categoria.id_categoria) {
+        this.categoriaService.putActualizarCategoria(this.categoria.id_categoria, this.categoria).subscribe({
+          next: () => this.onSuccess('Categoría actualizada con éxito'),
+          error: () => this.onError('Error al actualizar la categoría')
+        });
+      } else {
+        this.categoriaService.postAgregarCategoria(this.categoria).subscribe({
+          next: () => this.onSuccess('Categoría guardada con éxito'),
+          error: () => this.onError('Error al guardar la categoría')
+        });
+      }
     }
   }
-
 
   eliminarCategoria(id: number) {
     this.categoriaService.eliminarCategoria(id).subscribe(() => {
@@ -68,16 +83,16 @@ export class CategoriaComponent implements OnInit {
     });
   }
 
-  editarCategoria(id: number) {
-    this.categoriaService.getCategoria(id).subscribe(categoria => {
-      this.categoria = categoria;
-    });
+  editarCategoria(categoria: Categoria) {
+    this.categoria = { ...categoria };
+    this.abrirModal(); // Abrir modal para edición
   }
 
+  // -------------- venta modal --------------
   onSuccess(message: string) {
     Swal.fire('Éxito', message, 'success');
     this.obtenerCategorias();
-    this.cancelar();
+    this.cerrarModal();
   }
 
   onError(message: string) {
@@ -85,34 +100,27 @@ export class CategoriaComponent implements OnInit {
   }
 
   cancelar() {
-    this.categoria = { nombre: '', estado: true };
+    this.categoria = { nombre: '', estado: true }; 
   }
-
-  // Métodos de paginación
-  updatePages() {
-    this.pages = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      this.pages.push(i);
+  
+  abrirModal() {
+    const modalElement = document.getElementById('agregarCategoriaModal');
+    if (modalElement) {
+        modalElement.classList.add('show');
+        modalElement.style.display = 'block';
+        document.body.classList.add('modal-open');
     }
   }
 
-  irAlaPagina(page: number) {
-    this.currentPage = page;
-    const startIndex = (page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedCategorias = this.categorias.slice(startIndex, endIndex);
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.irAlaPagina(this.currentPage - 1);
+  cerrarModal() {
+    const modalElement = document.getElementById('agregarCategoriaModal');
+    if (modalElement) {
+      modalElement.classList.remove('show');
+      modalElement.style.display = 'none';
+     document.body.classList.remove('modal-open');
+      this.cancelar();  // Clear the form after closing
     }
   }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.irAlaPagina(this.currentPage + 1);
-    }
-  }
+  // ------------------------------------------
 
 }

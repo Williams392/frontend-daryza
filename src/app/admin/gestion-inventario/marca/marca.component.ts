@@ -25,76 +25,120 @@ export class MarcaComponent implements OnInit, AfterViewInit {
   marca: Marca = new Marca();
 
   constructor(
-    private marcaService: MarcaService,
-    private snack: MatSnackBar,
-    private datePipe: DatePipe
+      private marcaService: MarcaService,
+      private snack: MatSnackBar,
+      private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
-    this.obtenerMarcas();
+      this.obtenerMarcas();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.getPageSize();
+    this.paginator.page.subscribe(() => {
+        this.setPageSize(this.paginator.pageSize);
+    });
   }
 
-  // Obtener lista de marcas con fechas formateadas
+  // -------------- Mantener el Elementos por Pagina. --------------
+  getPageSize(): number {
+      const pageSize = localStorage.getItem('pageSize');
+      return pageSize ? +pageSize : 5; // Valor por defecto 5
+  }
+
+  setPageSize(size: number) {
+      localStorage.setItem('pageSize', size.toString());
+  }
+  // ------------------------------------------
+
   obtenerMarcas() {
-    this.marcaService.getMarcaLista().subscribe(marcas => {
-      this.dataSource.data = marcas.map(marca => ({
-        ...marca,
-        created_at: this.datePipe.transform(marca.created_at, 'yyyy-MM-dd HH:mm'), 
-        update_at: this.datePipe.transform(marca.update_at, 'yyyy-MM-dd HH:mm')
-      }));
-    });
+      this.marcaService.getMarcaLista().subscribe(marcas => {
+          this.dataSource.data = marcas.map(marca => ({
+              ...marca,
+              created_at: this.datePipe.transform(marca.created_at, 'yyyy-MM-dd HH:mm'), 
+              update_at: this.datePipe.transform(marca.update_at, 'yyyy-MM-dd HH:mm')
+          }));
+      });
   }
 
-  // Guardar o actualizar marca
   guardarMarca() {
-    if (this.marcaForm.valid) {
-      if (this.marca.id_marca) {
-        this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
-          next: () => this.onSuccess('Marca actualizada con éxito'),
-          error: () => this.onError('Error al actualizar la marca')
-        });
+      if (this.marcaForm.valid) {
+          if (this.marca.id_marca) {
+              this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
+                  next: () => this.onSuccess('Marca actualizada con éxito'),
+                  error: () => this.onError('Error al actualizar la marca')
+              });
+          } else {
+              this.marcaService.postAgregarMarca(this.marca).subscribe({
+                  next: () => this.onSuccess('Marca guardada con éxito'),
+                  error: () => this.onError('Error al guardar la marca')
+              });
+          }
       } else {
-        this.marcaService.postAgregarMarca(this.marca).subscribe({
-          next: () => this.onSuccess('Marca guardada con éxito'),
-          error: () => this.onError('Error al guardar la marca')
-        });
+          this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
       }
-    } else {
-      this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
-    }
   }
 
-  // Eliminar marca
   eliminarMarca(id: number) {
-    this.marcaService.eliminarMarca(id).subscribe(() => {
-      this.obtenerMarcas();
-    });
+      this.marcaService.eliminarMarca(id).subscribe(() => {
+          this.obtenerMarcas();
+      });
   }
 
-  // Editar marca
-  editarMarca(id: number) {
-    this.marcaService.getMarca(id).subscribe(marca => {
-      this.marca = marca;
-    });
+  editarMarca(marca: Marca) {
+      this.marca = { ...marca };  // Clonar el objeto marca para evitar referencia directa
+      this.abrirModal();  // Abrir el modal con los datos de la marca actual
   }
 
-  // Mensajes de éxito y error
+  // -------------- venta modal --------------
   onSuccess(message: string) {
-    Swal.fire('Éxito', message, 'success');
-    this.obtenerMarcas();
-    this.cancelar();
+      Swal.fire('Éxito', message, 'success');
+      this.obtenerMarcas();
+      this.cerrarModal();  // Cerrar el modal después del éxito
   }
 
   onError(message: string) {
-    Swal.fire('Error', message, 'error');
+      Swal.fire('Error', message, 'error');
   }
 
   cancelar() {
-    this.marca = new Marca();
+      this.marca = new Marca();  // Reset the form data
+  }
+  abrirModal() {
+      const modalElement = document.getElementById('agregarMarcaModal');
+      if (modalElement) {
+          modalElement.classList.add('show');
+          modalElement.style.display = 'block';
+          document.body.classList.add('modal-open');
+      }
   }
 
+  cerrarModal() {
+      const modalElement = document.getElementById('agregarMarcaModal');
+      if (modalElement) {
+          modalElement.classList.remove('show');
+          modalElement.style.display = 'none';
+          document.body.classList.remove('modal-open');
+          this.cancelar();  // Clear the form after closing
+      }
+  }
+  // ------------------------------------------
+  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -------------- venta modal --------------  
+// ------------------------------------------

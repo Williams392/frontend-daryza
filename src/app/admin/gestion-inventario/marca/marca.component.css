@@ -1,3 +1,15 @@
+
+
+/* estilos ala tabla */
+
 table {
   width: 100%;
+}
+
+.mat-header-row {
+  background-color: black;
+}
+
+.mat-header-cell {
+  color: white;
 }
