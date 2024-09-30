@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClientModule } from '@angular/common/http';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importa esto
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
 
     HttpClientModule, // yo
+
+    BrowserAnimationsModule // yo
   ],
   providers: [
     provideAnimationsAsync()

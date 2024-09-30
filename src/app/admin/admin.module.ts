@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UnidadMedidaComponent } from './gestion-inventario/unidad-medida/unidad-medida.component';
 import { MarcaComponent } from './gestion-inventario/marca/marca.component';
 import { CategoriaComponent } from './gestion-inventario/categoria/categoria.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CategoriaComponent } from './gestion-inventario/categoria/categoria.com
     FormsModule,
     MatButtonModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule,
+    MatTableModule
 
   ]
 })

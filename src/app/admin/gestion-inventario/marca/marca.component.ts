@@ -1,11 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
-import { DatePipe } from '@angular/common';
-
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { MarcaService } from '../../../core/services/marca.service';
 import { Marca } from '../../../core/models/Marca';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-marca',
@@ -13,38 +15,37 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './marca.component.css',
   providers: [DatePipe]
 })
-export class MarcaComponent {
+export class MarcaComponent implements OnInit, AfterViewInit {
   @ViewChild('marcaForm', { static: false }) marcaForm!: NgForm;
-  marcas: Marca[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  displayedColumns: string[] = ['id_marca', 'nombre', 'created_at', 'update_at', 'editar', 'eliminar'];
+  dataSource = new MatTableDataSource<Marca>();
+
   marca: Marca = new Marca();
 
-  paginatedMarcas: Marca[] = []; // Arreglo para almacenar las marcas paginadas
-  pageSize = 5; // Tamaño de página
-  currentPage = 1; // Página actual
-  totalPages: number = 0; // Total de páginas
-  pages: number[] = []; // Array de páginas
-
   constructor(
-    private marcaService: MarcaService, 
+    private marcaService: MarcaService,
     private snack: MatSnackBar,
-    private datePipe: DatePipe 
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
     this.obtenerMarcas();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   // Obtener lista de marcas con fechas formateadas
   obtenerMarcas() {
     this.marcaService.getMarcaLista().subscribe(marcas => {
-      this.marcas = marcas.map(marca => ({
+      this.dataSource.data = marcas.map(marca => ({
         ...marca,
-        created_at: this.datePipe.transform(marca.created_at, 'yyyy-MM-dd HH:mm'), // Formatear la fecha
-        update_at: this.datePipe.transform(marca.update_at, 'yyyy-MM-dd HH:mm')    // Formatear la fecha
+        created_at: this.datePipe.transform(marca.created_at, 'yyyy-MM-dd HH:mm'), 
+        update_at: this.datePipe.transform(marca.update_at, 'yyyy-MM-dd HH:mm')
       }));
-      this.totalPages = Math.ceil(this.marcas.length / this.pageSize); // Calcular total de páginas
-      this.updatePages();
-      this.irAlaPagina(1); // Mostrar la primera página al cargar
     });
   }
 
@@ -96,33 +97,4 @@ export class MarcaComponent {
     this.marca = new Marca();
   }
 
-  // -------------------------
-  // Métodos para paginación
-
-  updatePages() {
-    this.pages = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      this.pages.push(i);
-    }
-  }
-
-  irAlaPagina(page: number) {
-    this.currentPage = page;
-    const startIndex = (page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedMarcas = this.marcas.slice(startIndex, endIndex); // Paginamos las marcas
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.irAlaPagina(this.currentPage - 1);
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.irAlaPagina(this.currentPage + 1);
-    }
-  }
-  
 }
