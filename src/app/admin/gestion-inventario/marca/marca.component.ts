@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-marca',
   templateUrl: './marca.component.html',
@@ -33,25 +32,6 @@ export class MarcaComponent implements OnInit, AfterViewInit {
   ngOnInit() {
       this.obtenerMarcas();
   }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.paginator.pageSize = this.getPageSize();
-    this.paginator.page.subscribe(() => {
-        this.setPageSize(this.paginator.pageSize);
-    });
-  }
-
-  // -------------- Mantener el Elementos por Pagina. --------------
-  getPageSize(): number {
-      const pageSize = localStorage.getItem('pageSize');
-      return pageSize ? +pageSize : 5; // Valor por defecto 5
-  }
-
-  setPageSize(size: number) {
-      localStorage.setItem('pageSize', size.toString());
-  }
-  // ------------------------------------------
 
   obtenerMarcas() {
       this.marcaService.getMarcaLista().subscribe(marcas => {
@@ -124,7 +104,27 @@ export class MarcaComponent implements OnInit, AfterViewInit {
           this.cancelar();  // Clear the form after closing
       }
   }
-  // ------------------------------------------
+  // --------------------------------------------------
+
+
+   // ------- Mantener el Elementos por Pagina. -------
+   ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.getPageSize();
+    this.paginator.page.subscribe(() => {
+        this.setPageSize(this.paginator.pageSize);
+    });
+  }
+  getPageSize(): number {
+      const pageSize = localStorage.getItem('pageSize');
+      return pageSize ? +pageSize : 5; // Valor por defecto 5
+  }
+
+  setPageSize(size: number) {
+      localStorage.setItem('pageSize', size.toString());
+  }
+  // -------------------------------------------------
+  
   
 }
 

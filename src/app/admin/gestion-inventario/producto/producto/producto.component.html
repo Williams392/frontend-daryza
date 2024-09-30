@@ -1,1 +1,152 @@
-<p>producto works!</p>
+<div class="container" style="padding: 0px;">
+
+    <div class="Breadcrumb bg-white rounded">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <i class="bi bi-house p-2"></i>
+                <li class="breadcrumb-item p-2"><a href="admin/dashboard/">Inicio</a></li>
+                <li class="breadcrumb-item active p-2" aria-current="page">Producto</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="bg-white">
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <i style="font-size: 25px;"></i>
+            <p style="font-size: 24px; line-height: 1.2; margin: 0 0 0 10px;">AGREGAR PRODUCTO</p>
+        </div>  
+        <hr>
+    </div>    
+
+    <div class="container bg-white" style="padding-bottom: 20px;">
+        <div class="bg-white">
+            <div style="display: flex; align-items: center; padding: 10px 5px 10px 5px;">
+                <!-- <i class="" style="font-size: 25px;"></i> -->
+                <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+                    <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
+                </button>
+            </div>
+            <hr>
+        </div>
+    
+        <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
+            <table mat-table [dataSource]="dataSource" class="mat-table">
+                <!-- Columns definition -->
+                <ng-container matColumnDef="id_producto">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.id_producto }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.nombre }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="precio_compra">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Precio Compra </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.precio_compra }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="precio_venta">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Precio Venta </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.precio_venta }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Código </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.codigo }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Estado </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.estado ? 'Activo' : 'Inactivo' }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="editar">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
+                    <td mat-cell *matCellDef="let producto">
+                        <button (click)="editarProducto(producto)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="eliminar">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
+                    <td mat-cell *matCellDef="let producto">
+                        <button (click)="eliminarProducto(producto.id_producto!)" class="btn btn-danger">Eliminar</button>
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        
+            <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+    <!-- Modal for adding/updating product -->
+    <div class="modal fade" id="agregarProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
+                    <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form #productoForm="ngForm" (ngSubmit)="guardarProducto()">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio_compra">Precio de Compra</label>
+                            <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.precio_compra" name="precio_compra" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio_venta">Precio de Venta</label>
+                            <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.precio_venta" name="precio_venta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="codigo">Código</label>
+                            <input type="text" class="form-control" id="codigo" [(ngModel)]="producto.codigo" name="codigo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" [(ngModel)]="producto.estado" name="estado">
+                                <option [ngValue]="true">Activo</option>
+                                <option [ngValue]="false">Inactivo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">Categoría</label>
+                            <select class="form-control" id="categoria" [(ngModel)]="producto.categoria" name="categoria" required>
+                                <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <select class="form-control" id="marca" [(ngModel)]="producto.marca" name="marca" required>
+                                <option *ngFor="let marca of marcas" [value]="marca.id_marca">{{ marca.nombre }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="unidadMedida">Unidad de Medida</label>
+                            <select class="form-control" id="unidadMedida" [(ngModel)]="producto.unidad_medida" name="unidadMedida" required>
+                                <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidad_medida">{{ unidad.nombre }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</div>
