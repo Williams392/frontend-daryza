@@ -16,8 +16,10 @@ export class AuthService {
     }
   
     setToken(token: string): void {
-      localStorage.setItem('token', token);  // Guarda el token en el almacenamiento local
-    }
+        localStorage.setItem('token', token); // Guarda el token en el almacenamiento local
+        console.log('Token guardado:', token); // Verifica que el token se está guardando
+      }
+      
   
     getToken(): string | null {
       return localStorage.getItem('token');
@@ -31,4 +33,5 @@ export class AuthService {
       localStorage.removeItem('token');
       this.router.navigate(['/login']);  // Redirige a la página de login tras cerrar sesión
     }
+
   }

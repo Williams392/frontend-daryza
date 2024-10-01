@@ -18,8 +18,13 @@ export class LoginComponent {
   onLogin(): void {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        this.authService.setToken(response.token);  // Guarda el token
-        this.router.navigate(['/admin/dashboard']);  // Redirige al dashboard
+        console.log(response); // Verifica que la respuesta contenga el token
+        if (response.token) {
+          this.authService.setToken(response.token); // Guarda el token
+          this.router.navigate(['/admin/dashboard']); // Redirige al dashboard
+        } else {
+          this.errorMessage = 'Token no recibido';
+        }
       },
       error: (error) => {
         this.errorMessage = 'Credenciales inválidas';
@@ -28,4 +33,5 @@ export class LoginComponent {
     });
   }
   
+
 }

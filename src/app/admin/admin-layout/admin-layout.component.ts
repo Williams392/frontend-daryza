@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from '../../auth/auth.service'; // Asegúrate de importar AuthService
 
 @Component({
   selector: 'app-admin-layout',
@@ -12,7 +13,7 @@ export class AdminLayoutComponent {
   isGestionMenuOpen = false;
   isVentasMenuOpen = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.checkActiveRoutes();
@@ -24,8 +25,9 @@ export class AdminLayoutComponent {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  inicioPAGINA() {
-    this.router.navigate(['cliente/Inicio']);
+  cerrarSesion() {
+    this.authService.logout(); // Llama al método logout() de AuthService
+    this.router.navigate(['login/']); // Redirige a la página de login
   }
 
   toggleGestionMenu(event: Event) {
