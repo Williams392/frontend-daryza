@@ -8,11 +8,13 @@ import { NewProductoComponent } from './gestion-inventario/producto/new-producto
 import { MarcaComponent } from './gestion-inventario/marca/marca.component';
 import { CategoriaComponent } from './gestion-inventario/categoria/categoria.component';
 import { UnidadMedidaComponent } from './gestion-inventario/unidad-medida/unidad-medida.component';
+import { AuthenticatedGuard } from '../auth/auth.guard';  // Asegúrate de importar tu guard de autenticación
 
 const routes: Routes = [
   {
     path: '', 
     component: AdminLayoutComponent,
+    canActivate: [AuthenticatedGuard], 
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },

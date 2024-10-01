@@ -7,7 +7,7 @@ import { Categoria } from '../models/Categoria'; // Asegúrate de crear el model
   providedIn: 'root'
 })
 export class CategoriaService {
-  private apiUrl = 'http://127.0.0.1:8000/api/inventario/categorias/';
+  private apiUrl = 'http://127.0.0.1:8000/api/almacen/categorias/';
 
   constructor(private http: HttpClient) {}
 

@@ -41,7 +41,7 @@ import { MatTableModule } from '@angular/material/table';
     MatGridListModule,
     MatSnackBarModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
 
   ]
 })

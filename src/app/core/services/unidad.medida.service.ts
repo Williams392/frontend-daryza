@@ -10,7 +10,7 @@ import { UnidadMedida } from '../models/UnidadMedida';
 })
 export class UnidadMedidaService {
     
-  private baseUrl = 'http://localhost:8000/api/inventario/unidadesmedida/'; 
+  private baseUrl = 'http://localhost:8000/api/almacen/unidadesmedida/'; 
 
   constructor(private http: HttpClient) {}
 
