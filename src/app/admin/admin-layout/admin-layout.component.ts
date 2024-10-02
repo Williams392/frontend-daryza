@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service'; // Asegúrate de importar AuthService
-
+//import { UserService } from '../../core/services/user.service';
 @Component({
   selector: 'app-admin-layout',
   templateUrl: './admin-layout.component.html',
@@ -12,13 +12,19 @@ export class AdminLayoutComponent {
   isCollapsed = false;
   isGestionMenuOpen = false;
   isVentasMenuOpen = false;
+  username: string | null = null;
+  role: string | null = null;
 
   constructor(private router: Router, private authService: AuthService) {
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.checkActiveRoutes();
-      }
+        if (event instanceof NavigationEnd) {
+            this.checkActiveRoutes();
+        }
     });
+
+    // Obtener username y role del localStorage
+    this.username = localStorage.getItem('username');
+    this.role = localStorage.getItem('role');
   }
 
   toggleSidebar() {
@@ -30,7 +36,7 @@ export class AdminLayoutComponent {
     this.router.navigate(['login/']); // Redirige a la página de login
   }
 
-  toggleGestionMenu(event: Event) {
+  toggleGestionMenu(event: Event) { // NO MOVER
     event.preventDefault();
     this.isGestionMenuOpen = !this.isGestionMenuOpen;
     const gestionMenu = document.getElementById('gestionMenu');
@@ -40,7 +46,7 @@ export class AdminLayoutComponent {
     }
   }
 
-  toggleVentasMenu(event: Event) {
+  toggleVentasMenu(event: Event) { // NO MOVER
     event.preventDefault();
     this.isVentasMenuOpen = !this.isVentasMenuOpen;
     const ventasMenu = document.getElementById('ventasMenu');
