@@ -20,137 +20,183 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ProductoComponent implements OnInit, AfterViewInit {
-  @ViewChild('productoForm', { static: false }) productoForm!: NgForm;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild('productoForm', { static: false }) productoForm!: NgForm;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'editar', 'eliminar'];
-  dataSource = new MatTableDataSource<Producto>();
+    displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'imagen', 'editar', 'eliminar'];
+    dataSource = new MatTableDataSource<Producto>();
 
-  producto: Producto = new Producto(
-    '',      // nombre
-    0,       // precio_compra
-    0,       // precio_venta
-    '',      // codigo
-    0,       // estock
-    0,       // estock_minimo
-    0,       // marca
-    0,       // categoria
-    0,       // unidad_medida
-    null,    // descripcion
-    true     // estado (por defecto activo)
-  );
+    producto: Producto = new Producto(
+        '',      // nombre
+        0,       // precio_compra
+        0,       // precio_venta
+        '',      // codigo
+        0,       // estock
+        0,       // estock_minimo
+        0,       // marca
+        0,       // categoria
+        0,       // unidad_medida
+        null,    // imagen (puedes inicializarlo como null si no tienes imagen al crear)
+        null,    // descripcion
+        true     // estado (por defecto activo)
+    );
 
-  categorias: Categoria[] = [];
-  marcas: Marca[] = [];
-  unidadesMedida: UnidadMedida[] = [];
+    imagenSeleccionada: File | null = null;
+    manejarArchivo(event: any): void {
+        this.imagenSeleccionada = event.target.files[0]; // Captura el archivo seleccionado
+    }
 
-  constructor(
-    private productoService: ProductoService,
-    private categoriaService: CategoriaService, // Servicio de categoría
-    private marcaService: MarcaService, // Servicio de marca
-    private unidadMedidaService: UnidadMedidaService, // Servicio de unidad de medida
-    private snack: MatSnackBar,
-    private datePipe: DatePipe
-) {}
+    categorias: Categoria[] = [];
+    marcas: Marca[] = [];
+    unidadesMedida: UnidadMedida[] = [];
 
-  ngOnInit() {
+    constructor(
+        private productoService: ProductoService,
+        private categoriaService: CategoriaService, // Servicio de categoría
+        private marcaService: MarcaService, // Servicio de marca
+        private unidadMedidaService: UnidadMedidaService, // Servicio de unidad de medida
+        private snack: MatSnackBar,
+        private datePipe: DatePipe
+    ) {}
+
+    ngOnInit() {
       this.obtenerProductos();
       this.obtenerCategorias();
       this.obtenerMarcas();
       this.obtenerUnidadesMedida();
-  }
 
-  obtenerProductos() {
-    this.productoService.getProductoLista().subscribe(productos => {
-        this.dataSource.data = productos.map(producto => ({
-            ...producto,
-            created_at: this.datePipe.transform(producto.created_at, 'yyyy-MM-dd HH:mm'), 
-            update_at: this.datePipe.transform(producto.update_at, 'yyyy-MM-dd HH:mm')
-        }));
-    });
-  }
+    this.dataSource.filterPredicate = (data: Producto, filter: string) => {
+        const transformedFilter = filter.trim().toLowerCase();
+        return (
+            (data.id_producto?.toString().toLowerCase().includes(transformedFilter) || false) || 
+            (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+            );
+        };
+    }
 
-  obtenerCategorias() {
-      this.categoriaService.getCategoriaLista().subscribe(categorias => { // Usa el servicio de categoría
-          this.categorias = categorias;
-      }, error => {
-          this.onError('Error al obtener categorías');
-      });
-  }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
-  obtenerMarcas() {
-      this.marcaService.getMarcaLista().subscribe(marcas => { // Usa el servicio de marca
-          this.marcas = marcas;
-      }, error => {
-          this.onError('Error al obtener marcas');
-      });
-  }
-
-  obtenerUnidadesMedida() {
-      this.unidadMedidaService.getUnidadMedidaLista().subscribe(unidades => { // Usa el servicio de unidad de medida
-          this.unidadesMedida = unidades;
-      }, error => {
-          this.onError('Error al obtener unidades de medida');
-      });
-  }
+    obtenerProductos() {
+        this.productoService.getProductoLista().subscribe(productos => {
+            this.dataSource.data = productos.map(producto => ({
+                ...producto,
+                imagen: producto.imagen ? `http://127.0.0.1:8000/${producto.imagen}` : null, // Ajusta la ruta según tu servidor
+                created_at: this.datePipe.transform(producto.created_at, 'yyyy-MM-dd HH:mm'), 
+                update_at: this.datePipe.transform(producto.update_at, 'yyyy-MM-dd HH:mm')
+            }));
+        });
+    }
 
 
-  guardarProducto() {
-      if (this.productoForm.valid) {
-          if (this.producto.id_producto) {
-              this.productoService.putActualizarProducto(this.producto.id_producto, this.producto).subscribe({
-                  next: () => this.onSuccess('Producto actualizado con éxito'),
-                  error: () => this.onError('Error al actualizar el producto')
-              });
-          } else {
-              this.productoService.postAgregarProducto(this.producto).subscribe({
-                  next: () => this.onSuccess('Producto guardado con éxito'),
-                  error: () => this.onError('Error al guardar el producto')
-              });
-          }
-      } else {
-          this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
-      }
-  }
+    obtenerCategorias() {
+        this.categoriaService.getCategoriaLista().subscribe(categorias => { // Usa el servicio de categoría
+            this.categorias = categorias;
+        }, error => {
+            this.onError('Error al obtener categorías');
+        });
+    }
 
-  eliminarProducto(id: number) {
-      this.productoService.eliminarProducto(id).subscribe(() => {
-          this.obtenerProductos();
-      });
-  }
+    obtenerMarcas() {
+        this.marcaService.getMarcaLista().subscribe(marcas => { // Usa el servicio de marca
+            this.marcas = marcas;
+        }, error => {
+            this.onError('Error al obtener marcas');
+        });
+    }
 
-  editarProducto(producto: Producto) {
-      this.producto = { ...producto };  // Clonar el objeto producto para evitar referencia directa
-      this.abrirModal();  // Abrir el modal con los datos del producto actual
-  }
+    obtenerUnidadesMedida() {
+        this.unidadMedidaService.getUnidadMedidaLista().subscribe(unidades => { // Usa el servicio de unidad de medida
+            this.unidadesMedida = unidades;
+        }, error => {
+            this.onError('Error al obtener unidades de medida');
+        });
+    }
 
-  onSuccess(message: string) {
-      Swal.fire('Éxito', message, 'success');
-      this.obtenerProductos();
-      this.cerrarModal();  // Cerrar el modal después del éxito
-  }
 
-  onError(message: string) {
-      Swal.fire('Error', message, 'error');
-  }
+    guardarProducto() {
+        if (this.productoForm.valid) {
+            const productoData = new FormData(); // Utiliza FormData para incluir la imagen
+            productoData.append('nombre', this.producto.nombre);
+            productoData.append('precio_compra', this.producto.precio_compra.toString());
+            productoData.append('precio_venta', this.producto.precio_venta.toString());
+            productoData.append('codigo', this.producto.codigo);
+            productoData.append('estock', this.producto.estock.toString());
+            productoData.append('estock_minimo', this.producto.estock_minimo.toString());
+            productoData.append('marca', this.producto.marca.toString());
+            productoData.append('categoria', this.producto.categoria.toString());
+            productoData.append('unidad_medida', this.producto.unidad_medida.toString());
+            productoData.append('descripcion', this.producto.descripcion || '');
+            productoData.append('estado', (this.producto.estado ?? true).toString());
+    
+            if (this.imagenSeleccionada) {
+                productoData.append('imagen', this.imagenSeleccionada); // Solo si hay una imagen seleccionada
+            }
+    
+            if (this.producto.id_producto) {
+                // Actualizar un producto existente
+                this.productoService.putActualizarProducto(this.producto.id_producto, productoData).subscribe({
+                    next: () => this.onSuccess('Producto actualizado con éxito'),
+                    error: () => this.onError('Error al actualizar el producto')
+                });
+            } else {
+                // Crear un nuevo producto
+                this.productoService.postAgregarProducto(productoData).subscribe({
+                    next: () => {
+                        this.onSuccess('Producto agregado con éxito');
+                        this.obtenerProductos(); // Actualizar la lista de productos
+                    },
+                    error: () => this.onError('Error al agregar el producto')
+                });
+            }
+        } else {
+            this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
+        }
+    }
+    
+    
+    
 
-  cancelar() {
-      this.producto = new Producto(
-          '',      // nombre
-          0,       // precio_compra
-          0,       // precio_venta
-          '',      // codigo
-          0,       // estock
-          0,       // estock_minimo
-          0,       // marca
-          0,       // categoria
-          0,       // unidad_medida
-          null,    // descripcion
-          true     // estado (por defecto activo)
-      );
+    eliminarProducto(id: number) {
+        this.productoService.eliminarProducto(id).subscribe(() => {
+            this.obtenerProductos();
+        });
+    }
 
-      this.productoForm.reset();
-  }
+    editarProducto(producto: Producto) {
+        this.producto = { ...producto };  // Clonar el objeto producto para evitar referencia directa
+        this.abrirModal();  // Abrir el modal con los datos del producto actual
+    }
+
+    onSuccess(message: string) {
+        Swal.fire('Éxito', message, 'success');
+        this.obtenerProductos();
+        this.cerrarModal();  // Cerrar el modal después del éxito
+    }
+
+    onError(message: string) {
+        Swal.fire('Error', message, 'error');
+    }
+
+    cancelar() {
+        this.producto = new Producto(
+            '',      // nombre
+            0,       // precio_compra
+            0,       // precio_venta
+            '',      // codigo
+            0,       // estock
+            0,       // estock_minimo
+            0,       // marca
+            0,       // categoria
+            0,       // unidad_medida
+            null,    // imagen (puedes inicializarlo como null)
+            null,    // descripcion
+            true     // estado (por defecto activo)
+        );
+        this.productoForm.reset();
+    }
 
   // --------------- venta modal ---------------
   abrirModal() {

@@ -32,6 +32,20 @@ export class UnidadMedidaComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerUnidades();
+
+    this.unidades_dataSource.filterPredicate = (data: UnidadMedida, filter: string) => {
+      const transformedFilter = filter.trim().toLowerCase();
+      return (
+        (data.id_unidad_medida?.toString().toLowerCase().includes(transformedFilter) || false) || 
+        (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+      );
+    };
+
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.unidades_dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngAfterViewInit() {

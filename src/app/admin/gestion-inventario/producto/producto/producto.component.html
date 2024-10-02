@@ -19,9 +19,12 @@
     </div>    
 
     <div class="container bg-white" style="padding-bottom: 20px;">
+        
         <div class="bg-white">
-            <div style="display: flex; align-items: center; padding: 10px 5px 10px 5px;">
-                <!-- <i class="" style="font-size: 25px;"></i> -->
+            <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
+                <!-- Campo de búsqueda con evento input -->
+                <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
+                <!-- Botón AGREGAR -->
                 <button class="btn btn-primary ms-auto" (click)="abrirModal()">
                     <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
                 </button>
@@ -61,6 +64,13 @@
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Estado </th>
                     <td mat-cell *matCellDef="let producto"> {{ producto.estado ? 'Activo' : 'Inactivo' }} </td>
                 </ng-container>
+
+                <ng-container matColumnDef="imagen">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Imagen </th>
+                    <td mat-cell *matCellDef="let producto">
+                        <img *ngIf="producto.imagen" [src]="producto.imagen" width="50" height="50" />
+                    </td>
+                </ng-container>                                                                                             
         
                 <ng-container matColumnDef="editar">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
@@ -82,6 +92,7 @@
         
             <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
         </div>
+
     </div>
 
     <!-- Modal for adding/updating product -->
@@ -138,6 +149,11 @@
                                 <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidad_medida">{{ unidad.nombre }}</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="imagen">Imagen</label>
+                            <input type="file" class="form-control" id="imagen" (change)="manejarArchivo($event)">
+                        </div>
+                        
 
                     </div>
                     <div class="modal-footer">

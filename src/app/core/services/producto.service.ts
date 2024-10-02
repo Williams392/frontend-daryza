@@ -19,15 +19,17 @@ export class ProductoService {
     return this.http.get<Producto>(`${this.apiUrl}${id}/`);
   }
 
-  postAgregarProducto(producto: Producto): Observable<Producto> {
-    return this.http.post<Producto>(this.apiUrl, producto);
+  postAgregarProducto(productoData: FormData): Observable<Producto> {
+    return this.http.post<Producto>(this.apiUrl, productoData);
+  } 
+
+  putActualizarProducto(id: number, productoData: FormData): Observable<Producto> {
+    return this.http.put<Producto>(`${this.apiUrl}${id}/`, productoData);
   }
 
-  putActualizarProducto(id: number, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}${id}/`, producto);
-  }
 
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
+  
 }

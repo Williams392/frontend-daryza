@@ -22,8 +22,10 @@
     <div class="container bg-white" style="padding-bottom: 20px;">
 
         <div class="bg-white">
-            <div style="display: flex; align-items: center; padding: 10px 5px;">
-                <!-- <i class="" style="font-size: 25px;"></i> -->
+            <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
+                <!-- Campo de búsqueda con evento input -->
+                <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
+                <!-- Botón AGREGAR -->
                 <button class="btn btn-primary ms-auto" (click)="abrirModal()">
                     <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
                 </button>

@@ -30,6 +30,20 @@ export class CategoriaComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerCategorias();
+
+    this.dataSource.filterPredicate = (data: Categoria, filter: string) => {
+      const transformedFilter = filter.trim().toLowerCase();
+      return (
+        (data.id_categoria?.toString().toLowerCase().includes(transformedFilter) || false) || 
+        (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+      );
+    };
+
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngAfterViewInit() {

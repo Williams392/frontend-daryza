@@ -18,12 +18,11 @@ export class LoginComponent {
   onLogin(): void {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        console.log(response); // Verifica que la respuesta contenga el token
-        if (response.token) {
-          this.authService.setToken(response.token); // Guarda el token
+        if (response.token && response.role) {
+          this.authService.setToken(response.token, response.role); // Guardar token y rol
           this.router.navigate(['/admin/dashboard']); // Redirige al dashboard
         } else {
-          this.errorMessage = 'Token no recibido';
+          this.errorMessage = 'Token o rol no recibido';
         }
       },
       error: (error) => {
@@ -33,5 +32,5 @@ export class LoginComponent {
     });
   }
   
-
 }
+

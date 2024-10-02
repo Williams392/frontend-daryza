@@ -1,5 +1,3 @@
-
-
 export class Producto {
     id_producto?: number;
     nombre: string;
@@ -13,6 +11,7 @@ export class Producto {
     marca: number; // ID de la marca
     categoria: number; // ID de la categoría
     unidad_medida: number; // ID de la unidad de medida
+    imagen?: string | null; // Agregada la propiedad imagen
     created_at?: string | null;  // Permite null
     update_at?: string | null;   // Permite null
 
@@ -26,6 +25,7 @@ export class Producto {
         marca: number,
         categoria: number,
         unidad_medida: number,
+        imagen?: string | null, // Acepta null
         descripcion?: string | null,
         estado?: boolean
     ) {
@@ -38,6 +38,7 @@ export class Producto {
         this.marca = marca;
         this.categoria = categoria;
         this.unidad_medida = unidad_medida;
+        this.imagen = imagen ?? null; // Inicializa la imagen a null si no se proporciona
         this.descripcion = descripcion ?? null;
         this.estado = estado ?? true; // Valor predeterminado
     }
