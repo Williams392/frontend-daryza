@@ -51,7 +51,7 @@ h4 {
 #sidebar { /* NOOO */
     position: relative;
     transition: all 0.35s ease-in-out;
-    height: 100vh; 
+    /* height: 100vh;  */
     overflow-y: auto; 
     background: var(--bs-dark);
 }

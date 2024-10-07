@@ -13,8 +13,8 @@ export interface RolResponse {
     name_role: string;
 }
 
-export interface Perfil {
-    id: number;
-    user: User; 
-    name_role: RolResponse; // Podría ser un array si un perfil tiene múltiples roles
-}
+// export interface Perfil {
+//     id: number;
+//     user: User; 
+//     name_role: RolResponse; // Podría ser un array si un perfil tiene múltiples roles
+// }

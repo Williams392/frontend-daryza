@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
-import { User, RolResponse, Perfil } from '../models/User'; // Asegúrate de definir estos modelos
+import { User, RolResponse } from '../models/User'; // Asegúrate de definir estos modelos
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class UserService {
 
     private apiUrl = environment.apiUrl + "/users";  // URL base para los usuarios
     private rolesUrl = environment.apiUrl + "/roles"; // URL base para los roles
-    private perfilesUrl = environment.apiUrl + "/perfiles"; // URL base para los perfiles
+    //private perfilesUrl = environment.apiUrl + "/perfiles"; // URL base para los perfiles
 
     constructor(private http: HttpClient) {}
 
@@ -66,24 +66,24 @@ export class UserService {
     }
 
     // CRUD para Perfiles
-    getPerfiles(): Observable<Perfil[]> {
-        return this.http.get<Perfil[]>(this.perfilesUrl);
-    }
+    // getPerfiles(): Observable<Perfil[]> {
+    //     return this.http.get<Perfil[]>(this.perfilesUrl);
+    // }
 
-    getPerfil(id: number): Observable<Perfil> {
-        return this.http.get<Perfil>(`${this.perfilesUrl}/${id}/`);
-    }
+    // getPerfil(id: number): Observable<Perfil> {
+    //     return this.http.get<Perfil>(`${this.perfilesUrl}/${id}/`);
+    // }
 
-    createPerfil(perfil: Perfil): Observable<Perfil> {
-        return this.http.post<Perfil>(this.perfilesUrl, perfil);
-    }
+    // createPerfil(perfil: Perfil): Observable<Perfil> {
+    //     return this.http.post<Perfil>(this.perfilesUrl, perfil);
+    // }
 
-    updatePerfil(id: number, perfil: Perfil): Observable<Perfil> {
-        return this.http.put<Perfil>(`${this.perfilesUrl}/${id}/`, perfil);
-    }
+    // updatePerfil(id: number, perfil: Perfil): Observable<Perfil> {
+    //     return this.http.put<Perfil>(`${this.perfilesUrl}/${id}/`, perfil);
+    // }
 
-    deletePerfil(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.perfilesUrl}/${id}/`);
-    }
+    // deletePerfil(id: number): Observable<void> {
+    //     return this.http.delete<void>(`${this.perfilesUrl}/${id}/`);
+    // }
 
 }

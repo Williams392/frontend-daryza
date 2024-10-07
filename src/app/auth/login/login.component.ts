@@ -17,20 +17,27 @@ export class LoginComponent {
 
   onLogin(): void {
     this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        if (response.token && response.role) {
-          this.authService.setToken(response.token, response.role); // Guardar token y rol
-          this.router.navigate(['/admin/dashboard']); // Redirige al dashboard
-        } else {
-          this.errorMessage = 'Token o rol no recibido';
+        next: (response) => {
+            if (response.token && response.role) {
+                this.authService.setToken(response.token, response.role);
+                this.router.navigate(['/admin/dashboard']);
+            } else {
+                this.errorMessage = 'Token o rol no recibido';
+            }
+        },
+        error: (error) => {
+            // Manejo del error
+            if (error.status === 401) {
+                // Si la respuesta es 401, muestra el mensaje correspondiente
+                this.errorMessage = error.error.msg || 'Credenciales inválidas';
+            } else {
+                // Manejo de otros errores
+                this.errorMessage = 'Ocurrió un error. Por favor, intenta nuevamente.';
+            }
+            console.error(error);
         }
-      },
-      error: (error) => {
-        this.errorMessage = 'Credenciales inválidas';
-        console.error(error);
-      }
     });
   }
-  
+
 }
 

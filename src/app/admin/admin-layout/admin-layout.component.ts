@@ -12,6 +12,7 @@ export class AdminLayoutComponent {
   isCollapsed = false;
   isGestionMenuOpen = false;
   isVentasMenuOpen = false;
+  isMovimientosMenuOpen = false;
   username: string | null = null;
   role: string | null = null;
 
@@ -36,6 +37,7 @@ export class AdminLayoutComponent {
     this.router.navigate(['login/']); // Redirige a la página de login
   }
 
+  // PARA CADA UNO --------------------------------------------
   toggleGestionMenu(event: Event) { // NO MOVER
     event.preventDefault();
     this.isGestionMenuOpen = !this.isGestionMenuOpen;
@@ -56,11 +58,24 @@ export class AdminLayoutComponent {
     }
   }
 
+  toggleMovimientosMenu(event: Event) { // NO MOVER
+    event.preventDefault();
+    this.isMovimientosMenuOpen = !this.isMovimientosMenuOpen;
+    const ventasMenu = document.getElementById('ventasMovimiento');
+    if (ventasMenu) {
+      ventasMenu.classList.toggle('show');
+      ventasMenu.classList.toggle('collapse');
+    }
+  }
+
+
   checkActiveRoutes() {
     const currentUrl = this.router.url;
     this.isGestionMenuOpen = currentUrl.includes('/admin/productos') || currentUrl.includes('/admin/marcas');
     this.isVentasMenuOpen = currentUrl.includes('/admin/ventas1') || currentUrl.includes('/admin/ventas2');
+    this.isMovimientosMenuOpen = currentUrl.includes('/admin/entrada1') || currentUrl.includes('/admin/salidas2');
   }
+  // ----------------------------------------------------------
   
 }
 
