@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service'; // Asegúrate de importar AuthService
 //import { UserService } from '../../core/services/user.service';
+
 @Component({
   selector: 'app-admin-layout',
   templateUrl: './admin-layout.component.html',

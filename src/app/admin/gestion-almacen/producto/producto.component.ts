@@ -1,14 +1,14 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ProductoService } from '../../../../core/services/producto.service';
-import { CategoriaService } from '../../../../core/services/categoria.service'; 
-import { MarcaService } from '../../../../core/services/marca.service'; 
-import { UnidadMedidaService } from '../../../../core/services/unidad.medida.service'; 
-import { Producto } from '../../../../core/models/Producto';
-import { Categoria } from '../../../../core/models/Categoria';
-import { Marca } from '../../../../core/models/Marca';
-import { UnidadMedida } from '../../../../core/models/UnidadMedida';
+import { ProductoService } from '../../../core/services/producto.service';
+import { CategoriaService } from '../../../core/services/categoria.service'; 
+import { MarcaService } from '../../../core/services/marca.service'; 
+import { UnidadMedidaService } from '../../../core/services/unidad.medida.service'; 
+import { Producto } from '../../../core/models/Producto';
+import { Categoria } from '../../../core/models/Categoria';
+import { Marca } from '../../../core/models/Marca';
+import { UnidadMedida } from '../../../core/models/UnidadMedida';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -156,8 +156,6 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         }
     }
     
-    
-    
 
     eliminarProducto(id: number) {
         this.productoService.eliminarProducto(id).subscribe(() => {
@@ -180,24 +178,6 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         Swal.fire('Error', message, 'error');
     }
 
-    cancelar() {
-        this.producto = new Producto(
-            '',      // nombre
-            0,       // precio_compra
-            0,       // precio_venta
-            '',      // codigo
-            0,       // estock
-            0,       // estock_minimo
-            0,       // marca
-            0,       // categoria
-            0,       // unidad_medida
-            null,    // imagen (puedes inicializarlo como null)
-            null,    // descripcion
-            true     // estado (por defecto activo)
-        );
-        this.productoForm.reset();
-    }
-
   // --------------- venta modal ---------------
   abrirModal() {
       const modalElement = document.getElementById('agregarProductoModal');
@@ -217,6 +197,25 @@ export class ProductoComponent implements OnInit, AfterViewInit {
       this.cancelar();  // Limpiar el formulario después de cerrar
     }
   }
+
+  cancelar() {
+    this.producto = new Producto(
+        '',      // nombre
+        0,       // precio_compra
+        0,       // precio_venta
+        '',      // codigo
+        0,       // estock
+        0,       // estock_minimo
+        0,       // marca
+        0,       // categoria
+        0,       // unidad_medida
+        null,    // imagen (puedes inicializarlo como null)
+        null,    // descripcion
+        true     // estado (por defecto activo)
+    );
+    this.productoForm.reset();
+}
+
   // -------------------------------------------------
 
 

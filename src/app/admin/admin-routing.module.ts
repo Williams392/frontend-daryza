@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 
-import { ProductoComponent } from './gestion-inventario/producto/producto/producto.component';
-import { NewProductoComponent } from './gestion-inventario/producto/new-producto/new-producto.component';
-import { MarcaComponent } from './gestion-inventario/marca/marca.component';
-import { CategoriaComponent } from './gestion-inventario/categoria/categoria.component';
-import { UnidadMedidaComponent } from './gestion-inventario/unidad-medida/unidad-medida.component';
-import { AuthenticatedGuard } from '../auth/auth.guard';  // Asegúrate de importar tu guard de autenticación
+import { MarcaComponent } from './gestion-almacen/marca/marca.component';
+import { CategoriaComponent } from './gestion-almacen/categoria/categoria.component';
+import { UnidadMedidaComponent } from './gestion-almacen/unidad-medida/unidad-medida.component';
+import { AuthenticatedGuard } from '../auth/auth.guard'; 
+import { ProductoComponent } from './gestion-almacen/producto/producto.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 const routes: Routes = [
   {
@@ -20,13 +20,11 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       
       { path: 'productos', component: ProductoComponent},
-      { path: 'newproductos', component: NewProductoComponent},
-
       { path: 'marcas', component: MarcaComponent},
-
       { path: 'categoria', component: CategoriaComponent},
-
       { path: 'unidad_medida', component: UnidadMedidaComponent},
+
+      { path: 'usuarios', component: AdminUsersComponent},
 
     ]
   }

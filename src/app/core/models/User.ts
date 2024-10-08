@@ -1,20 +1,23 @@
-export interface User {
+export class User {
     id: number;
     username: string;
-    first_name: string;
     last_name: string;
     email: string;
     phone_number: string;
-    roles: RolResponse[]; // Puede contener múltiples roles
+    password: string;
+    name_role: Rol[]; 
+    constructor() {
+        this.id = 0; 
+        this.username = '';
+        this.last_name = '';
+        this.email = '';
+        this.password = '';
+        this.phone_number = '';
+        this.name_role = [];
+    }
 }
 
-export interface RolResponse {
+export interface Rol {
     id: number;
     name_role: string;
 }
-
-// export interface Perfil {
-//     id: number;
-//     user: User; 
-//     name_role: RolResponse; // Podría ser un array si un perfil tiene múltiples roles
-// }
