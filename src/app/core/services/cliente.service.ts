@@ -11,8 +11,7 @@ import { Cliente } from '../models/Cliente';
   providedIn: 'root'
 })
 export class ClienteService {
-    private apiUrl = `${environment.apiUrl}/venta/clientes/`;
-
+    private apiUrl = 'http://localhost:8000/api/venta/clientes/'; 
     constructor(private http: HttpClient) {}
 
     getClientes(): Observable<Cliente[]> {
