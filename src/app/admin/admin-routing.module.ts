@@ -9,6 +9,7 @@ import { UnidadMedidaComponent } from './gestion-almacen/unidad-medida/unidad-me
 import { AuthenticatedGuard } from '../auth/auth.guard'; 
 import { ProductoComponent } from './gestion-almacen/producto/producto.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { ClienteComponent } from './cliente/cliente.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
+
+      { path: 'cliente', component: ClienteComponent},
       
       { path: 'productos', component: ProductoComponent},
       { path: 'marcas', component: MarcaComponent},

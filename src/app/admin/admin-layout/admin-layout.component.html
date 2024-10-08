@@ -1,7 +1,6 @@
 <body>
     <div class="wrapper">
-
-        
+  
         <aside id="sidebar" [class.collapsed]="isCollapsed" style="background-color: black; color: white;">
             <div class="h-100">
                 
@@ -27,7 +26,7 @@
                     </li>
 
                     <li class="sidebar-item" *ngIf="role === 'Administrador' || role === 'Ventas'" >
-                        <a routerLink="/admin/configuracion" class="sidebar-link collapsed">
+                        <a routerLink="/admin/cliente" class="sidebar-link collapsed">
                             <i class="bi bi-person-fill pe-2"></i> CLIENTE
                         </a>
                     </li>    
@@ -100,7 +99,7 @@
 
                     <hr style="border-top: 3px solid #ffffff; margin-top: 10px; margin-bottom: 10px;">
                     
-                    <li class="sidebar-item">
+                    <li class="sidebar-item dropdown" *ngIf="role === 'Administrador' || role === 'Administrador'">
                         <a routerLink="/admin/usuarios" class="sidebar-link collapsed">
                             <i class="bi bi-gear-fill pe-2"></i> ADMIN - USER
                         </a>

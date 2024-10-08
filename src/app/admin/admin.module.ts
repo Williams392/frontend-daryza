@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { ProductoComponent } from './gestion-almacen/producto/producto.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { ClienteComponent } from './cliente/cliente.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
     MarcaComponent,
     CategoriaComponent,
     ProductoComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    ClienteComponent,
   ],
   imports: [
     CommonModule,
