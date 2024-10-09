@@ -81,8 +81,8 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
       formData.append('email', this.user.email);
       formData.append('phone_number', this.user.phone_number);
       formData.append('password', this.user.password);
-      formData.append('name_role', this.user.name_role ? this.user.name_role.toString() : '');
-
+      formData.append('name_role', this.selectedRole.id.toString());
+      
       if (this.user.id) {
         this.userService.updateUser(this.user.id, formData).subscribe({
           next: () => {
