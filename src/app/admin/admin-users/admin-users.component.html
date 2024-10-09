@@ -1,69 +1,86 @@
-<div class="container bg-white" style="padding-bottom: 20px;">
-    
-  <div class="bg-white">
-    <div style="display: flex; align-items: center; padding: 10px 2px;">
-      <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
-      <button class="btn btn-primary ms-auto" (click)="abrirModal()">
-        <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
-      </button>
-    </div>
-    <hr>
+<div class="container" style="padding: 0px;">
+
+  <div class="Breadcrumb bg-white rounded">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+              <i class="bi bi-house p-2"></i>
+              <li class="breadcrumb-item p-2"><a href="admin/dashboard/">Inicio</a></li>
+              <li class="breadcrumb-item active p-2" aria-current="page">Producto</li>
+          </ol>
+      </nav>
   </div>
   
-  <div class="mat-elevation-z8" style="margin-top: 20px;">
-
-    <table mat-table [dataSource]="dataSource" class="mat-table">
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
-        <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
-        <td mat-cell *matCellDef="let user"> {{ user.username }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="last_name">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Apellido </th>
-        <td mat-cell *matCellDef="let user"> {{ user.last_name }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Correo </th>
-        <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="phone_number">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Teléfono </th>
-        <td mat-cell *matCellDef="let user"> {{ user.phone_number }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="roles">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Roles </th>
-        <td mat-cell *matCellDef="let user"> {{ user.name_role.name_role  }} </td>
-      </ng-container>
+  <div class="container bg-white" style="padding-bottom: 20px;">
       
+    <div class="bg-white">
+      <div style="display: flex; align-items: center; padding: 10px 2px;">
+        <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
+        <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+          <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
+        </button>
+      </div>
+      <hr>
+    </div>
   
-      <ng-container matColumnDef="editar">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
-        <td mat-cell *matCellDef="let user">
-          <button (click)="editarUser(user)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
-        </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="eliminar">
-        <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
-        <td mat-cell *matCellDef="let user">
-          <button (click)="eliminarUser(user.id)" class="btn btn-danger">Eliminar</button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+   <div class="mat-elevation-z8" style="margin-top: 20px;">
+
+      <table mat-table [dataSource]="dataSource" class="mat-table">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
+          <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
+          <td mat-cell *matCellDef="let user"> {{ user.username }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Apellido </th>
+          <td mat-cell *matCellDef="let user"> {{ user.last_name }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Correo </th>
+          <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="phone_number">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Teléfono </th>
+          <td mat-cell *matCellDef="let user"> {{ user.phone_number }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Roles </th>
+          <td mat-cell *matCellDef="let user"> 
+              {{ user.name_role?.name_role || 'Sin rol asignado' }} 
+          </td>
+        </ng-container>
+      
+        
+    
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
+          <td mat-cell *matCellDef="let user">
+            <button (click)="editarUser(user)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
+          </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="eliminar">
+          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
+          <td mat-cell *matCellDef="let user">
+            <button (click)="eliminarUser(user.id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    </div>
   </div>
   
   <!-- Modal for adding/updating user -->
@@ -72,9 +89,9 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{ isEditing ? 'Editar Usuario' : 'Agregar Usuario' }}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
           <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
@@ -107,15 +124,16 @@
         
             <div class="form-group">
               <label for="roles">Roles</label>
-              <select class="form-control" id="roles" [(ngModel)]="user.name_role" name="name_role" multiple>
+              <select class="form-control" id="roles" [(ngModel)]="selectedRole" name="selectedRole" required>
                 <option *ngFor="let role of roles" [ngValue]="role">{{ role.name_role }}</option>
               </select>
             </div>
+            
           </div>
         
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
-            <button type="submit" class="btn btn-primary">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
 

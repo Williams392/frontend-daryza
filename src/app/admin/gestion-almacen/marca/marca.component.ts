@@ -141,18 +141,3 @@ export class MarcaComponent implements OnInit, AfterViewInit {
     
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// -------------- venta modal --------------  
-// ------------------------------------------

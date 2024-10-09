@@ -5,7 +5,8 @@ export class User {
     email: string;
     phone_number: string;
     password: string;
-    name_role: Rol[]; 
+    name_role: Rol | null;  // Cambiado a un objeto o null
+
     constructor() {
         this.id = 0; 
         this.username = '';
@@ -13,7 +14,7 @@ export class User {
         this.email = '';
         this.password = '';
         this.phone_number = '';
-        this.name_role = [];
+        this.name_role = null;  // Inicializado como null
     }
 }
 

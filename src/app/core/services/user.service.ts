@@ -8,8 +8,8 @@ import { User, Rol } from '../models/User';
   providedIn: 'root'
 })
 export class UserService {
-    private apiUrl = `${environment.apiUrl}/auth/users/`;  // URL base para los usuarios
-    private rolesUrl = `${environment.apiUrl}/auth/roles/`; // URL base para los roles
+    private apiUrl = `${environment.apiUrl}/auth/users/`;  
+    private rolesUrl = `${environment.apiUrl}/auth/roles/`;
 
     constructor(private http: HttpClient) {}
 
