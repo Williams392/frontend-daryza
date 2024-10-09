@@ -20,7 +20,7 @@ export class LoginComponent {
         next: (response) => {
             if (response.token && response.role) {
                 this.authService.setToken(response.token, response.role);
-                this.router.navigate(['/admin/dashboard']);
+                this.router.navigate(['/admin/dashboard/']);
             } else {
                 this.errorMessage = 'Token o rol no recibido';
             }

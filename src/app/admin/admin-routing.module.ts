@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
+// import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 
 import { MarcaComponent } from './gestion-almacen/marca/marca.component';
 import { CategoriaComponent } from './gestion-almacen/categoria/categoria.component';
@@ -10,6 +10,9 @@ import { AuthenticatedGuard } from '../auth/auth.guard';
 import { ProductoComponent } from './gestion-almacen/producto/producto.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { ClienteComponent } from './cliente/cliente.component';
+import { RoleGuard } from '../auth/role.guard';
+import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layout.component';
+import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -27,7 +30,7 @@ const routes: Routes = [
       { path: 'categoria', component: CategoriaComponent},
       { path: 'unidad_medida', component: UnidadMedidaComponent},
 
-      { path: 'usuarios', component: AdminUsersComponent},
+      { path: 'usuarios', component: AdminUsersComponent, canActivate: [RoleGuard], data: { role: 'Administrador' } },
 
     ]
   }

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -19,17 +19,19 @@ import { MatTableModule } from '@angular/material/table';
 import { ProductoComponent } from './gestion-almacen/producto/producto.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { ClienteComponent } from './cliente/cliente.component';
+import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.component';
+import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layout.component';
 
 @NgModule({
   declarations: [
-    AdminLayoutComponent,
-    DashboardComponent,
     UnidadMedidaComponent,
     MarcaComponent,
     CategoriaComponent,
     ProductoComponent,
     AdminUsersComponent,
     ClienteComponent,
+    DashboardComponent,
+    AdminLayoutComponent,
   ],
   imports: [
     CommonModule,
