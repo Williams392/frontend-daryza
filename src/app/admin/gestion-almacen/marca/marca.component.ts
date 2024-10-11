@@ -75,12 +75,24 @@ export class MarcaComponent implements OnInit, AfterViewInit {
         }
     }
 
-    eliminarMarca(id: number) {
-        this.marcaService.eliminarMarca(id).subscribe(() => {
-            this.obtenerMarcas();
+    eliminarMarca(id: number): void {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminarlo',
+          cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.marcaService.eliminarMarca(id).subscribe(() => {
+              this.obtenerMarcas();
+              Swal.fire('¡Eliminado!', 'La marca ha sido eliminada.', 'success');
+            });
+          }
         });
     }
-
+    
     editarMarca(marca: Marca) {
         this.marca = { ...marca };  // Clonar el objeto marca para evitar referencia directa
         this.abrirModal();  // Abrir el modal con los datos de la marca actual

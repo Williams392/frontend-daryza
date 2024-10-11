@@ -91,11 +91,24 @@ export class CategoriaComponent implements OnInit {
     }
   }
 
-  eliminarCategoria(id: number) {
-    this.categoriaService.eliminarCategoria(id).subscribe(() => {
-      this.obtenerCategorias();
+  eliminarCategoria(id: number): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoriaService.eliminarCategoria(id).subscribe(() => {
+          this.obtenerCategorias();
+          Swal.fire('¡Eliminado!', 'La categoría ha sido eliminada.', 'success');
+        });
+      }
     });
   }
+
 
   editarCategoria(categoria: Categoria) {
     this.categoria = { ...categoria };

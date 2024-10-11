@@ -78,11 +78,24 @@ export class ClienteComponent implements OnInit, AfterViewInit {
         this.abrirModal(); 
     }
 
-    eliminarCliente(id: number) {
-        this.clienteService.deleteCliente(id).subscribe(() => {
-            this.obtenerClientes();
+    eliminarCliente(id: number): void {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminarlo',
+          cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.clienteService.deleteCliente(id).subscribe(() => {
+              this.obtenerClientes();
+              Swal.fire('¡Eliminado!', 'El cliente ha sido eliminado.', 'success');
+            });
+          }
         });
     }
+    
 
     // -------------- venta modal --------------
     onSuccess(message: string) {

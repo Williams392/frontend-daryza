@@ -95,11 +95,24 @@ export class UnidadMedidaComponent implements OnInit {
         }
     }
 
-    eliminarUnidadMedida(id: number) {
-        this.unidadMedidaService.eliminarUnidadMedida(id).subscribe(() => {
+    eliminarUnidadMedida(id: number): void {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminarlo',
+        cancelButtonText: 'No, cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.unidadMedidaService.eliminarUnidadMedida(id).subscribe(() => {
             this.obtenerUnidades();
-        });
+            Swal.fire('¡Eliminado!', 'La unidad de medida ha sido eliminada.', 'success');
+          });
+        }
+      });
     }
+  
 
     editarUnidadMedida(id: number) {
         this.unidadMedidaService.getUnidadMedida(id).subscribe(unidad => {

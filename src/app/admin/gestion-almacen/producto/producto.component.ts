@@ -158,11 +158,24 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     }
     
 
-    eliminarProducto(id: number) {
-        this.productoService.eliminarProducto(id).subscribe(() => {
-            this.obtenerProductos();
+    eliminarProducto(id: number): void {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminarlo',
+          cancelButtonText: 'No, cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.productoService.eliminarProducto(id).subscribe(() => {
+              this.obtenerProductos();
+              Swal.fire('¡Eliminado!', 'El producto ha sido eliminado.', 'success');
+            });
+          }
         });
     }
+    
 
     editarProducto(producto: Producto) {
         this.producto = { ...producto };  // Clonar el objeto producto para evitar referencia directa
