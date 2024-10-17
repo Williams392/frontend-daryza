@@ -21,6 +21,8 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layout.component';
+import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
+import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layou
     ClienteComponent,
     DashboardComponent,
     AdminLayoutComponent,
+    GenerarVentaComponent,
+    HistorialVentasComponent,
   ],
   imports: [
     CommonModule,
@@ -50,3 +54,4 @@ import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layou
   ]
 })
 export class AdminModule { }
+

@@ -112,7 +112,6 @@ export class UnidadMedidaComponent implements OnInit {
         }
       });
     }
-  
 
     editarUnidadMedida(id: number) {
         this.unidadMedidaService.getUnidadMedida(id).subscribe(unidad => {
@@ -151,7 +150,7 @@ export class UnidadMedidaComponent implements OnInit {
       modalElement.classList.remove('show');
       modalElement.style.display = 'none';
       document.body.classList.remove('modal-open');
-      this.cancelar();  // Clear the form after closing
+      this.cancelar();
     }
   }
   // ------------------------------------------

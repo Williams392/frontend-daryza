@@ -13,6 +13,8 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { RoleGuard } from '../auth/role.guard';
 import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layout.component';
 import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.component';
+import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
+import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,9 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
 
       { path: 'cliente', component: ClienteComponent},
+
+      { path: 'generar-venta', component: GenerarVentaComponent},
+      { path: 'historial-ventas', component: HistorialVentasComponent},
       
       { path: 'productos', component: ProductoComponent},
       { path: 'marcas', component: MarcaComponent},
