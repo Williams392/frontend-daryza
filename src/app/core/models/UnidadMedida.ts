@@ -1,7 +1,7 @@
 
 export class UnidadMedida {
-    id_unidad_medida?: number;
-    nombre?: string;
+    id_unidadMedida?: number;
+    nombre_unidad?: string;
     abreviacion?: string;
     created_at?: string | null;
     update_at?: string | null;

@@ -36,7 +36,7 @@ export class MarcaComponent implements OnInit, AfterViewInit {
             const transformedFilter = filter.trim().toLowerCase();
             return (
               (data.id_marca?.toString().toLowerCase().includes(transformedFilter) || false) || 
-              (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+              (data.nombre_marca?.toLowerCase().includes(transformedFilter) || false)
             );
         };
           

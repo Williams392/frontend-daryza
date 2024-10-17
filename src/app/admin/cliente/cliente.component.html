@@ -36,24 +36,24 @@
       <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
           <table mat-table [dataSource]="dataSource" class="mat-table">
               <!-- Columns definition -->
-              <ng-container matColumnDef="id">
+              <ng-container matColumnDef="id_cliente">
                   <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
-                  <td mat-cell *matCellDef="let cliente"> {{ cliente.id }} </td>
+                  <td mat-cell *matCellDef="let cliente"> {{ cliente.id_cliente }} </td>
               </ng-container>
       
-              <ng-container matColumnDef="nombre">
+              <ng-container matColumnDef="nombre_clie">
                   <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
-                  <td mat-cell *matCellDef="let cliente"> {{ cliente.nombre }} </td>
+                  <td mat-cell *matCellDef="let cliente"> {{ cliente.nombre_clie }} </td>
               </ng-container>
 
-              <ng-container matColumnDef="apellido">
+              <ng-container matColumnDef="apellido_clie">
                 <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Apellido </th>
-                <td mat-cell *matCellDef="let cliente"> {{ cliente.apellido }} </td>
+                <td mat-cell *matCellDef="let cliente"> {{ cliente.apellido_clie }} </td>
               </ng-container>
 
-              <ng-container matColumnDef="razon_social">
+              <ng-container matColumnDef="razon_socialCliente">
                 <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Razon social </th>
-                <td mat-cell *matCellDef="let cliente"> {{ cliente.razon_social }} </td>
+                <td mat-cell *matCellDef="let cliente"> {{ cliente.razon_socialCliente }} </td>
               </ng-container>
 
               <ng-container matColumnDef="tipo_empresa">
@@ -71,7 +71,7 @@
               <ng-container matColumnDef="eliminar">
                   <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
                   <td mat-cell *matCellDef="let cliente">
-                      <button (click)="eliminarCliente(cliente.id!)" class="btn btn-danger">Eliminar</button>
+                      <button (click)="eliminarCliente(cliente.id_cliente!)" class="btn btn-danger">Eliminar</button>
                   </td>
               </ng-container>
       
@@ -100,22 +100,22 @@
                       <div class="mb-3">
                           <label for="nombreCliente" class="form-label">Nombre del cliente</label>
                           <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required
-                              [(ngModel)]="cliente.nombre" #nombrecliente="ngModel">
+                              [(ngModel)]="cliente.nombre_clie" #nombrecliente="ngModel">
                       </div>
                       <div class="mb-3">
                           <label for="apellidoCliente" class="form-label">Apellido del cliente</label>
                           <input type="text" class="form-control" id="apellidoCliente" name="apellidoCliente" required
-                              [(ngModel)]="cliente.apellido" #nombreCliente="ngModel">
+                              [(ngModel)]="cliente.apellido_clie" #apellidoCliente="ngModel">
                       </div>
                       <div class="mb-3">
                           <label for="direccionCliente" class="form-label">Direccion del cliente</label>
                           <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required
-                              [(ngModel)]="cliente.direccion" #direccionCliente="ngModel">
+                              [(ngModel)]="cliente.direccion_clie" #direccionCliente="ngModel">
                       </div>
                       <div class="mb-3">
                           <label for="razonCliente" class="form-label">Razon social</label>
                           <input type="text" class="form-control" id="razonCliente" name="razonCliente" required
-                              [(ngModel)]="cliente.razon_social" #razonCliente="ngModel">
+                              [(ngModel)]="cliente.razon_socialCliente" #razonCliente="ngModel">
                       </div>
                       <div class="mb-3">
                           <label for="tipoempCliente" class="form-label">Tipo de empresa</label>
@@ -125,18 +125,18 @@
                       <div class="mb-3">
                           <label for="emailCliente" class="form-label">Correo de cliente</label>
                           <input type="text" class="form-control" id="emailCliente" name="emailCliente" required
-                              [(ngModel)]="cliente.email" #nombrecliente="ngModel">
+                              [(ngModel)]="cliente.email_cliente" #nombrecliente="ngModel">
                       </div>
                       <div class="mb-3">
                           <label for="telefono1Cliente" class="form-label">Telefono 1</label>
                           <input type="text" class="form-control" id="telefono1Cliente" name="telefono1Cliente" required
-                              [(ngModel)]="cliente.telefono_1" #telefono1Cliente="ngModel">
+                              [(ngModel)]="cliente.telefono_cliente" #telefono_cliente="ngModel">
                       </div>
-                      <div class="mb-3">
+                      <!-- <div class="mb-3">
                           <label for="telefono2Cliente" class="form-label">Telefono 2</label>
                           <input type="text" class="form-control" id="telefono2Cliente" name="telefono2Cliente" required
                               [(ngModel)]="cliente.telefono_2" #telefono2Cliente="ngModel">
-                      </div>
+                      </div> -->
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
                           <button type="submit" class="btn btn-primary">Guardar</button>

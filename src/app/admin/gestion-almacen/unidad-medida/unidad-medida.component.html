@@ -43,7 +43,7 @@
     
                 <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
-                    <td mat-cell *matCellDef="let unidad"> {{ unidad.nombre }} </td>
+                    <td mat-cell *matCellDef="let unidad"> {{ unidad.nombre_unidad }} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="abreviacion">
@@ -97,7 +97,7 @@
                         <form (ngSubmit)="guardarUnidadMedida()" #unidadMedidaForm="ngForm">
                             <div class="mb-3">
                                 <label for="nombreUnidadMedida" class="form-label">Nombre de la Unidad de Medida</label>
-                                <input type="text" class="form-control" id="nombreUnidadMedida" name="nombreUnidadMedida" required [(ngModel)]="unidadMedida.nombre" #nombreUnidadMedida="ngModel">
+                                <input type="text" class="form-control" id="nombreUnidadMedida" name="nombreUnidadMedida" required [(ngModel)]="unidadMedida.nombre_unidad" #nombreUnidadMedida="ngModel">
                             </div>
                             <div class="mb-3">
                                 <label for="abreviacionUnidadMedida" class="form-label">Abreviación</label>

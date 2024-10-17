@@ -43,7 +43,7 @@
         
                 <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
-                    <td mat-cell *matCellDef="let marca"> {{ marca.nombre }} </td>
+                    <td mat-cell *matCellDef="let marca"> {{ marca.nombre_marca }} </td>
                 </ng-container>
         
                 <ng-container matColumnDef="created_at">
@@ -95,7 +95,7 @@
                         <div class="mb-3">
                             <label for="nombreMarca" class="form-label">Nombre de la Marca</label>
                             <input type="text" class="form-control" id="nombreMarca" name="nombreMarca" required
-                                [(ngModel)]="marca.nombre" #nombreMarca="ngModel">
+                                [(ngModel)]="marca.nombre_marca" #nombreMarca="ngModel">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>

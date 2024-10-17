@@ -1,11 +1,12 @@
 export class Producto {
     id_producto?: number;
-    nombre: string;
+    nombre_prod: string;
+    descripcion_pro?: string | null; // Permite null
     precio_compra: number;
     precio_venta: number;
     codigo: string;
     estado?: boolean;
-    descripcion?: string | null; // Permite null
+    
     estock: number;
     estock_minimo: number;
     marca: number; // ID de la marca
@@ -16,7 +17,7 @@ export class Producto {
     update_at?: string | null;   // Permite null
 
     constructor(
-        nombre: string,
+        nombre_prod: string,
         precio_compra: number,
         precio_venta: number,
         codigo: string,
@@ -26,10 +27,10 @@ export class Producto {
         categoria: number,
         unidad_medida: number,
         imagen?: string | null, // Acepta null
-        descripcion?: string | null,
+        descripcion_pro?: string | null,
         estado?: boolean
     ) {
-        this.nombre = nombre;
+        this.nombre_prod = nombre_prod;
         this.precio_compra = precio_compra;
         this.precio_venta = precio_venta;
         this.codigo = codigo;
@@ -39,7 +40,7 @@ export class Producto {
         this.categoria = categoria;
         this.unidad_medida = unidad_medida;
         this.imagen = imagen ?? null; // Inicializa la imagen a null si no se proporciona
-        this.descripcion = descripcion ?? null;
+        this.descripcion_pro = descripcion_pro ?? null;
         this.estado = estado ?? true; // Valor predeterminado
     }
 }

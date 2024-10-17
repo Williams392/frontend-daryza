@@ -1,7 +1,7 @@
 export interface Categoria {
     id_categoria?: number;
-    nombre: string;
-    estado: boolean;
+    nombre_categoria: string;
+    estado_categoria: boolean;
     created_at?: string | null;  
     update_at?: string | null;    
 }

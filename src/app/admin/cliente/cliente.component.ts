@@ -17,7 +17,7 @@ export class ClienteComponent implements OnInit, AfterViewInit {
   @ViewChild('clienteForm', { static: false }) clienteForm!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'razon_social', 'tipo_empresa', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id_cliente', 'nombre_clie', 'apellido_clie', 'razon_socialCliente', 'tipo_empresa', 'editar', 'eliminar'];
   dataSource = new MatTableDataSource<Cliente>();
 
   cliente: Cliente = new Cliente();
@@ -33,8 +33,8 @@ export class ClienteComponent implements OnInit, AfterViewInit {
         this.dataSource.filterPredicate = (data: Cliente, filter: string) => {
             const transformedFilter = filter.trim().toLowerCase();
             return (
-              (data.id?.toString().toLowerCase().includes(transformedFilter) || false) || 
-              (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+              (data.id_cliente?.toString().toLowerCase().includes(transformedFilter) || false) || 
+              (data.nombre_clie?.toLowerCase().includes(transformedFilter) || false)
             );
         };
           
@@ -57,8 +57,8 @@ export class ClienteComponent implements OnInit, AfterViewInit {
 
     guardarClientes() {
         if (this.clienteForm.valid) {
-            if (this.cliente.id) {
-                this.clienteService.updateCliente(this.cliente.id, this.cliente).subscribe({
+            if (this.cliente.id_cliente) {
+                this.clienteService.updateCliente(this.cliente.id_cliente, this.cliente).subscribe({
                     next: () => this.onSuccess('Cliente actualizado con éxito'),
                     error: () => this.onError('Error al actualizar cliente')
                 });
@@ -78,7 +78,7 @@ export class ClienteComponent implements OnInit, AfterViewInit {
         this.abrirModal(); 
     }
 
-    eliminarCliente(id: number): void {
+    eliminarCliente(id_cliente: number): void {
         Swal.fire({
           title: '¿Estás seguro?',
           text: "¡No podrás revertir esto!",
@@ -88,7 +88,7 @@ export class ClienteComponent implements OnInit, AfterViewInit {
           cancelButtonText: 'No, cancelar'
         }).then((result) => {
           if (result.isConfirmed) {
-            this.clienteService.deleteCliente(id).subscribe(() => {
+            this.clienteService.deleteCliente(id_cliente).subscribe(() => {
               this.obtenerClientes();
               Swal.fire('¡Eliminado!', 'El cliente ha sido eliminado.', 'success');
             });

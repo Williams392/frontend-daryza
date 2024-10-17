@@ -36,8 +36,8 @@ export class UnidadMedidaComponent implements OnInit {
     this.unidades_dataSource.filterPredicate = (data: UnidadMedida, filter: string) => {
       const transformedFilter = filter.trim().toLowerCase();
       return (
-        (data.id_unidad_medida?.toString().toLowerCase().includes(transformedFilter) || false) || 
-        (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+        (data.id_unidadMedida?.toString().toLowerCase().includes(transformedFilter) || false) || 
+        (data.nombre_unidad?.toLowerCase().includes(transformedFilter) || false)
       );
     };
 
@@ -79,8 +79,8 @@ export class UnidadMedidaComponent implements OnInit {
 
     guardarUnidadMedida() {
         if (this.unidadMedidaForm.valid) {
-            if (this.unidadMedida.id_unidad_medida) {
-                this.unidadMedidaService.putActualizarUnidadMedida(this.unidadMedida.id_unidad_medida, this.unidadMedida).subscribe({
+            if (this.unidadMedida.id_unidadMedida) {
+                this.unidadMedidaService.putActualizarUnidadMedida(this.unidadMedida.id_unidadMedida, this.unidadMedida).subscribe({
                     next: () => this.onSuccess('Unidad de Medida actualizada con éxito'),
                     error: () => this.onError('Error al actualizar la Unidad de Medida')
                 });

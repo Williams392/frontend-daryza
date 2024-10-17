@@ -109,7 +109,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre_prod" name="nombre" required>
                         </div>
                         <div class="form-group">
                             <label for="codigo">Código</label>
@@ -141,19 +141,19 @@
                         <div class="form-group">
                             <label for="categoria">Categoría</label>
                             <select class="form-control" id="categoria" [(ngModel)]="producto.categoria" name="categoria" required>
-                                <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre }}</option>
+                                <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="marca">Marca</label>
                             <select class="form-control" id="marca" [(ngModel)]="producto.marca" name="marca" required>
-                                <option *ngFor="let marca of marcas" [value]="marca.id_marca">{{ marca.nombre }}</option>
+                                <option *ngFor="let marca of marcas" [value]="marca.id_marca">{{ marca.nombre_marca }}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="unidadMedida">Unidad de Medida</label>
                             <select class="form-control" id="unidadMedida" [(ngModel)]="producto.unidad_medida" name="unidadMedida" required>
-                                <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidad_medida">{{ unidad.nombre }}</option>
+                                <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidadMedida">{{ unidad.nombre_unidad }}</option>
                             </select>
                         </div>
                         <div class="form-group">

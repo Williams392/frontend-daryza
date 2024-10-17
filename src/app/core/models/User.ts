@@ -1,5 +1,5 @@
 export class User {
-    id: number;
+    id_user: number;
     username: string;
     last_name: string;
     email: string;
@@ -8,7 +8,7 @@ export class User {
     name_role: Rol | null;  // Cambiado a un objeto o null
 
     constructor() {
-        this.id = 0; 
+        this.id_user = 0; 
         this.username = '';
         this.last_name = '';
         this.email = '';
@@ -19,6 +19,6 @@ export class User {
 }
 
 export interface Rol {
-    id: number;
+    id_rol: number;
     name_role: string;
 }

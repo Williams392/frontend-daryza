@@ -23,7 +23,7 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
 
   user: User = new User();
   roles: Rol[] = [];
-  selectedRole: Rol = { id: 0, name_role: '' };
+  selectedRole: Rol = { id_rol: 0, name_role: '' };
 
   constructor(
     private userService: UserService,
@@ -69,8 +69,8 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
 
   guardarUser(): void {
     if (this.userForm.valid) {
-      if (this.selectedRole && this.selectedRole.id !== 0) {
-        this.user.name_role = { id: this.selectedRole.id, name_role: this.selectedRole.name_role };
+      if (this.selectedRole && this.selectedRole.id_rol !== 0) {
+        this.user.name_role = { id_rol: this.selectedRole.id_rol, name_role: this.selectedRole.name_role };
       } else {
         this.user.name_role = null;
       }
@@ -81,10 +81,10 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
       formData.append('email', this.user.email);
       formData.append('phone_number', this.user.phone_number);
       formData.append('password', this.user.password);
-      formData.append('name_role', this.selectedRole.id.toString());
+      formData.append('name_role', this.selectedRole.id_rol.toString());
       
-      if (this.user.id) {
-        this.userService.updateUser(this.user.id, formData).subscribe({
+      if (this.user.id_user) {
+        this.userService.updateUser(this.user.id_user, formData).subscribe({
           next: () => {
             this.getUsers();
             this.cerrarModal();
@@ -117,7 +117,7 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
     if (this.user.name_role) {
       this.selectedRole = this.user.name_role;
     } else {
-      this.selectedRole = { id: 0, name_role: '' }; // Valor por defecto
+      this.selectedRole = { id_rol: 0, name_role: '' }; // Valor por defecto
     }
 
     this.abrirModal();

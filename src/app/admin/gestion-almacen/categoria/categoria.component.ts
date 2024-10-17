@@ -21,7 +21,7 @@ export class CategoriaComponent implements OnInit {
   displayedColumns: string[] = ['id_categoria', 'nombre', 'estado', 'created_at', 'update_at', 'editar', 'eliminar'];
   dataSource = new MatTableDataSource<Categoria>();
 
-  categoria: Categoria = { nombre: '', estado: true };
+  categoria: Categoria = { nombre_categoria: '', estado_categoria: true };
 
   constructor(
     private categoriaService: CategoriaService,
@@ -35,7 +35,7 @@ export class CategoriaComponent implements OnInit {
       const transformedFilter = filter.trim().toLowerCase();
       return (
         (data.id_categoria?.toString().toLowerCase().includes(transformedFilter) || false) || 
-        (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+        (data.nombre_categoria?.toLowerCase().includes(transformedFilter) || false)
       );
     };
 
@@ -127,7 +127,7 @@ export class CategoriaComponent implements OnInit {
   }
 
   cancelar() {
-    this.categoria = { nombre: '', estado: true }; 
+    this.categoria = { nombre_categoria: '', estado_categoria: true }; 
   }
   
   abrirModal() {

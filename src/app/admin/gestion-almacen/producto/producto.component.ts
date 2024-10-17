@@ -70,7 +70,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         const transformedFilter = filter.trim().toLowerCase();
         return (
             (data.id_producto?.toString().toLowerCase().includes(transformedFilter) || false) || 
-            (data.nombre?.toLowerCase().includes(transformedFilter) || false)
+            (data.nombre_prod?.toLowerCase().includes(transformedFilter) || false)
             );
         };
     }
@@ -120,7 +120,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     guardarProducto() {
         if (this.productoForm.valid) {
             const productoData = new FormData(); // Utiliza FormData para incluir la imagen
-            productoData.append('nombre', this.producto.nombre);
+            productoData.append('nombre', this.producto.nombre_prod);
             productoData.append('precio_compra', this.producto.precio_compra.toString());
             productoData.append('precio_venta', this.producto.precio_venta.toString());
             productoData.append('codigo', this.producto.codigo);
@@ -129,7 +129,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
             productoData.append('marca', this.producto.marca.toString());
             productoData.append('categoria', this.producto.categoria.toString());
             productoData.append('unidad_medida', this.producto.unidad_medida.toString());
-            productoData.append('descripcion', this.producto.descripcion || '');
+            productoData.append('descripcion', this.producto.descripcion_pro || '');
             productoData.append('estado', (this.producto.estado ?? true).toString());
     
             if (this.imagenSeleccionada) {
