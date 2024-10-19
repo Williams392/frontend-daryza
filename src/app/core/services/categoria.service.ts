@@ -13,23 +13,25 @@ export class CategoriaService {
   constructor(private http: HttpClient) {}
 
   getCategoriaLista(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.apiUrl); // No se necesita headers manuales
+    return this.http.get<Categoria[]>(this.apiUrl); 
   }
 
   getCategoria(id: number): Observable<Categoria> {
-    return this.http.get<Categoria>(`${this.apiUrl}${id}/`); // No se necesita headers manuales
+    return this.http.get<Categoria>(`${this.apiUrl}${id}/`); 
   }
 
   postAgregarCategoria(categoria: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(this.apiUrl, categoria); // No se necesita headers manuales
+    return this.http.post<Categoria>(this.apiUrl, categoria); 
   }
 
   putActualizarCategoria(id: number, categoria: Categoria): Observable<Categoria> {
-    return this.http.put<Categoria>(`${this.apiUrl}${id}/`, categoria); // No se necesita headers manuales
+    return this.http.put<Categoria>(`${this.apiUrl}${id}/`, categoria); 
   }
 
   eliminarCategoria(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}/`); // No se necesita headers manuales
+    return this.http.delete<void>(`${this.apiUrl}${id}/`); 
   }
   
 }
+
+

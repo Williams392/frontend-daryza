@@ -8,12 +8,17 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api/auth/login/';
+  private signupUrl = 'http://localhost:8000/api/auth/signup/';
 
   constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(this.apiUrl, { email, password });
   }
+
+  signup(user: FormData): Observable<any> {
+    return this.http.post(this.signupUrl, user);
+  }  
 
   setToken(token: string, role: string): void {
     localStorage.setItem('token', token);

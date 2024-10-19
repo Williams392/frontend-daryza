@@ -1,0 +1,41 @@
+<!-- src/app/auth/register/register.component.html -->
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row w-100 justify-content-center">
+      <div class="col-md-6 d-none d-md-block">
+        <img src="assets/img_login-daryza.avif" class="img-fluid" alt="Register Image">
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+          <h2 class="text-center mb-4">Registro</h2>
+          <form (ngSubmit)="onRegister()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Nombre de usuario</label>
+              <input type="text" id="username" class="form-control" [(ngModel)]="user.username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="last_name" class="form-label">Apellido</label>
+              <input type="text" id="last_name" class="form-control" [(ngModel)]="user.last_name" name="last_name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" [(ngModel)]="user.email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone_number" class="form-label">Teléfono</label>
+              <input type="text" id="phone_number" class="form-control" [(ngModel)]="user.phone_number" name="phone_number" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" id="password" class="form-control" [(ngModel)]="user.password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+            <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+              {{ errorMessage }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+  

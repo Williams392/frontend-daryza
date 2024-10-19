@@ -281,3 +281,11 @@ nav[aria-label="breadcrumb"] {
     margin: 15px 0; /* Espacio antes y después de la línea 
 }
 */
+
+.active {
+    background-color: #1b5a99; /* Cambia esto al color que prefieras */
+    color: #000; /* Cambia esto al color que prefieras */
+    border-radius: 8px; /* Ajusta el radio del borde según tu preferencia */
+    margin: 0 15px; /* Añade margen a ambos lados */
+    padding: 5px 10px; /* Añade padding adicional a la derecha */
+}
