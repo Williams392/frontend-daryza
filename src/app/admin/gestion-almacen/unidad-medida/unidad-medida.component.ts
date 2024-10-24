@@ -21,7 +21,7 @@ export class UnidadMedidaComponent implements OnInit {
   unidades: UnidadMedida[] = [];
   unidadMedida: UnidadMedida = new UnidadMedida();
 
-  displayedColumns: string[] = ['id_unidad_medida', 'nombre', 'abreviacion', 'created_at', 'update_at', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id_unidad_medida', 'nombre', 'abreviacion', 'created_at', 'update_at', 'acciones'];
   unidades_dataSource = new MatTableDataSource<UnidadMedida>();
   
   constructor(

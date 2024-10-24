@@ -18,7 +18,7 @@ export class CategoriaComponent implements OnInit {
   @ViewChild('categoriaForm', { static: false }) categoriaForm!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id_categoria', 'nombre', 'estado', 'created_at', 'update_at', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id_categoria', 'nombre', 'estado', 'created_at', 'update_at', 'acciones'];
   dataSource = new MatTableDataSource<Categoria>();
 
   categoria: Categoria = { nombre_categoria: '', estado_categoria: true };

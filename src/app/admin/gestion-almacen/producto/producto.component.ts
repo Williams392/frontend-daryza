@@ -24,7 +24,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     @ViewChild('productoForm', { static: false }) productoForm!: NgForm;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'imagen', 'editar', 'eliminar'];
+    displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'imagen', 'acciones'];
     dataSource = new MatTableDataSource<Producto>();
 
     producto: Producto = new Producto(

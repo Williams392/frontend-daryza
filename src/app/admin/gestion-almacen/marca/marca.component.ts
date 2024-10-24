@@ -18,7 +18,7 @@ export class MarcaComponent implements OnInit, AfterViewInit {
   @ViewChild('marcaForm', { static: false }) marcaForm!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id_marca', 'nombre', 'created_at', 'update_at', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id_marca', 'nombre', 'created_at', 'update_at', 'acciones'];
   dataSource = new MatTableDataSource<Marca>();
 
   marca: Marca = new Marca();

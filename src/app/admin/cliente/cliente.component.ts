@@ -7,20 +7,19 @@ import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.css'
 })
 export class ClienteComponent implements OnInit, AfterViewInit {
-  @ViewChild('clienteForm', { static: false }) clienteForm!: NgForm;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  displayedColumns: string[] = ['id_cliente', 'nombre_clie', 'apellido_clie', 'razon_socialCliente', 'tipo_empresa', 'editar', 'eliminar'];
-  dataSource = new MatTableDataSource<Cliente>();
-
-  cliente: Cliente = new Cliente();
+    @ViewChild('clienteForm', { static: false }) clienteForm!: NgForm;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
+    displayedColumns: string[] = ['id_cliente', 'nombre_clie', 'apellido_clie', 'razon_socialCliente', 'tipo_empresa', 'acciones'];
+    dataSource = new MatTableDataSource<Cliente>();
+  
+    cliente: Cliente = new Cliente();
 
     constructor(
         private clienteService: ClienteService,

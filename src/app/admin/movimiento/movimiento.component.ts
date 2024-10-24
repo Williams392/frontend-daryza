@@ -40,6 +40,30 @@ export class MovimientoComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // ------- Metodos para descargar el PDF y Excel -------
+
+  descargarPDF() {
+    this.movimientoService.descargarPDF().subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'movimientos.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  descargarExcel() {
+    this.movimientoService.descargarExcel().subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'movimientos.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
   // ------- Mantener el Elementos por Pagina. -------
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

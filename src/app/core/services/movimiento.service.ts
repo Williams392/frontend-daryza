@@ -32,4 +32,16 @@ export class MovimientoService {
   deleteMovimiento(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
+
+  
+  private apiReporte = 'http://127.0.0.1:8000/api/movimientos/';
+
+  descargarPDF(): Observable<Blob> {
+    return this.http.get(`${this.apiReporte}descargar/pdf/`, { responseType: 'blob' });
+  }
+
+  descargarExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiReporte}descargar/excel/`, { responseType: 'blob' });
+  }
+
 }

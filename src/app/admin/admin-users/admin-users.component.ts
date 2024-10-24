@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providers: [DatePipe]
 })
 export class AdminUsersComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'username', 'last_name', 'email', 'phone_number', 'roles', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'username', 'last_name', 'email', 'phone_number', 'roles', 'acciones'];
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild('userForm', { static: false }) userForm!: NgForm;
