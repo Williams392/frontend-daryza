@@ -119,7 +119,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     guardarProducto() {
         if (this.productoForm.valid) {
             const productoData = new FormData(); // Utiliza FormData para enviar la imagen y otros datos
-            
+    
             // Asegúrate de agregar todos los campos, y usa el operador ?? para manejar undefined
             productoData.append('nombre_prod', this.producto.nombre_prod);
             productoData.append('precio_compra', (this.producto.precio_compra ?? 0).toString());
@@ -138,18 +138,34 @@ export class ProductoComponent implements OnInit, AfterViewInit {
                 productoData.append('imagen', this.imagenSeleccionada);
             }
     
-            // Usar `PUT` para actualizar todos los datos
-            this.productoService.putActualizarProducto(this.producto.id_producto ?? 0, productoData).subscribe({
-                next: () => this.onSuccess('Producto actualizado con éxito'),
-                error: (err) => {
-                    console.error(err); // Para depurar el error
-                    this.onError('Error al actualizar el producto');
-                }
-            });
+            // Si `id_producto` existe, actualiza el producto (PUT). Si no, crea un nuevo producto (POST)
+            if (this.producto.id_producto) {
+                // Usar `PUT` para actualizar el producto existente
+                this.productoService.putActualizarProducto(this.producto.id_producto, productoData).subscribe({
+                    next: () => this.onSuccess('Producto actualizado con éxito'),
+                    error: (err) => {
+                        console.error(err); // Para depurar el error
+                        this.onError('Error al actualizar el producto');
+                    }
+                });
+            } else {
+                // Usar `POST` para agregar un nuevo producto
+                this.productoService.postAgregarProducto(productoData).subscribe({
+                    next: () => {
+                        this.onSuccess('Producto agregado con éxito');
+                        this.obtenerProductos(); // Actualiza la lista de productos después de agregar uno nuevo
+                    },
+                    error: (err) => {
+                        console.error(err); // Para depurar el error
+                        this.onError('Error al agregar el producto');
+                    }
+                });
+            }
         } else {
             this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
         }
     }
+    
     
     eliminarProducto(id: number): void {
         Swal.fire({
