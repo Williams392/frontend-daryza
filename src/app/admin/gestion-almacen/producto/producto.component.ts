@@ -116,48 +116,41 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         });
     }
 
-
     guardarProducto() {
         if (this.productoForm.valid) {
-            const productoData = new FormData(); // Utiliza FormData para incluir la imagen
-            productoData.append('nombre', this.producto.nombre_prod);
-            productoData.append('precio_compra', this.producto.precio_compra.toString());
-            productoData.append('precio_venta', this.producto.precio_venta.toString());
+            const productoData = new FormData(); // Utiliza FormData para enviar la imagen y otros datos
+            
+            // Asegúrate de agregar todos los campos, y usa el operador ?? para manejar undefined
+            productoData.append('nombre_prod', this.producto.nombre_prod);
+            productoData.append('precio_compra', (this.producto.precio_compra ?? 0).toString());
+            productoData.append('precio_venta', (this.producto.precio_venta ?? 0).toString());
             productoData.append('codigo', this.producto.codigo);
-            productoData.append('estock', this.producto.estock.toString());
-            productoData.append('estock_minimo', this.producto.estock_minimo.toString());
-            productoData.append('marca', this.producto.marca.toString());
-            productoData.append('categoria', this.producto.categoria.toString());
-            productoData.append('unidad_medida', this.producto.unidad_medida.toString());
-            productoData.append('descripcion', this.producto.descripcion_pro || '');
+            productoData.append('estock', (this.producto.estock ?? 0).toString());
+            productoData.append('estock_minimo', (this.producto.estock_minimo ?? 0).toString());
+            productoData.append('marca', (this.producto.marca ?? 0).toString());
+            productoData.append('categoria', (this.producto.categoria ?? 0).toString());
+            productoData.append('unidad_medida', (this.producto.unidad_medida ?? 0).toString());
+            productoData.append('descripcion_pro', this.producto.descripcion_pro || '');
             productoData.append('estado', (this.producto.estado ?? true).toString());
     
+            // Solo agregar la imagen si fue seleccionada
             if (this.imagenSeleccionada) {
-                productoData.append('imagen', this.imagenSeleccionada); // Solo si hay una imagen seleccionada
+                productoData.append('imagen', this.imagenSeleccionada);
             }
     
-            if (this.producto.id_producto) {
-                // Actualizar un producto existente
-                this.productoService.putActualizarProducto(this.producto.id_producto, productoData).subscribe({
-                    next: () => this.onSuccess('Producto actualizado con éxito'),
-                    error: () => this.onError('Error al actualizar el producto')
-                });
-            } else {
-                // Crear un nuevo producto
-                this.productoService.postAgregarProducto(productoData).subscribe({
-                    next: () => {
-                        this.onSuccess('Producto agregado con éxito');
-                        this.obtenerProductos(); // Actualizar la lista de productos
-                    },
-                    error: () => this.onError('Error al agregar el producto')
-                });
-            }
+            // Usar `PUT` para actualizar todos los datos
+            this.productoService.putActualizarProducto(this.producto.id_producto ?? 0, productoData).subscribe({
+                next: () => this.onSuccess('Producto actualizado con éxito'),
+                error: (err) => {
+                    console.error(err); // Para depurar el error
+                    this.onError('Error al actualizar el producto');
+                }
+            });
         } else {
             this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
         }
     }
     
-
     eliminarProducto(id: number): void {
         Swal.fire({
           title: '¿Estás seguro?',
