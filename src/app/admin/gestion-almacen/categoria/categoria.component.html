@@ -43,12 +43,12 @@
     
                 <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
-                    <td mat-cell *matCellDef="let categoria"> {{ categoria.nombre }} </td>
+                    <td mat-cell *matCellDef="let categoria"> {{ categoria.nombre_categoria }} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="estado">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Estado </th>
-                    <td mat-cell *matCellDef="let categoria"> {{ categoria.estado ? 'Activo' : 'Inactivo' }} </td>
+                    <td mat-cell *matCellDef="let categoria"> {{ categoria.estado_categoria ? 'Activo' : 'Inactivo' }} </td>
                 </ng-container>
     
                 <ng-container matColumnDef="created_at">

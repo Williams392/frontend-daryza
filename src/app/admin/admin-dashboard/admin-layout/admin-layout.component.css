@@ -282,10 +282,18 @@ nav[aria-label="breadcrumb"] {
 }
 */
 
-.active {
-    background-color: #1b5a99; /* Cambia esto al color que prefieras */
-    color: #000; /* Cambia esto al color que prefieras */
-    border-radius: 8px; /* Ajusta el radio del borde según tu preferencia */
-    margin: 0 15px; /* Añade margen a ambos lados */
-    padding: 5px 10px; /* Añade padding adicional a la derecha */
+.sidebar-nav .sidebar-link {
+    padding: 5px 10px; /* Asegúrate de que el padding sea consistente */
+    margin: 0 15px; /* Asegúrate de que el margen sea consistente */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav .active {
+    background-color: #1b5a99;
+    color: #fff; /* Cambia el color del texto a blanco */
+    /*font-weight: bold; /* Hace que el texto sea negrita */
+    border-radius: 8px;
+    padding: 5px 10px; /* Mantén el mismo padding */
+    margin: 0 15px; /* Mantén el mismo margen */
+    transition: background-color 0.3s, color 0.3s;
 }

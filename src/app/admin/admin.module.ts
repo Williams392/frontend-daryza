@@ -23,6 +23,7 @@ import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.compon
 import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layout.component';
 import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
+import { MovimientoComponent } from './movimiento/movimiento.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/hist
     AdminLayoutComponent,
     GenerarVentaComponent,
     HistorialVentasComponent,
+    MovimientoComponent,
   ],
   imports: [
     CommonModule,

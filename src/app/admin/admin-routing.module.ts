@@ -15,6 +15,7 @@ import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layou
 import { DashboardComponent } from './admin-dashboard/dashboard/dashboard.component';
 import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
+import { MovimientoComponent } from './movimiento/movimiento.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,8 @@ const routes: Routes = [
       { path: 'marcas', component: MarcaComponent},
       { path: 'categoria', component: CategoriaComponent},
       { path: 'unidad_medida', component: UnidadMedidaComponent},
+
+      { path: 'movimientos', component: MovimientoComponent},
 
       { path: 'usuarios', component: AdminUsersComponent, canActivate: [RoleGuard], data: { role: 'Administrador' } },
 
