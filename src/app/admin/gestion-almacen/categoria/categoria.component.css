@@ -11,3 +11,10 @@
     border-color: #4d7aa3;
     color: white;
 }
+
+/* stilo para table */
+
+.mat-table {
+    width: 100%;
+    table-layout: fixed;
+}

@@ -97,14 +97,14 @@
                 <div class="modal-body">
                 <form [formGroup]="unidadMedidaForm" (ngSubmit)="guardarUnidadMedida()">
                     <div class="mb-3">
-                    <label for="nombreUnidadMedida" class="form-label">Nombre de la Unidad de Medida</label>
+                    <label for="nombreUnidadMedida" class="form-label">Nombre de la Unidad de Medida<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="nombreUnidadMedida" formControlName="nombre_unidad">
                     <div *ngIf="unidadMedidaForm.get('nombre_unidad')?.invalid && (unidadMedidaForm.get('nombre_unidad')?.dirty || unidadMedidaForm.get('nombre_unidad')?.touched)" class="text-danger">
                         <div *ngIf="unidadMedidaForm.get('nombre_unidad')?.errors?.['required']">El nombre es obligatorio.</div>
                     </div>
                     </div>
                     <div class="mb-3">
-                    <label for="abreviacionUnidadMedida" class="form-label">Abreviación</label>
+                    <label for="abreviacionUnidadMedida" class="form-label">Abreviación<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="abreviacionUnidadMedida" formControlName="abreviacion">
                     <div *ngIf="unidadMedidaForm.get('abreviacion')?.invalid && (unidadMedidaForm.get('abreviacion')?.dirty || unidadMedidaForm.get('abreviacion')?.touched)" class="text-danger">
                         <div *ngIf="unidadMedidaForm.get('abreviacion')?.errors?.['required']">La abreviación es obligatoria.</div>

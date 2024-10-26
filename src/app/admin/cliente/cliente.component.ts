@@ -82,8 +82,10 @@ export class ClienteComponent implements OnInit, AfterViewInit {
             id_cliente: null,
             nombre_clie: '',
             apellido_clie: '',
-            dni_cliente: '',
-            ruc_cliente: '',
+
+            cliente_tipo_doc: '',
+            cliente_numDoc: '',
+
             direccion_clie: '',
             razon_socialCliente: '',
             tipo_empresa: '',

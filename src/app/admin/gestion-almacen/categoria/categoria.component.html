@@ -99,7 +99,7 @@
                     <div class="modal-body">
                         <form (ngSubmit)="guardarCategoria()" #categoriaForm="ngForm">
                             <div class="mb-3">
-                                <label for="nombreCategoria" class="form-label">Nombre de la Categoría</label>
+                                <label for="nombreCategoria" class="form-label">Nombre de la Categoría<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nombreCategoria" name="nombreCategoria" required
                                     [(ngModel)]="categoria.nombre_categoria" #nombreCategoria="ngModel">
                                 <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="text-danger">

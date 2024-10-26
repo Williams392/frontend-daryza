@@ -116,26 +116,35 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="dni_cliente" class="form-label">DNI del cliente<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="dni_cliente" name="dni_cliente" required maxlength="8"
-                                    [(ngModel)]="cliente.dni_cliente" #dni_cliente="ngModel">
-                                <div *ngIf="dni_cliente.invalid && (dni_cliente.dirty || dni_cliente.touched)" class="text-danger">
-                                    <div *ngIf="dni_cliente.errors?.['required']">El DNI es obligatorio.</div>
-                                    <div *ngIf="dni_cliente.errors?.['maxlength']">El DNI debe tener máximo 8 caracteres.</div>
+                                <label for="tipo_documento" class="form-label">Tipo de Documento<span class="text-danger">*</span></label>
+                                <div class="position-relative">
+                                    <select class="form-control" id="tipo_documento" name="tipo_documento" required [(ngModel)]="cliente.cliente_tipo_doc" #tipo_documento="ngModel">
+                                        <option value="01">DNI</option>
+                                        <option value="06">RUC</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                                <div *ngIf="tipo_documento.invalid && (tipo_documento.dirty || tipo_documento.touched)" class="text-danger">
+                                    <div *ngIf="tipo_documento.errors?.['required']">Es obligatorio.</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="ruc_cliente" class="form-label">RUC del cliente<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="ruc_cliente" name="ruc_cliente" required maxlength="11"
-                                    [(ngModel)]="cliente.ruc_cliente" #ruc_cliente="ngModel">
-                                <div *ngIf="ruc_cliente.invalid && (ruc_cliente.dirty || ruc_cliente.touched)" class="text-danger">
-                                    <div *ngIf="ruc_cliente.errors?.['required']">El RUC es obligatorio.</div>
-                                    <div *ngIf="ruc_cliente.errors?.['maxlength']">El RUC debe tener máximo 11 caracteres.</div>
+                                <label for="numero_documento" class="form-label">Número de Documento<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="numero_documento" name="numero_documento" required
+                                    [maxlength]="cliente.cliente_tipo_doc === '01' ? 8 : 11"
+                                    [(ngModel)]="cliente.cliente_numDoc" #numero_documento="ngModel">
+                                <div *ngIf="numero_documento.invalid && (numero_documento.dirty || numero_documento.touched)" class="text-danger">
+                                    <div *ngIf="numero_documento.errors?.['required']">Es obligatorio.</div>
+                                    <div *ngIf="numero_documento.errors?.['maxlength']">El número de documento debe tener el tamaño correcto.</div>
                                 </div>
                             </div>
                         </div>
+                        
+
+                        
                         <div class="mb-3">
                             <label for="direccionCliente" class="form-label">Dirección del cliente<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required
@@ -176,9 +185,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </div>
   
