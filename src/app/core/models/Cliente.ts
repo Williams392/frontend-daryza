@@ -5,8 +5,9 @@ export class Cliente {
     nombre_clie: string;
     apellido_clie: string;
 
-    cliente_tipo_doc: string;
-    cliente_numDoc: string;
+    //cliente_tipo_doc: string;
+    dni_cliente: string;
+    ruc_cliente: string;
 
     direccion_clie: string;
     razon_socialCliente: string;
@@ -18,9 +19,10 @@ export class Cliente {
     constructor() {
         this.id_cliente = 0;
         this.nombre_clie = '';
+        //this.cliente_tipo_doc = '';
         this.apellido_clie = '';
-        this.cliente_tipo_doc = '';
-        this.cliente_numDoc = '';
+        this.dni_cliente = '';
+        this.ruc_cliente = '';
         this.direccion_clie = '';
         this.razon_socialCliente = '';
         this.tipo_empresa = '';
@@ -35,8 +37,9 @@ export class Cliente {
 //     nombre_clie: string;
 //     apellido_clie: string;
 
-//     dni_cliente: string;
-//     ruc_cliente: string;
+//     cliente_tipo_doc: string;
+//     cliente_numDoc: string;
+
 //     direccion_clie: string;
 //     razon_socialCliente: string;
 
@@ -48,8 +51,8 @@ export class Cliente {
 //         this.id_cliente = 0;
 //         this.nombre_clie = '';
 //         this.apellido_clie = '';
-//         this.dni_cliente = '';
-//         this.ruc_cliente = '';
+//         this.cliente_tipo_doc = '';
+//         this.cliente_numDoc = '';
 //         this.direccion_clie = '';
 //         this.razon_socialCliente = '';
 //         this.tipo_empresa = '';

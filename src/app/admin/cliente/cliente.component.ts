@@ -54,8 +54,27 @@ export class ClienteComponent implements OnInit, AfterViewInit {
   }
   
 
+    // guardarClientes() {
+    //     if (this.clienteForm.valid) {
+    //         if (this.cliente.id_cliente) {
+    //             this.clienteService.updateCliente(this.cliente.id_cliente, this.cliente).subscribe({
+    //                 next: () => this.onSuccess('Cliente actualizado con éxito'),
+    //                 error: () => this.onError('Error al actualizar cliente')
+    //             });
+    //         } else {
+    //             this.clienteService.createCliente(this.cliente).subscribe({
+    //                 next: () => this.onSuccess('Cliente guardado con éxito'),
+    //                 error: () => this.onError('Error al guardar cliente')
+    //             });
+    //         }
+    //     } else {
+    //         this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
+    //     }
+    // }
+
     guardarClientes() {
         if (this.clienteForm.valid) {
+            console.log(this.cliente); // Agrega esto para ver los datos
             if (this.cliente.id_cliente) {
                 this.clienteService.updateCliente(this.cliente.id_cliente, this.cliente).subscribe({
                     next: () => this.onSuccess('Cliente actualizado con éxito'),
@@ -71,6 +90,8 @@ export class ClienteComponent implements OnInit, AfterViewInit {
             this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
         }
     }
+    
+    
 
     editarCliente(cliente: Cliente) {
         this.cliente = { ...cliente }; 
@@ -83,8 +104,9 @@ export class ClienteComponent implements OnInit, AfterViewInit {
             nombre_clie: '',
             apellido_clie: '',
 
-            cliente_tipo_doc: '',
-            cliente_numDoc: '',
+            //cliente_tipo_doc: '',
+            dni_cliente: '',
+            ruc_cliente: '',
 
             direccion_clie: '',
             razon_socialCliente: '',
