@@ -1,20 +1,19 @@
 export class Producto {
     id_producto?: number;
     nombre_prod: string;
-    descripcion_pro?: string | null; // Permite null
+    descripcion_pro?: string | null; 
     precio_compra: number;
     precio_venta: number;
     codigo: string;
     estado?: boolean;
-    
     estock: number;
     estock_minimo: number;
-    marca: number; // ID de la marca
-    categoria: number; // ID de la categoría
-    unidad_medida: number; // ID de la unidad de medida
-    imagen?: string | null; // Agregada la propiedad imagen
-    created_at?: string | null;  // Permite null
-    update_at?: string | null;   // Permite null
+    marca: number; 
+    categoria: number; 
+    unidad_medida: number; 
+    imagen?: string | null; 
+    created_at?: string | null; 
+    update_at?: string | null;  
 
     constructor(
         nombre_prod: string,

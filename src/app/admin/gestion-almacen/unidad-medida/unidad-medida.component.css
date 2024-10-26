@@ -1,0 +1,14 @@
+/* stilo para el boton AGREGAR */
+
+.btn-custom-blue {
+    background-color: #1b5a99;
+    border: 1px solid #1b5a99;
+    color: white;
+}
+
+.btn-custom-blue:hover {
+    background-color: #4d7aa3;
+    border-color: #4d7aa3;
+    color: white;
+}
+

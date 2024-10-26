@@ -19,26 +19,33 @@
     </div>   
 
     <div class="container bg-white" style="padding-bottom: 20px;">
+      
       <div class="bg-white">
         <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
-          <!-- Select para filtrar por tipo de movimiento -->
-          <select class="form-control" [(ngModel)]="tipoMovimientoFiltro" (change)="applyFilter()" style="margin-right: 10px; width: 200px;">
-            <option value="Todos">Todos</option>
-            <option value="entrada">Entrada</option>
-            <option value="salida">Salida</option>
-          </select>
-          <!-- Botones de descarga PDF y Excel -->
-          <button class="btn btn-outline-secondary ms-auto me-2" (click)="descargarPDF()">
-            <i class="bi bi-file-earmark-pdf" style="color: darkred;"></i> PDF
-          </button>
-          <button class="btn btn-outline-secondary" (click)="descargarExcel()">
-            <i class="bi bi-file-earmark-excel" style="color: green;"></i> Excel
-          </button>
+            <!-- Select para filtrar por tipo de movimiento -->
+            <div style="position: relative; display: inline-block;">
+                <select class="form-control" [(ngModel)]="tipoMovimientoFiltro" (change)="applyFilter()" style="margin-right: 10px; width: 200px; padding-left: 30px;">
+                    <option value="Todos">Todos</option>
+                    <option value="entrada">Entrada</option>
+                    <option value="salida">Salida</option>
+                </select>
+                <i class="bi bi-filter" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+            </div>
+
+            <!-- Espacio flexible para empujar los botones a la derecha -->
+            <div style="flex-grow: 1;"></div>
+            <!-- Botones de descarga PDF y Excel -->
+            <button class="btn btn-pdf me-2" (click)="descargarPDF()">
+              <i class="bi bi-file-earmark-pdf"></i> PDF
+            </button>
+            <button class="btn btn-excel me-2" (click)="descargarExcel()">
+                <i class="bi bi-file-earmark-excel"></i> Excel
+            </button>   
+
         </div>
-        <hr>
       </div>
     
-      <div class="mat-elevation-z8" style="margin-top: 20px;">
+      <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
         <table mat-table [dataSource]="dataSource" class="mat-table">
           <!-- Columnas de la tabla -->
           <ng-container matColumnDef="id_movimiento">

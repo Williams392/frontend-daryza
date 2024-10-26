@@ -1,0 +1,26 @@
+
+/* stilo para el boton los dos botones */
+
+.btn-pdf {
+    background-color: rgb(189, 57, 57);
+    border: 1px solid black;
+    color: white;
+}
+
+.btn-pdf:hover {
+    background-color: darkred;
+    border-color: black;
+    color: white;
+}
+
+.btn-excel {
+    background-color: green;
+    border: 1px solid black;
+    color: white;
+}
+
+.btn-excel:hover {
+    background-color: darkgreen;
+    border-color: black;
+    color: white;
+}

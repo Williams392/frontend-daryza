@@ -77,6 +77,22 @@ export class ClienteComponent implements OnInit, AfterViewInit {
         this.abrirModal(); 
     }
 
+    abrirModalParaAgregar() {
+        this.clienteForm.reset({
+            id_cliente: null,
+            nombre_clie: '',
+            apellido_clie: '',
+            dni_cliente: '',
+            ruc_cliente: '',
+            direccion_clie: '',
+            razon_socialCliente: '',
+            tipo_empresa: '',
+            email_cliente: '',
+            telefono_cliente: '',
+        });
+        this.abrirModal();
+      }
+
     eliminarCliente(id_cliente: number): void {
         Swal.fire({
           title: '¿Estás seguro?',

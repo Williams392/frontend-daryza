@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -7,37 +8,42 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';
-
-  constructor(private authService: AuthService, private router: Router) { }
-
-  onLogin(): void {
-    this.authService.login(this.email, this.password).subscribe({
-        next: (response) => {
+    loginForm: FormGroup;
+    errorMessage: string = ''; // Declarar e inicializar errorMessage
+  
+    constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+      this.loginForm = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]]
+      });
+    }
+  
+    ngOnInit(): void {}
+  
+    onLogin(): void {
+      if (this.loginForm.valid) {
+        const { email, password } = this.loginForm.value;
+        this.authService.login(email, password).subscribe({
+          next: (response) => {
             if (response.token && response.role) {
-                this.authService.setToken(response.token, response.role);
-                this.router.navigate(['/admin/dashboard/']);
+              this.authService.setToken(response.token, response.role);
+              this.router.navigate(['/admin/dashboard/']);
             } else {
-                this.errorMessage = 'Token o rol no recibido';
+              this.errorMessage = 'Token o rol no recibido';
             }
-        },
-        error: (error) => {
-            // Manejo del error
+          },
+          error: (error) => {
             if (error.status === 401) {
-                // Si la respuesta es 401, muestra el mensaje correspondiente
-                this.errorMessage = error.error.msg || 'Credenciales inválidas';
+              this.errorMessage = error.error.msg || 'Credenciales inválidas';
             } else {
-                // Manejo de otros errores
-                this.errorMessage = 'Ocurrió un error. Por favor, intenta nuevamente.';
+              this.errorMessage = 'Ocurrió un error. Por favor, intenta nuevamente.';
             }
             console.error(error);
-        }
-    });
+          }
+        });
+      }
+    }
   }
-
-}
 

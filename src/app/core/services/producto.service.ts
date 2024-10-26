@@ -31,5 +31,14 @@ export class ProductoService {
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
+
+
+  descargarPDF(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}descargar/pdf/`, { responseType: 'blob' });
+  }
+
+  descargarExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}descargar/excel/`, { responseType: 'blob' });
+  }
   
 }

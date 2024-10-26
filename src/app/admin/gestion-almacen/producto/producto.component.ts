@@ -24,7 +24,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     @ViewChild('productoForm', { static: false }) productoForm!: NgForm;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'imagen', 'acciones'];
+    displayedColumns: string[] = ['id_producto', 'nombre', 'precio_compra', 'precio_venta', 'codigo', 'estado', 'imagen', 'created_at','acciones'];
     dataSource = new MatTableDataSource<Producto>();
 
     producto: Producto = new Producto(
@@ -41,6 +41,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         null,    // descripcion
         true     // estado (por defecto activo)
     );
+    
 
     imagenSeleccionada: File | null = null;
     manejarArchivo(event: any): void {
@@ -84,7 +85,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         this.productoService.getProductoLista().subscribe(productos => {
             this.dataSource.data = productos.map(producto => ({
                 ...producto,
-                imagen: producto.imagen ? `http://127.0.0.1:8000/${producto.imagen}` : null, // Ajusta la ruta según tu servidor
+                imagen: producto.imagen ? `http://127.0.0.1:8000/${producto.imagen}` : null,
                 created_at: this.datePipe.transform(producto.created_at, 'yyyy-MM-dd HH:mm'), 
                 update_at: this.datePipe.transform(producto.update_at, 'yyyy-MM-dd HH:mm')
             }));
@@ -125,12 +126,13 @@ export class ProductoComponent implements OnInit, AfterViewInit {
             productoData.append('precio_compra', (this.producto.precio_compra ?? 0).toString());
             productoData.append('precio_venta', (this.producto.precio_venta ?? 0).toString());
             productoData.append('codigo', this.producto.codigo);
+            productoData.append('Prueba v5', this.producto.descripcion_pro || '');
             productoData.append('estock', (this.producto.estock ?? 0).toString());
             productoData.append('estock_minimo', (this.producto.estock_minimo ?? 0).toString());
             productoData.append('marca', (this.producto.marca ?? 0).toString());
             productoData.append('categoria', (this.producto.categoria ?? 0).toString());
             productoData.append('unidad_medida', (this.producto.unidad_medida ?? 0).toString());
-            productoData.append('descripcion_pro', this.producto.descripcion_pro || '');
+            //productoData.append('descripcion_pro', this.producto.descripcion_pro || '');
             productoData.append('estado', (this.producto.estado ?? true).toString());
     
             // Solo agregar la imagen si fue seleccionada
@@ -186,11 +188,6 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     }
     
 
-    editarProducto(producto: Producto) {
-        this.producto = { ...producto };  // Clonar el objeto producto para evitar referencia directa
-        this.abrirModal();  // Abrir el modal con los datos del producto actual
-    }
-
     onSuccess(message: string) {
         Swal.fire('Éxito', message, 'success');
         this.obtenerProductos();
@@ -201,64 +198,116 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         Swal.fire('Error', message, 'error');
     }
 
-  // --------------- venta modal ---------------
-  abrirModal() {
-      const modalElement = document.getElementById('agregarProductoModal');
-      if (modalElement) {
-          modalElement.classList.add('show');
-          modalElement.style.display = 'block';
-          document.body.classList.add('modal-open');
-      }
-  }
-
-  cerrarModal() {
-    const modalElement = document.getElementById('agregarProductoModal');
-    if (modalElement) {
-      modalElement.classList.remove('show');
-      modalElement.style.display = 'none';
-      document.body.classList.remove('modal-open');
-      this.cancelar();  // Limpiar el formulario después de cerrar
+    // --------------- venta modal ---------------
+    editarProducto(producto: Producto) {
+        this.producto = { ...producto };  
+        this.imagenSeleccionada = null; // Reinicia la imagen seleccionada
+        this.abrirModal();
     }
-  }
 
-  cancelar() {
-    this.producto = new Producto(
-        '',      // nombre
-        0,       // precio_compra
-        0,       // precio_venta
-        '',      // codigo
-        0,       // estock
-        0,       // estock_minimo
-        0,       // marca
-        0,       // categoria
-        0,       // unidad_medida
-        null,    // imagen (puedes inicializarlo como null)
-        null,    // descripcion
-        true     // estado (por defecto activo)
-    );
-    this.productoForm.reset();
-}
+    abrirModalParaAgregar() {
+        this.productoForm.reset({
+            nombre_prod: null,
+            precio_compra: 0,
+            precio_venta: 0,
+            codigo: null,
+            estock: 0,
+            estock_minimo: 0,
+            marca: 0,
+            categoria: 0,
+            unidad_medida: 0,
+            imagen:  null,
+            descripcion_pro: null,
+            estado: true
+        });
+        this.imagenSeleccionada = null; // Reinicia la imagen seleccionada
+        this.abrirModal();
+    }
 
-  // -------------------------------------------------
+    abrirModal() {
+        const modalElement = document.getElementById('agregarProductoModal');
+        if (modalElement) {
+            modalElement.classList.add('show');
+            modalElement.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
+    }
+
+    cerrarModal() {
+        const modalElement = document.getElementById('agregarProductoModal');
+        if (modalElement) {
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        this.cancelar();  // Limpiar el formulario después de cerrar
+        }
+    }
+
+    cancelar() {
+        this.producto = new Producto(
+            '',      // nombre
+            0,       // precio_compra
+            0,       // precio_venta
+            '',      // codigo
+            0,       // estock
+            0,       // estock_minimo
+            0,       // marca
+            0,       // categoria
+            0,       // unidad_medida
+            null,    // imagen (puedes inicializarlo como null)
+            null,    // descripcion
+            true     // estado (por defecto activo)
+        );
+        this.productoForm.reset();
+    }
+
+    // -------------------------------------------------
 
 
-  // ------- Mantener el Elementos por Pagina. -------
-  ngAfterViewInit() { // Paginacion de la tabla:
-    this.dataSource.paginator = this.paginator;
-    this.paginator.pageSize = this.getPageSize();
-    this.paginator.page.subscribe(() => {
-        this.setPageSize(this.paginator.pageSize);
-    });
-  }
-  getPageSize(): number {
-    const pageSize = localStorage.getItem('pageSize');
-    return pageSize ? +pageSize : 5; // Valor por defecto 5
-  }
+    // ------- Mantener el Elementos por Pagina. -------
+    ngAfterViewInit() { // Paginacion de la tabla:
+        this.dataSource.paginator = this.paginator;
+        this.paginator.pageSize = this.getPageSize();
+        this.paginator.page.subscribe(() => {
+            this.setPageSize(this.paginator.pageSize);
+        });
+    }
+    getPageSize(): number {
+        const pageSize = localStorage.getItem('pageSize');
+        return pageSize ? +pageSize : 5; // Valor por defecto 5
+    }
 
-  setPageSize(size: number) {
-      localStorage.setItem('pageSize', size.toString());
-  }
-  // -------------------------------------------------
+    setPageSize(size: number) {
+        localStorage.setItem('pageSize', size.toString());
+    }
+    // -------------------------------------------------
 
+
+    // ------- Metodos para descargar el PDF y Excel -------
+
+    descargarPDF() {
+        this.productoService.descargarPDF().subscribe(response => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'productos.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        });
+    }
+
+    descargarExcel() {
+        this.productoService.descargarExcel().subscribe(response => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'productos.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        });
+    }
+    // -------------------------------------------------
 
 }

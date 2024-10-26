@@ -1,32 +1,39 @@
 <!-- src/app/auth/login/login.component.html -->
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="row w-100 justify-content-center">
-      <div class="col-md-6 d-none d-md-block">
-        <img src="assets/img_login-daryza.avif" class="img-fluid" alt="Login Image">
-      </div>
-      <div class="col-md-6 d-flex justify-content-center">
-        <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-          <h2 class="text-center mb-4">Login</h2>
-          <form (ngSubmit)="onLogin()">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required>
+  <div class="row w-100 justify-content-center">
+    <div class="col-md-6 d-none d-md-block">
+      <img src="assets/img_login-daryza.avif" class="img-fluid" alt="Login Image">
+    </div>
+    <div class="col-md-6 d-flex justify-content-center">
+      <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+            <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" class="text-danger">
+              <div *ngIf="loginForm.get('email')?.errors?.['required']">El email es obligatorio.</div>
+              <div *ngIf="loginForm.get('email')?.errors?.['email']">El email no es válido.</div>
             </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-            <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-              {{ errorMessage }}
-            </div>
-          </form>
-          <div class="text-center mt-3">
-            <p>¿No tienes una cuenta? <a routerLink="/login/registro">Regístrate</a></p>
           </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" class="form-control" formControlName="password">
+            <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="text-danger">
+              <div *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
+              <div *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Acceder</button>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+          </div>
+        </form>
+        <div class="text-center mt-3">
+          <p>¿No tienes una cuenta? <a routerLink="/login/registro">Regístrate</a></p>
         </div>
       </div>
     </div>
+  </div>
 </div>
-  

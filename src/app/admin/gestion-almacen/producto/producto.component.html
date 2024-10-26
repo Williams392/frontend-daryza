@@ -23,12 +23,27 @@
         <div class="bg-white">
             <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
                 <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
-                <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+                
+                <!-- Espacio flexible para empujar los botones a la derecha -->
+                <div style="flex-grow: 1;"></div>
+                
+                <!-- Botones de descarga PDF y Excel -->
+                <button class="btn btn-pdf me-2" (click)="descargarPDF()">
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                </button>
+                <button class="btn btn-excel me-2" (click)="descargarExcel()">
+                    <i class="bi bi-file-earmark-excel"></i> Excel
+                </button>                
+        
+                <!-- Botón AGREGAR -->
+                <button class="btn btn-custom-blue" (click)="abrirModalParaAgregar()">
                     <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
                 </button>
+                
             </div>
             <hr>
         </div>
+        
     
         <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
             <table mat-table [dataSource]="dataSource" class="mat-table">
@@ -68,21 +83,12 @@
                     <td mat-cell *matCellDef="let producto">
                         <img *ngIf="producto.imagen" [src]="producto.imagen" width="50" height="50" />
                     </td>
-                </ng-container>                                                                                             
-        
-                <!-- <ng-container matColumnDef="editar">
-                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
-                    <td mat-cell *matCellDef="let producto">
-                        <button (click)="editarProducto(producto)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
-                    </td>
+                </ng-container>       
+                
+                <ng-container matColumnDef="created_at">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha Creación </th>
+                    <td mat-cell *matCellDef="let categoria"> {{ categoria.created_at }} </td>
                 </ng-container>
-        
-                <ng-container matColumnDef="eliminar">
-                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
-                    <td mat-cell *matCellDef="let producto">
-                        <button (click)="eliminarProducto(producto.id_producto!)" class="btn btn-danger">Eliminar</button>
-                    </td> 
-                </ng-container> -->
 
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acciones </th>
@@ -107,83 +113,128 @@
 
     <!-- Modal for adding/updating product -->
     <div class="modal fade" id="agregarProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg custom-modal-width" role="document"> <!-- Agregar clase personalizada -->
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
                     <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
-
                 <form #productoForm="ngForm" (ngSubmit)="guardarProducto()">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre_prod" name="nombre" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre_prod" name="nombre" required>
+                                <div *ngIf="productoForm.controls['nombre']?.invalid && (productoForm.controls['nombre']?.dirty || productoForm.controls['nombre']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['nombre']?.errors?.['required']">El nombre es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="codigo">Código <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="codigo" [(ngModel)]="producto.codigo" name="codigo" required>
+                                <div *ngIf="productoForm.controls['codigo']?.invalid && (productoForm.controls['codigo']?.dirty || productoForm.controls['codigo']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['codigo']?.errors?.['required']">El código es obligatorio.</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="codigo">Código</label>
-                            <input type="text" class="form-control" id="codigo" [(ngModel)]="producto.codigo" name="codigo" required>
+
+                        <div class="mb-3">
+                            <label for="descripcion_pro">Descripción del Producto</label>
+                            <input type="text" class="form-control" id="descripcion_pro" [(ngModel)]="producto.descripcion_pro" name="descripcion_pro">
                         </div>
-                        <div class="form-group">
-                            <label for="precio_compra">Precio de Compra</label>
-                            <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.precio_compra" name="precio_compra" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="precio_venta">Precio de Venta</label>
-                            <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.precio_venta" name="precio_venta" required>
-                        </div>            
-                        <div class="form-group">
-                            <label for="estado">Estado</label>
-                            <select class="form-control" id="estado" [(ngModel)]="producto.estado" name="estado">
-                                <option [ngValue]="true">Activo</option>
-                                <option [ngValue]="false">Inactivo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="precio_compra">Estock</label>
-                            <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.estock" name="estock" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="precio_venta">Estock Minimo</label>
-                            <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="categoria">Categoría</label>
-                            <select class="form-control" id="categoria" [(ngModel)]="producto.categoria" name="categoria" required>
-                                <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="marca">Marca</label>
-                            <select class="form-control" id="marca" [(ngModel)]="producto.marca" name="marca" required>
-                                <option *ngFor="let marca of marcas" [value]="marca.id_marca">{{ marca.nombre_marca }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="unidadMedida">Unidad de Medida</label>
-                            <select class="form-control" id="unidadMedida" [(ngModel)]="producto.unidad_medida" name="unidadMedida" required>
-                                <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidadMedida">{{ unidad.nombre_unidad }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="imagen">Imagen</label>
-                            <input type="file" class="form-control" id="imagen" (change)="manejarArchivo($event)">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="precio_compra">Precio de Compra <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.precio_compra" name="precio_compra" required>
+                                <div *ngIf="productoForm.controls['precio_compra']?.invalid && (productoForm.controls['precio_compra']?.dirty || productoForm.controls['precio_compra']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['precio_compra']?.errors?.['required']">El precio de compra es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="precio_venta">Precio de Venta <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.precio_venta" name="precio_venta" required>
+                                <div *ngIf="productoForm.controls['precio_venta']?.invalid && (productoForm.controls['precio_venta']?.dirty || productoForm.controls['precio_venta']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['precio_venta']?.errors?.['required']">El precio de venta es obligatorio.</div>
+                                </div>
+                            </div>
                         </div>
                         
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="estado">Estado</label>
+                                <select class="form-control" id="estado" [(ngModel)]="producto.estado" name="estado">
+                                    <option [ngValue]="true">Activo</option>
+                                    <option [ngValue]="false">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estock">Estock <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
+                                <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="estock_minimo">Estock Mínimo <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
+                                <div *ngIf="productoForm.controls['estock_minimo']?.invalid && (productoForm.controls['estock_minimo']?.dirty || productoForm.controls['estock_minimo']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['required']">El estock mínimo es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="categoria">Categoría <span class="text-danger">*</span></label>
+                                <div class="position-relative">
+                                    <select class="form-control" id="categoria" [(ngModel)]="producto.categoria" name="categoria" required>
+                                        <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="marca">Marca <span class="text-danger">*</span></label>
+                                <div class="position-relative">
+                                    <select class="form-control" id="marca" [(ngModel)]="producto.marca" name="marca" required>
+                                        <option *ngFor="let marca of marcas" [value]="marca.id_marca">{{ marca.nombre_marca }}</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="unidadMedida">Unidad de Medida <span class="text-danger">*</span></label>
+                                <div class="position-relative">
+                                    <select class="form-control" id="unidadMedida" [(ngModel)]="producto.unidad_medida" name="unidadMedida" required>
+                                        <option *ngFor="let unidad of unidadesMedida" [value]="unidad.id_unidadMedida">{{ unidad.nombre_unidad }}</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="mb-3">
+                            <label for="imagen">Imagen</label>
+                            <input type="file" class="form-control" id="imagen" (change)="manejarArchivo($event)">
+                            <div *ngIf="producto.imagen">
+                                <img [src]="producto.imagen" alt="Imagen del Producto" style="max-width: 100px; margin-top: 10px;">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
-
                 </form>
-                
             </div>
         </div>
     </div>
+
+
     
 </div>

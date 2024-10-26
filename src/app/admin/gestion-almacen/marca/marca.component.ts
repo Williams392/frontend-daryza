@@ -58,98 +58,131 @@ export class MarcaComponent implements OnInit, AfterViewInit {
     }
 
     guardarMarca() {
-        if (this.marcaForm.valid) {
-            if (this.marca.id_marca) {
-                this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
-                    next: () => this.onSuccess('Marca actualizada con éxito'),
-                    error: () => this.onError('Error al actualizar la marca')
-                });
-            } else {
-                this.marcaService.postAgregarMarca(this.marca).subscribe({
-                    next: () => this.onSuccess('Marca guardada con éxito'),
-                    error: () => this.onError('Error al guardar la marca')
-                });
-            }
-        } else {
-            this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
-        }
-    }
-
-    eliminarMarca(id: number): void {
-        Swal.fire({
-          title: '¿Estás seguro?',
-          text: "¡No podrás revertir esto!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Sí, eliminarlo',
-          cancelButtonText: 'No, cancelar'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.marcaService.eliminarMarca(id).subscribe(() => {
-              this.obtenerMarcas();
-              Swal.fire('¡Eliminado!', 'La marca ha sido eliminada.', 'success');
-            });
+      if (this.marcaForm.valid) {
+          if (this.marca.id_marca) {
+              this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
+                  next: () => this.onSuccess('Marca actualizada con éxito'),
+                  error: (error) => this.handleError(error)
+              });
+          } else {
+              this.marcaService.postAgregarMarca(this.marca).subscribe({
+                  next: () => this.onSuccess('Marca guardada con éxito'),
+                  error: (error) => this.handleError(error)
+              });
           }
-        });
+      } else {
+          this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
+      }
+  }
+  handleError(error: any) {  // Método para manejar errores
+    if (error.error) {
+        if (error.error.nombre_marca) {
+          this.snack.open('El campo Nombre está en uso', 'Aceptar', { duration: 3000 });
+        } else {
+          this.snack.open('Error al guardar Marca', 'Aceptar', { duration: 3000 });
+        }
     }
+  }
+  
+  // handleError(error: any) {
+  //   let errorMessage = 'Error al guardar la marca';
+  //   if (error.error) {
+  //       if (error.error.nombre_marca) {
+  //           errorMessage = error.error.nombre_marca;
+  //       } 
+  //       if (error.error.nombre_categoria) {
+  //           errorMessage = error.error.nombre_categoria;
+  //       }
+  //   }
+  //   Swal.fire('Error', errorMessage, 'error');
+  // }
+
+  
+
+  eliminarMarca(id: number): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          this.marcaService.eliminarMarca(id).subscribe(() => {
+          this.obtenerMarcas();
+          Swal.fire('¡Eliminado!', 'La marca ha sido eliminada.', 'success');
+        });
+      }
+    });
+  }
     
-    editarMarca(marca: Marca) {
-        this.marca = { ...marca };  // Clonar el objeto marca para evitar referencia directa
-        this.abrirModal();  // Abrir el modal con los datos de la marca actual
-    }
+  editarMarca(marca: Marca) {
+    this.marca = { ...marca };  // Clonar el objeto marca para evitar referencia directa
+    this.abrirModal();  // Abrir el modal con los datos de la marca actual
+  }
 
-    // -------------- venta modal --------------
-    onSuccess(message: string) {
-        Swal.fire('Éxito', message, 'success');
-        this.obtenerMarcas();
-        this.cerrarModal();  // Cerrar el modal después del éxito
-    }
+  abrirModalParaAgregar() {
+    this.marcaForm.reset({
+      id_unidadMedida: null,
+      nombre_unidad: '',
+      abreviacion: ''
+    });
+    this.abrirModal();
+  }
+  
+  // -------------- venta modal --------------
+  onSuccess(message: string) {
+    Swal.fire('Éxito', message, 'success');
+    this.obtenerMarcas();
+    this.cerrarModal();  // Cerrar el modal después del éxito
+  }
 
-    onError(message: string) {
-        Swal.fire('Error', message, 'error');
-    }
+  onError(message: string) {
+    Swal.fire('Error', message, 'error');
+  }
 
-    cancelar() {
-        this.marca = new Marca();  // Reset the form data
-    }
-    abrirModal() {
-        const modalElement = document.getElementById('agregarMarcaModal');
-        if (modalElement) {
-            modalElement.classList.add('show');
-            modalElement.style.display = 'block';
-            document.body.classList.add('modal-open');
-        }
-    }
+  cancelar() {
+    this.marca = new Marca();  // Reset the form data
+  }
+  abrirModal() {
+    const modalElement = document.getElementById('agregarMarcaModal');
+    if (modalElement) {
+      modalElement.classList.add('show');
+      modalElement.style.display = 'block';
+      document.body.classList.add('modal-open');
+      }
+  }
 
-    cerrarModal() {
-        const modalElement = document.getElementById('agregarMarcaModal');
-        if (modalElement) {
-            modalElement.classList.remove('show');
-            modalElement.style.display = 'none';
-            document.body.classList.remove('modal-open');
-            this.cancelar();  // Clear the form after closing
-        }
+  cerrarModal() {
+    const modalElement = document.getElementById('agregarMarcaModal');
+    if (modalElement) {
+      modalElement.classList.remove('show');
+      modalElement.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      this.cancelar();  // Clear the form after closing
     }
-    // --------------------------------------------------
+  }
+  // --------------------------------------------------
 
 
-    // ------- Mantener el Elementos por Pagina. -------
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.paginator.pageSize = this.getPageSize();
-        this.paginator.page.subscribe(() => {
-            this.setPageSize(this.paginator.pageSize);
-        });
-    }
-    getPageSize(): number {
-        const pageSize = localStorage.getItem('pageSize');
-        return pageSize ? +pageSize : 5; // Valor por defecto 5
-    }
+  // ------- Mantener el Elementos por Pagina. -------
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.getPageSize();
+    this.paginator.page.subscribe(() => {
+    this.setPageSize(this.paginator.pageSize);
+    });
+  }
+  getPageSize(): number {
+    const pageSize = localStorage.getItem('pageSize');
+    return pageSize ? +pageSize : 5; // Valor por defecto 5
+  }
 
-    setPageSize(size: number) {
-        localStorage.setItem('pageSize', size.toString());
-    }
-    // -------------------------------------------------
+  setPageSize(size: number) {
+    localStorage.setItem('pageSize', size.toString());
+  }
+  // -------------------------------------------------
     
   
 }

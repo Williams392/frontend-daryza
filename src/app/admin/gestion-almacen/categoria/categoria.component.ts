@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { CategoriaService } from '../../../core/services/categoria.service';
 import Swal from 'sweetalert2';
 import { Categoria } from '../../../core/models/Categoria';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-categoria',
@@ -24,6 +24,7 @@ export class CategoriaComponent implements OnInit {
   categoria: Categoria = { nombre_categoria: '', estado_categoria: true };
 
   constructor(
+    private snack: MatSnackBar,
     private categoriaService: CategoriaService,
     private datePipe: DatePipe
   ) {}
@@ -80,14 +81,21 @@ export class CategoriaComponent implements OnInit {
       if (this.categoria.id_categoria) {
         this.categoriaService.putActualizarCategoria(this.categoria.id_categoria, this.categoria).subscribe({
           next: () => this.onSuccess('Categoría actualizada con éxito'),
-          error: () => this.onError('Error al actualizar la categoría')
+          error: (error) => this.handleError(error)
         });
       } else {
         this.categoriaService.postAgregarCategoria(this.categoria).subscribe({
           next: () => this.onSuccess('Categoría guardada con éxito'),
-          error: () => this.onError('Error al guardar la categoría')
+          error: (error) => this.handleError(error)
         });
       }
+    } 
+  }
+  handleError(error: any) { // Método para manejar errores
+    if (error.error.nombre_categoria) {
+      this.snack.open('El campo Nombre está en uso', 'Aceptar', { duration: 3000 });
+    } else {
+      this.snack.open('Error al guardar nombre_categoria', 'Aceptar', { duration: 3000 });
     }
   }
 
@@ -109,10 +117,18 @@ export class CategoriaComponent implements OnInit {
     });
   }
 
-
   editarCategoria(categoria: Categoria) {
     this.categoria = { ...categoria };
-    this.abrirModal(); // Abrir modal para edición
+    this.abrirModal();
+  }
+
+  abrirModalParaAgregar() {
+    this.categoriaForm.reset({
+      id_categoria: null,
+      nombre_categoria: '',
+      estado_categoria: true
+    });
+    this.abrirModal();
   }
 
   // -------------- venta modal --------------

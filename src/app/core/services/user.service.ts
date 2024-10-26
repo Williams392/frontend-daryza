@@ -46,6 +46,8 @@ export class UserService {
         return this.http.post<Rol>(this.rolesUrl, role);
     }
 
+    
+
     updateRole(id: number, role: Rol): Observable<Rol> {
         return this.http.put<Rol>(`${this.rolesUrl}${id}/`, role);
     }

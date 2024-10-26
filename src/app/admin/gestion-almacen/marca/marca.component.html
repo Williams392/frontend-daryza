@@ -26,7 +26,10 @@
                 <!-- Campo de búsqueda con evento input -->
                 <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
                 <!-- Botón AGREGAR -->
-                <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+
+                <!-- Espacio flexible para empujar los botones a la derecha -->
+                <!-- <div style="flex-grow: 1;"></div> -->
+                <button class="btn btn-custom-blue ms-auto" (click)="abrirModalParaAgregar()">
                     <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
                 </button>
             </div>
@@ -55,30 +58,16 @@
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha Actualización </th>
                     <td mat-cell *matCellDef="let marca"> {{ marca.update_at }} </td>
                 </ng-container>
-        
-                <!-- <ng-container matColumnDef="editar">
-                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
-                    <td mat-cell *matCellDef="let marca">
-                        <button (click)="editarMarca(marca)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
-                    </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="eliminar">
-                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
-                    <td mat-cell *matCellDef="let marca">
-                        <button (click)="eliminarMarca(marca.id_marca!)" class="btn btn-danger">Eliminar</button>
-                    </td>
-                </ng-container> -->
 
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acciones </th>
-                    <td mat-cell *matCellDef="let cliente">
-                        <button (click)="editarMarca(cliente)" class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button (click)="eliminarMarca(cliente.id_cliente!)" class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </button>
+                    <td mat-cell *matCellDef="let marca">
+                      <button (click)="editarMarca(marca)" class="btn btn-sm btn-primary me-2">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button (click)="eliminarMarca(marca.id_marca!)" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
                     </td>
                 </ng-container>
         
@@ -99,7 +88,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="agregarMarcaModalLabel">Agregar Marca</h5>
                     <button type="button" class="close" (click)="cerrarModal()">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -108,16 +97,20 @@
                             <label for="nombreMarca" class="form-label">Nombre de la Marca</label>
                             <input type="text" class="form-control" id="nombreMarca" name="nombreMarca" required
                                 [(ngModel)]="marca.nombre_marca" #nombreMarca="ngModel">
+                            <div *ngIf="nombreMarca.invalid && (nombreMarca.dirty || nombreMarca.touched)" class="text-danger">
+                                <div *ngIf="nombreMarca.errors?.['required']">El nombre es obligatorio.</div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary" [disabled]="nombreMarca.invalid">Guardar</button>
                         </div>
-                    </form>
+                    </form>      
                 </div>
             </div>
         </div>
     </div>
+
 
 </div>
   

@@ -25,8 +25,11 @@
             <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
                 <!-- Campo de búsqueda con evento input -->
                 <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
+                
+                <!-- Espacio flexible para empujar los botones a la derecha -->
+                <!-- <div style="flex-grow: 1;"></div> -->
                 <!-- Botón AGREGAR -->
-                <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+                <button class="btn btn-custom-blue ms-auto" (click)="abrirModalParaAgregar()">
                     <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
                 </button>
             </div>
@@ -81,69 +84,101 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
 
-  </div>
+    </div>
   
-  <!-- Modal para agregar cliente -->
-  <div class="modal fade" id="agregarClienteModal" tabindex="-1" role="dialog" aria-labelledby="agregarclienteModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="agregarClienteModalLabel">Agregar cliente</h5>
-                  <button type="button" class="close" (click)="cerrarModal()">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <form (ngSubmit)="guardarClientes()" #clienteForm="ngForm">
-                      <div class="mb-3">
-                          <label for="nombreCliente" class="form-label">Nombre del cliente</label>
-                          <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required
-                              [(ngModel)]="cliente.nombre_clie" #nombrecliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="apellidoCliente" class="form-label">Apellido del cliente</label>
-                          <input type="text" class="form-control" id="apellidoCliente" name="apellidoCliente" required
-                              [(ngModel)]="cliente.apellido_clie" #apellidoCliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="direccionCliente" class="form-label">Direccion del cliente</label>
-                          <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required
-                              [(ngModel)]="cliente.direccion_clie" #direccionCliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="razonCliente" class="form-label">Razon social</label>
-                          <input type="text" class="form-control" id="razonCliente" name="razonCliente" required
-                              [(ngModel)]="cliente.razon_socialCliente" #razonCliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="tipoempCliente" class="form-label">Tipo de empresa</label>
-                          <input type="text" class="form-control" id="tipoempCliente" name="tipoempCliente" required
-                              [(ngModel)]="cliente.tipo_empresa" #tipoempCliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="emailCliente" class="form-label">Correo de cliente</label>
-                          <input type="text" class="form-control" id="emailCliente" name="emailCliente" required
-                              [(ngModel)]="cliente.email_cliente" #nombrecliente="ngModel">
-                      </div>
-                      <div class="mb-3">
-                          <label for="telefono1Cliente" class="form-label">Telefono 1</label>
-                          <input type="text" class="form-control" id="telefono1Cliente" name="telefono1Cliente" required
-                              [(ngModel)]="cliente.telefono_cliente" #telefono_cliente="ngModel">
-                      </div>
-                      <!-- <div class="mb-3">
-                          <label for="telefono2Cliente" class="form-label">Telefono 2</label>
-                          <input type="text" class="form-control" id="telefono2Cliente" name="telefono2Cliente" required
-                              [(ngModel)]="cliente.telefono_2" #telefono2Cliente="ngModel">
-                      </div> -->
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-                          <button type="submit" class="btn btn-primary">Guardar</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
+    <!-- Modal para agregar cliente -->
+    <div class="modal fade" id="agregarClienteModal" tabindex="-1" role="dialog" aria-labelledby="agregarclienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg custom-modal-width" role="document"> <!-- Agregar clase personalizada -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarClienteModalLabel">Agregar cliente</h5>
+                    <button type="button" class="close" (click)="cerrarModal()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="guardarClientes()" #clienteForm="ngForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nombreCliente" class="form-label">Nombre del cliente<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" required
+                                    [(ngModel)]="cliente.nombre_clie" #nombreCliente="ngModel">
+                                <div *ngIf="nombreCliente.invalid && (nombreCliente.dirty || nombreCliente.touched)" class="text-danger">
+                                    <div *ngIf="nombreCliente.errors?.['required']">El nombre es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="apellidoCliente" class="form-label">Apellido del cliente<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="apellidoCliente" name="apellidoCliente" required
+                                    [(ngModel)]="cliente.apellido_clie" #apellidoCliente="ngModel">
+                                <div *ngIf="apellidoCliente.invalid && (apellidoCliente.dirty || apellidoCliente.touched)" class="text-danger">
+                                    <div *ngIf="apellidoCliente.errors?.['required']">El apellido es obligatorio.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dni_cliente" class="form-label">DNI del cliente<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="dni_cliente" name="dni_cliente" required maxlength="8"
+                                    [(ngModel)]="cliente.dni_cliente" #dni_cliente="ngModel">
+                                <div *ngIf="dni_cliente.invalid && (dni_cliente.dirty || dni_cliente.touched)" class="text-danger">
+                                    <div *ngIf="dni_cliente.errors?.['required']">El DNI es obligatorio.</div>
+                                    <div *ngIf="dni_cliente.errors?.['maxlength']">El DNI debe tener máximo 8 caracteres.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="ruc_cliente" class="form-label">RUC del cliente<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="ruc_cliente" name="ruc_cliente" required maxlength="11"
+                                    [(ngModel)]="cliente.ruc_cliente" #ruc_cliente="ngModel">
+                                <div *ngIf="ruc_cliente.invalid && (ruc_cliente.dirty || ruc_cliente.touched)" class="text-danger">
+                                    <div *ngIf="ruc_cliente.errors?.['required']">El RUC es obligatorio.</div>
+                                    <div *ngIf="ruc_cliente.errors?.['maxlength']">El RUC debe tener máximo 11 caracteres.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="direccionCliente" class="form-label">Dirección del cliente<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="direccionCliente" name="direccionCliente" required
+                                [(ngModel)]="cliente.direccion_clie" #direccionCliente="ngModel">
+                            <div *ngIf="direccionCliente.invalid && (direccionCliente.dirty || direccionCliente.touched)" class="text-danger">
+                                <div *ngIf="direccionCliente.errors?.['required']">La dirección es obligatoria.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="razonCliente" class="form-label">Razón social</label>
+                            <input type="text" class="form-control" id="razonCliente" name="razonCliente"
+                                [(ngModel)]="cliente.razon_socialCliente" #razonCliente="ngModel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tipoempCliente" class="form-label">Tipo de empresa</label>
+                            <input type="text" class="form-control" id="tipoempCliente" name="tipoempCliente"
+                                [(ngModel)]="cliente.tipo_empresa" #tipoempCliente="ngModel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailCliente" class="form-label">Correo del cliente<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="emailCliente" name="emailCliente" required
+                                [(ngModel)]="cliente.email_cliente" #emailCliente="ngModel">
+                            <div *ngIf="emailCliente.invalid && (emailCliente.dirty || emailCliente.touched)" class="text-danger">
+                                <div *ngIf="emailCliente.errors?.['required']">El correo es obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono1Cliente" class="form-label">Teléfono 1</label>
+                            <input type="text" class="form-control" id="telefono1Cliente" name="telefono1Cliente"
+                                [(ngModel)]="cliente.telefono_cliente" #telefonoCliente="ngModel">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" [disabled]="clienteForm.invalid">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 </div>
   

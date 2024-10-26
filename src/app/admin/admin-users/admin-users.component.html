@@ -15,9 +15,12 @@
     <div class="bg-white">
       <div style="display: flex; align-items: center; padding: 10px 2px;">
         <input type="text" class="form-control" placeholder="Buscar..." (input)="applyFilter($event)" style="margin-right: 10px; width: 200px;">
-        <button class="btn btn-primary ms-auto" (click)="abrirModal()">
+        
+        <!-- Espacio flexible para empujar los botones a la derecha -->
+        <button class="btn btn-custom-blue ms-auto" (click)="abrirModal()">
           <i class="bi bi-plus-lg" style="margin-right: 5px;"></i> AGREGAR
         </button>
+
       </div>
       <hr>
     </div>
@@ -28,7 +31,7 @@
 
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
-          <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
+          <td mat-cell *matCellDef="let user"> {{ user.id_user }} </td>
         </ng-container>
     
         <ng-container matColumnDef="username">
@@ -57,20 +60,6 @@
               {{ user.name_role?.name_role || 'Sin rol asignado' }} 
           </td>
         </ng-container>
-      
-        <!-- <ng-container matColumnDef="editar">
-          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Editar </th>
-          <td mat-cell *matCellDef="let user">
-            <button (click)="editarUser(user)" class="btn btn-sm" mat-flat-button color="primary">Editar</button>
-          </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="eliminar">
-          <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Eliminar </th>
-          <td mat-cell *matCellDef="let user">
-            <button (click)="eliminarUser(user.id)" class="btn btn-danger">Eliminar</button>
-          </td>
-        </ng-container> -->
 
         <ng-container matColumnDef="acciones">
           <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acciones </th>
@@ -101,55 +90,75 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
           <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">×</span>
           </button>
         </div>
 
         <form #userForm="ngForm" (ngSubmit)="guardarUser()">
           <div class="modal-body">
             <div class="form-group">
-              <label for="username">Nombre de Usuario</label>
-              <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required>
+              <label for="username">Nombre de Usuario<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required #username="ngModel">
+              <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                <div *ngIf="username.errors?.['required']">El nombre de usuario es obligatorio.</div>
+              </div>
             </div>
         
             <div class="form-group">
-              <label for="last_name">Apellido</label>
-              <input type="text" class="form-control" id="last_name" [(ngModel)]="user.last_name" name="last_name" required>
+              <label for="last_name">Apellido<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="last_name" [(ngModel)]="user.last_name" name="last_name" required #last_name="ngModel">
+              <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
+                <div *ngIf="last_name.errors?.['required']">El apellido es obligatorio.</div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="email">Password</label>
-              <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required>
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required #password="ngModel">
+              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                <div *ngIf="password.errors?.['required']">La contraseña es obligatoria.</div>
+              </div>
             </div>
         
             <div class="form-group">
-              <label for="email">Correo</label>
-              <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required>
+              <label for="email">Correo<span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required #email="ngModel">
+              <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                <div *ngIf="email.errors?.['required']">El correo es obligatorio.</div>
+              </div>
             </div>
         
             <div class="form-group">
-              <label for="phone_number">Teléfono</label>
-              <input type="text" class="form-control" id="phone_number" [(ngModel)]="user.phone_number" name="phone_number" required>
+              <label for="phone_number">Teléfono<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="phone_number" [(ngModel)]="user.phone_number" name="phone_number" required #phone_number="ngModel">
+              <div *ngIf="phone_number.invalid && (phone_number.dirty || phone_number.touched)" class="text-danger">
+                <div *ngIf="phone_number.errors?.['required']">El teléfono es obligatorio.</div>
+              </div>
             </div>
         
             <div class="form-group">
-              <label for="roles">Roles</label>
-              <select class="form-control" id="roles" [(ngModel)]="selectedRole" name="selectedRole" required>
-                <option *ngFor="let role of roles" [ngValue]="role">{{ role.name_role }}</option>
-              </select>
-            </div>
+              <label for="roles">Roles<span class="text-danger">*</span></label>
+              <div class="position-relative">
+                  <select class="form-control" id="roles" [(ngModel)]="selectedRole" name="selectedRole" required>
+                      <option *ngFor="let role of roles" [ngValue]="role">{{ role.name_role }}</option>
+                  </select>
+                  <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+              </div>
+          </div>
+          
             
           </div>
         
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="username.invalid || last_name.invalid || password.invalid || email.invalid || phone_number.invalid">Guardar</button>
           </div>
         </form>
 
       </div>
     </div>
   </div>
+
 
 </div>
   
