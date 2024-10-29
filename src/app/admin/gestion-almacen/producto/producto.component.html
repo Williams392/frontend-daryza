@@ -45,8 +45,8 @@
         </div>
         
     
-        <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
-            <table mat-table [dataSource]="dataSource" class="mat-table">
+        <div class="mat-elevation-z8" style="margin-top: 0px 20px; overflow-x: auto;">
+            <table mat-table [dataSource]="dataSource" class="mat-table" style="width: 100%; min-width: 1000px;">
                 <!-- Columns definition -->
                 <ng-container matColumnDef="id_producto">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> ID </th>
@@ -58,6 +58,11 @@
                     <td mat-cell *matCellDef="let producto"> {{ producto.nombre_prod }} </td>
                 </ng-container>
         
+                <ng-container matColumnDef="estock">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Estock </th>
+                    <td mat-cell *matCellDef="let producto"> {{ producto.estock }} </td>
+                </ng-container>
+        
                 <ng-container matColumnDef="precio_compra">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Precio Compra </th>
                     <td mat-cell *matCellDef="let producto"> {{ producto.precio_compra }} </td>
@@ -67,29 +72,29 @@
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Precio Venta </th>
                     <td mat-cell *matCellDef="let producto"> {{ producto.precio_venta }} </td>
                 </ng-container>
-
+        
                 <ng-container matColumnDef="codigo">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Código </th>
                     <td mat-cell *matCellDef="let producto"> {{ producto.codigo }} </td>
                 </ng-container>
-
+        
                 <ng-container matColumnDef="estado">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Estado </th>
                     <td mat-cell *matCellDef="let producto"> {{ producto.estado ? 'Activo' : 'Inactivo' }} </td>
                 </ng-container>
-
+        
                 <ng-container matColumnDef="imagen">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Imagen </th>
                     <td mat-cell *matCellDef="let producto">
                         <img *ngIf="producto.imagen" [src]="producto.imagen" width="50" height="50" />
                     </td>
                 </ng-container>       
-                
+        
                 <ng-container matColumnDef="created_at">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha Creación </th>
                     <td mat-cell *matCellDef="let categoria"> {{ categoria.created_at }} </td>
                 </ng-container>
-
+        
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acciones </th>
                     <td mat-cell *matCellDef="let cliente">
@@ -100,7 +105,7 @@
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
-                  </ng-container>
+                </ng-container>
         
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -108,6 +113,7 @@
         
             <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
         </div>
+        
 
     </div>
 
@@ -141,9 +147,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="descripcion_pro">Descripción del Producto</label>
-                            <input type="text" class="form-control" id="descripcion_pro" [(ngModel)]="producto.descripcion_pro" name="descripcion_pro">
-                        </div>
+                            <label for="descripcion_pro" class="block mb-2 text-sm font-medium text-black">Descripción</label>
+                            <textarea id="editDescripcion" name="editDescripcion" [(ngModel)]="producto.descripcion_pro" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                          </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -171,29 +177,29 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="estock">Estock <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
-                                <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
-                                    <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="estock_minimo">Estock Mínimo <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
-                                <div *ngIf="productoForm.controls['estock_minimo']?.invalid && (productoForm.controls['estock_minimo']?.dirty || productoForm.controls['estock_minimo']?.touched)" class="text-danger">
-                                    <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['required']">El estock mínimo es obligatorio.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label for="categoria">Categoría <span class="text-danger">*</span></label>
                                 <div class="position-relative">
                                     <select class="form-control" id="categoria" [(ngModel)]="producto.categoria" name="categoria" required>
                                         <option *ngFor="let categoria of categorias" [value]="categoria.id_categoria">{{ categoria.nombre_categoria }}</option>
                                     </select>
                                     <i class="fas fa-chevron-down position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="estock">Estock <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
+                                <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estock_minimo">Estock Mínimo <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
+                                <div *ngIf="productoForm.controls['estock_minimo']?.invalid && (productoForm.controls['estock_minimo']?.dirty || productoForm.controls['estock_minimo']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['required']">El estock mínimo es obligatorio.</div>
                                 </div>
                             </div>
                         </div>

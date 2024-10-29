@@ -51,8 +51,7 @@ export class ClienteComponent implements OnInit, AfterViewInit {
           }));
           this.dataSource.paginator = this.paginator; // Asocia el paginador aquí
       });
-  }
-  
+    }
 
     // guardarClientes() {
     //     if (this.clienteForm.valid) {

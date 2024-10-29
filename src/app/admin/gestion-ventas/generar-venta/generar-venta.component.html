@@ -1,1 +1,126 @@
-<p>generar-venta works!</p>
+<div class="comprobante-container">
+    
+    <!-- Encabezado -->
+    <div class="header">
+        <div class="logo">
+            <img src="assets/daryza_logo.jpg" alt="Logo Empresa">
+        </div>
+        <div class="empresa-info">
+            <h2>Daryza S.A.C</h2>
+            <p>Giro: Desarrollo de venta de Productos de Limpieza</p>
+            <p>Granja 1-Alt km.30 Antigua Panamericana Sur, Lurín</p>
+            <!-- <p>Email: webmaster@daryza.com</p> -->
+        </div>
+        <div class="comprobante-info">
+            <p>R.U.C.: 20144109458</p>
+            <p>COMPROBANTE DE VENTA</p>
+            <p>Nº NO ASIGNADO</p>
+        </div>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="datos-receptor">Datos Receptor</button>
+        <button class="tab-btn" data-tab="comercial">Comercial</button>
+        <button class="tab-btn" data-tab="referencia">Referencia</button>
+    </div>
+
+    <!-- Panel: Datos Receptor -->
+    <div class="tab-content active" id="datos-receptor">
+        <h3>Datos Receptor</h3>
+        <form class="form-grid">
+            <div class="form-group">
+                <label for="ruc">RUC:</label>
+                <select id="ruc" name="ruc">
+                    <option value="20144109458">20144109458</option>
+                    <option value="20543128765">20543128765</option>
+                    <option value="20356789123">20356789123</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="razonSocial">Razón Social:</label>
+                <input type="text" id="razonSocial" name="razonSocial">
+            </div>
+
+            <div class="form-group">
+                <label for="giro">Giro:</label>
+                <input type="text" id="giro" name="giro">
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion">
+            </div>
+
+            <div class="form-group">
+                <label for="comuna">Comuna:</label>
+                <input type="text" id="comuna" name="comuna">
+            </div>
+
+            <div class="form-group">
+                <label for="ciudad">Ciudad:</label>
+                <input type="text" id="ciudad" name="ciudad">
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono">
+            </div>
+        </form>
+    </div>
+
+    <!-- Panel: Comercial -->
+    <div class="tab-content" id="comercial">
+        <h3>Comercial</h3>
+        <p>Información comercial pendiente...</p>
+    </div>
+
+    <!-- Panel: Referencia -->
+    <div class="tab-content" id="referencia">
+        <h3>Referencia</h3>
+        <p>Información de referencia pendiente...</p>
+    </div>
+
+    <!-- Tabla de Productos -->
+    <div class="tabla-productos">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Descuento</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Producto 1</td>
+                    <td><input type="number" value="0"></td>
+                    <td>$0</td>
+                    <td>0%</td>
+                    <td>$0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer">
+        <div class="legend">
+            <label for="legend">SON: CUATRO CIENTOS</label>
+            <textarea id="legend" name="legend"></textarea>
+        </div>
+        <div class="totales">
+            <p>Sub Total Ventas: S/ 400,00</p>
+            <p>Descuento: S/0</p>
+            <p>IGV: S/ 72,00</p>
+            <p>Valor Venta: $0</p>
+            <p>Importe Total: S/ 472,00</p>
+        </div>
+    </div>
+
+</div>

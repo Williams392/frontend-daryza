@@ -6,7 +6,7 @@
 /* stilo para el boton los dos botones */
 
 .btn-pdf {
-    background-color: rgb(189, 57, 57);
+    background-color: rgb(220, 53, 69);
     border: 1px solid black;
     color: white;
 }
@@ -18,7 +18,7 @@
 }
 
 .btn-excel {
-    background-color: green;
+    background-color: #0EA89C;
     border: 1px solid black;
     color: white;
 }
@@ -38,8 +38,8 @@
 }
 
 .btn-custom-blue:hover {
-    background-color: #4d7aa3;
-    border-color: #4d7aa3;
+    background-color: #193550;
+    border-color: #193550;
     color: white;
 }
 

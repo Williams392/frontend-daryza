@@ -1,0 +1,150 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.comprobante-container {
+    /* width: 80%; */
+    margin: 0 auto; /* Ajuste de margen */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding: 5px 0; /* Reduce el espacio vertical */
+    margin-bottom: 10px; /* Reduce el espacio inferior */
+}
+.hidden {
+    display: none;
+}
+
+.logo img {
+    width: 200px;
+}
+
+.empresa-info {
+    flex: 1;
+    padding-left: 10px;
+}
+
+.comprobante-info {
+    text-align: center;
+    border: 2px solid #333;
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f4f4f4;
+}
+
+
+/* Estilos para las pestañas */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background-color: #f4f4f4;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.tab-btn.active {
+    border-bottom: 2px solid #333;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilos para el formulario */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"], 
+input[type="number"], 
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Tabla de productos */
+.tabla-productos table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tabla-productos th, 
+.tabla-productos td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.tabla-productos input[type="number"] {
+    width: 60px;
+}
+
+/* Pie de página */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* .observacion textarea {
+    width: 300px;
+    height: 100px;
+} */
+
+.totales {
+    text-align: right;
+}
+
+.totales p {
+    font-size: 18px;
+    margin: 5px 0;
+}
