@@ -30,6 +30,7 @@ import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-ve
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 import { MovimientoComponent } from './movimiento/movimiento.component';
 
+
 @NgModule({
   declarations: [
     UnidadMedidaComponent,

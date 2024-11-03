@@ -1,9 +1,8 @@
 <!-- src/app/auth/login/login.component.html -->
-
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="row w-100 justify-content-center">
     <div class="col-md-6 d-none d-md-block">
-      <img src="assets/img_login-daryza.avif" class="img-fluid" alt="Login Image">
+      <img src="assets/img_login-daryza.avif" class="img-fluid h-100" alt="Login Image">
     </div>
     <div class="col-md-6 d-flex justify-content-center">
       <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
@@ -25,7 +24,9 @@
               <div *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Acceder</button>
+          <button type="submit" class="btn btn-primary w-100" [ngClass]="{'enabled': !hasValidationErrors()}" [disabled]="loginForm.invalid">INICIAR SESIÓN</button>
+
+
           <div *ngIf="errorMessage" class="alert alert-danger mt-3">
             {{ errorMessage }}
           </div>

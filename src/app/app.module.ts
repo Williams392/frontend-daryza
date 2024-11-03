@@ -9,10 +9,14 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor'; // Aseg√
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importa esto
 import { FormsModule } from '@angular/forms';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    FooterComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,17 +1,46 @@
 /* src/app/auth/register/register.component.css */
 
 .container {
-    max-width: 1200px;
-  }
+  max-width: 1200px;
+}
+
+.card {
+  margin: auto;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  font-weight: bold;
+  color: #1b5a99;
+}
+
+.btn-primary {
+  background-color: #1b5a99;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #4289d1;
+}
+
+.text-center a {
+  color: #1b5a99;
+  text-decoration: none;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
+
+.img-fluid {
+  height: 100%;
+  object-fit: cover;
+}
+
   
-  .card {
-    margin: auto;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card h2 {
+  /* .card h2 {
     font-weight: bold;
     color: #007bff;
   }
@@ -32,5 +61,5 @@
   
   .text-center a:hover {
     text-decoration: underline;
-  }
+  } */
   

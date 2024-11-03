@@ -13,24 +13,32 @@
   
   .card h2 {
     font-weight: bold;
-    color: #007bff;
+    color: #1b5a99;
   }
   
   .btn-primary {
-    background-color: #007bff;
+    background-color: #1b5a99;
     border: none;
   }
   
   .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #4289d1;
+  }
+  
+  .btn-primary:disabled {
+    background-color: #1b5a99;
+    opacity: 0.5; /* Opacidad cuando está deshabilitado */
+  }
+  
+  .btn-primary.enabled {
+    opacity: 1; /* Mantener la opacidad cuando está habilitado */
   }
   
   .text-center a {
-    color: #007bff;
+    color: #1b5a99;
     text-decoration: none;
   }
   
   .text-center a:hover {
     text-decoration: underline;
   }
-  

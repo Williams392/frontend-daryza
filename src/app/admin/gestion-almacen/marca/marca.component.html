@@ -1,5 +1,5 @@
 
-<div class="container" style="padding: 0px;">
+<div class="container-fluid " style="padding: 0px;">
 
     <div class="Breadcrumb bg-white rounded">
         <nav aria-label="breadcrumb">
@@ -19,7 +19,7 @@
         <hr>
     </div>    
 
-    <div class="container bg-white" style="padding-bottom: 20px;">
+    <div class="container-fluid  bg-white" style="padding-bottom: 20px;">
 
         <div class="bg-white">
             <div style="display: flex; align-items: center; padding: 10px 2px 10px 2px;">
@@ -62,7 +62,7 @@
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acciones </th>
                     <td mat-cell *matCellDef="let marca">
-                      <button (click)="editarMarca(marca)" class="btn btn-sm btn-primary me-2">
+                      <button (click)="editarMarca(marca)" class="btn btn-sm btn-custom-blue me-2">
                         <i class="bi bi-pencil"></i>
                       </button>
                       <button (click)="eliminarMarca(marca.id_marca!)" class="btn btn-sm btn-danger">

@@ -1,15 +1,14 @@
-<div class="comprobante-container">
-    
-    <!-- Encabezado -->
+<div class="container-fluid mt-2 p-2">
+
+    <!-- Encabezado: Logo y empresa -->
     <div class="header">
         <div class="logo">
             <img src="assets/daryza_logo.jpg" alt="Logo Empresa">
         </div>
         <div class="empresa-info">
-            <h2>Daryza S.A.C</h2>
+            <h2 class="fw-bold">Daryza S.A.C</h2>
             <p>Giro: Desarrollo de venta de Productos de Limpieza</p>
             <p>Granja 1-Alt km.30 Antigua Panamericana Sur, Lurín</p>
-            <!-- <p>Email: webmaster@daryza.com</p> -->
         </div>
         <div class="comprobante-info">
             <p>R.U.C.: 20144109458</p>
@@ -18,108 +17,125 @@
         </div>
     </div>
 
-    <!-- Pestañas -->
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="datos-receptor">Datos Receptor</button>
-        <button class="tab-btn" data-tab="comercial">Comercial</button>
-        <button class="tab-btn" data-tab="referencia">Referencia</button>
-    </div>
-
     <!-- Panel: Datos Receptor -->
-    <div class="tab-content active" id="datos-receptor">
-        <h3>Datos Receptor</h3>
-        <form class="form-grid">
-            <div class="form-group">
-                <label for="ruc">RUC:</label>
-                <select id="ruc" name="ruc">
-                    <option value="20144109458">20144109458</option>
-                    <option value="20543128765">20543128765</option>
-                    <option value="20356789123">20356789123</option>
-                </select>
-            </div>
+    <div class="card mb-4">
+        <!-- <div class="card-header">
+            <h3>Datos Receptor</h3>
+        </div> -->
 
-            <div class="form-group">
-                <label for="razonSocial">Razón Social:</label>
-                <input type="text" id="razonSocial" name="razonSocial">
-            </div>
+        <div class="card-body">
+            <form>
 
-            <div class="form-group">
-                <label for="giro">Giro:</label>
-                <input type="text" id="giro" name="giro">
-            </div>
+                <!-- Fila 1: -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
+                        <select id="tipoComprobante" name="tipoComprobante" class="form-select">
+                            <option value="boleta">Boleta</option>
+                            <option value="factura">Factura</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
+                        <input type="date" id="fechaEmision" name="fechaEmision" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento:</label>
+                        <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control">
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion">
-            </div>
+                <!-- Fila 2: -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="cliente" class="form-label">Buscar Cliente:</label>
+                        <input type="text" id="cliente" name="cliente" class="form-control">
+                    </div>
 
-            <div class="form-group">
-                <label for="comuna">Comuna:</label>
-                <input type="text" id="comuna" name="comuna">
-            </div>
+                    <div class="col-md-6">
+                        <label for="ruc" class="form-label" (input)="buscarCliente($event)" [(ngModel)]="cliente" placeholder="Buscar por cliente..." >Cliente (Id/Nombre):</label>
 
-            <div class="form-group">
-                <label for="ciudad">Ciudad:</label>
-                <input type="text" id="ciudad" name="ciudad">
-            </div>
+                        <select id="selectedCliente" name="selectedCliente" class="form-select" required (change)="ElegirCliente()" [(ngModel)]="selectedCliente">
+                            <option value="" disabled selected>Elegir...</option>
+                            <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> {{ item.dni_cliente }} | {{ item.nombre_clie}} </option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono">
-            </div>
-        </form>
-    </div>
+                <!-- Fila 3: Productos -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                    <label for="producto" class="form-label">Buscar Producto:</label>
+                    <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
+                    </div>
+                    <div class="col-md-6">
+                    <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
+                    <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
+                        <option value="" disabled selected>Elegir...</option>
+                        <option *ngFor="let item of filtroProductos" [value]="item.id_producto"> {{ item.id_producto }} | {{ item.nombre_prod }} </option>
+                    </select>
+                    </div>
+                </div>
 
-    <!-- Panel: Comercial -->
-    <div class="tab-content" id="comercial">
-        <h3>Comercial</h3>
-        <p>Información comercial pendiente...</p>
-    </div>
+            </form>
+        </div>
 
-    <!-- Panel: Referencia -->
-    <div class="tab-content" id="referencia">
-        <h3>Referencia</h3>
-        <p>Información de referencia pendiente...</p>
     </div>
 
     <!-- Tabla de Productos -->
-    <div class="tabla-productos">
-        <table>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Descuento</th>
-                    <th>Valor</th>
+                    <th>CODÍGO</th>
+                    <th>PRODUCTO</th>
+                    <th>CANTIDAD</th>
+                    <th>PRECIO UNITARIO</th>
+                    <th>VALOR</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
                     <td>Producto 1</td>
-                    <td><input type="number" value="0"></td>
-                    <td>$0</td>
-                    <td>0%</td>
-                    <td>$0</td>
+                    <td><input type="number" value="0" class="form-control"></td>
+                    <td>S/ 0</td>
+                    <td>S/ 0</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <!-- Pie de página -->
-    <div class="footer">
-        <div class="legend">
-            <label for="legend">SON: CUATRO CIENTOS</label>
-            <textarea id="legend" name="legend"></textarea>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="legend" class="form-label">SON: CUATRO CIENTOS</label>
         </div>
-        <div class="totales">
-            <p>Sub Total Ventas: S/ 400,00</p>
-            <p>Descuento: S/0</p>
-            <p>IGV: S/ 72,00</p>
-            <p>Valor Venta: $0</p>
-            <p>Importe Total: S/ 472,00</p>
+        <div class="col-md-6 text-end">
+            <div class="d-flex justify-content-end align-items-center">
+                <p class="mb-0 me-2">Gravado:</p>
+                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+                <p class="mb-0 me-2">IGV:</p>
+                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+                <p class="mb-0 me-2">Importe Total:</p>
+                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones Emitir y Cerrar -->
+    <div class="row mt-3">
+        <div class="col-md-12 text-center">
+            <button class="btn btn-success me-2">
+                <i class="bi bi-check-circle"></i> Emitir
+            </button>
+            <button class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cerrar
+            </button>
         </div>
     </div>
 

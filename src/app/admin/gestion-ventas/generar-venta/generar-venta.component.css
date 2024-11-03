@@ -1,4 +1,5 @@
-/* Estilos generales */
+/* src/app/auth/register/register.component.css */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,13 +7,24 @@ body {
     background-color: #f4f4f4;
 }
 
-.comprobante-container {
-    /* width: 80%; */
-    margin: 0 auto; /* Ajuste de margen */
+.container-fluid {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header img {
+    width: 100%;
+    max-width: 200px;
+}
+
+.card-header h3 {
+    margin: 0;
+}
+
+.table th, .table td {
+    text-align: center;
 }
 
 /* Encabezado */
@@ -20,21 +32,22 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #ddd;
-    padding: 5px 0; /* Reduce el espacio vertical */
-    margin-bottom: 10px; /* Reduce el espacio inferior */
+    /* border-bottom: 2px solid #ddd; /* separacion  */
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
+
 .hidden {
     display: none;
 }
 
 .logo img {
-    width: 200px;
+    width: 100px;
 }
 
 .empresa-info {
     flex: 1;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .comprobante-info {
@@ -48,103 +61,31 @@ body {
     background-color: #f4f4f4;
 }
 
-
-/* Estilos para las pestañas */
-.tabs {
-    display: flex;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-}
-
-.tab-btn {
-    background-color: #f4f4f4;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
-    font-size: 16px;
-}
-
-.tab-btn.active {
-    border-bottom: 2px solid #333;
-    font-weight: bold;
-}
-
-.tab-content {
-    display: none;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Estilos para el formulario */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    font-weight: bold;
-}
-
-input[type="text"], 
-input[type="number"], 
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-/* Tabla de productos */
-.tabla-productos table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.tabla-productos th, 
-.tabla-productos td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-.tabla-productos input[type="number"] {
-    width: 60px;
-}
-
-/* Pie de página */
-.footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
-
-/* .observacion textarea {
-    width: 300px;
-    height: 100px;
-} */
-
-.totales {
+/* Estilo para los inputs de montos */
+.input-amount {
+    width: 100px;
     text-align: right;
+    color: #6c757d; /* Color plomo */
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
 }
 
-.totales p {
-    font-size: 18px;
-    margin: 5px 0;
+/* Estilo para los botones */
+.btn-success {
+    background-color: #1b5a99;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #3c69e6;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }

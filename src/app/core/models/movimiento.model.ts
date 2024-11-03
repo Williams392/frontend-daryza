@@ -3,8 +3,9 @@
 export interface DetalleMovimiento {
     id_detalleMovimiento: number;
     cantidad: number;
-    nombre_prod: string;
-    movimiento: number;
+    nombre_prod: string; // son fk
+    movimiento: number; // son fk
+    detalleComprobante: number; // son fk
 }
 
 export interface Movimiento {
