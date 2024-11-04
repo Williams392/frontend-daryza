@@ -13,20 +13,13 @@ import { Cliente } from '../models/Cliente';
 export class ClienteService {
     
     private apiUrl = `${environment.apiUrl}/venta/clientes/`;
-    private apiDashboardUrl = `${environment.apiUrl}/venta/dashboard/`;
 
     constructor(private http: HttpClient) {}
 
     getClientes(): Observable<Cliente[]> {
         return this.http.get<Cliente[]>(this.apiUrl);
     }
-
-    // Método para obtener el conteo de clientes y el porcentaje de aumento
-    getConteoClientes(): Observable<{ total_clientes: number; porcentaje_aumento: number }> {
-        return this.http.get<{ total_clientes: number; porcentaje_aumento: number }>(`${this.apiDashboardUrl}conteo_y_aumento_clientes/`);
-    }
     
-
     getCliente(id_cliente: number): Observable<Cliente> {
         return this.http.get<Cliente>(`${this.apiUrl}${id_cliente}/`);
     }

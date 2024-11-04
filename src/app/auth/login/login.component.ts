@@ -1,7 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -29,28 +29,30 @@ export class LoginComponent implements OnInit {
            (passwordControl?.invalid ?? false) && ((passwordControl?.dirty ?? false) || (passwordControl?.touched ?? false));
   }
   
-
   onLogin(): void {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          if (response.token && response.role) {
-            this.authService.setToken(response.token, response.role);
-            this.router.navigate(['/admin/dashboard/']);
-          } else {
-            this.errorMessage = 'Token o rol no recibido';
-          }
-        },
-        error: (error) => {
-          if (error.status === 401) {
-            this.errorMessage = error.error.msg || 'Credenciales inválidas';
-          } else {
-            this.errorMessage = 'Ocurrió un error. Por favor, intenta nuevamente.';
-          }
-          console.error(error);
-        }
-      });
+        const { email, password } = this.loginForm.value;
+        this.authService.login(email, password).subscribe({
+            next: (response) => {
+                if (response.token && response.role && response.username) {
+                    // Aquí se añade el username al guardar
+                    this.authService.setToken(response.token, response.role, response.username);
+                    this.router.navigate(['/admin/dashboard/']);
+                } else {
+                    this.errorMessage = 'Token, rol o username no recibido';
+                }
+            },
+            error: (error) => {
+                if (error.status === 401) {
+                    this.errorMessage = error.error.msg || 'Credenciales inválidas';
+                } else {
+                    this.errorMessage = 'Ocurrió un error. Por favor, intenta nuevamente.';
+                }
+                console.error(error);
+            }
+        });
     }
   }
+
+
 }

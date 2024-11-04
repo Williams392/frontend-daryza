@@ -20,11 +20,13 @@ export class AuthService {
     return this.http.post(this.signupUrl, user);
   }  
 
-  setToken(token: string, role: string): void {
+  setToken(token: string, role: string, username: string): void {
     localStorage.setItem('token', token);
     localStorage.setItem('role', role); // Guardar el rol del usuario
-    console.log('Token y rol guardados:', token, role);
+    localStorage.setItem('username', username); // Guardar el username
+    console.log('Token, rol y username guardados:', token, role, username);
   }
+
 
   getToken(): string | null {
     return localStorage.getItem('token');

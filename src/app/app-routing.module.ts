@@ -5,9 +5,9 @@ const routes: Routes = [
   
   { path: '', redirectTo: 'admin', pathMatch: 'full' },
 
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
 
-  { path: 'login', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 
 ];
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service'; // Asegúrate de importar AuthService
+import { AuthService } from '../../../core/services/auth.service'; // Asegúrate de importar AuthService
 //import { UserService } from '../../core/services/user.service';
 
 @Component({

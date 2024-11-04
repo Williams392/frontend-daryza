@@ -1,13 +1,14 @@
 <div class="grid mb-2 pb-10 px-4 rounded-1xl bg-gray-100 border-3 ">
 
     <div class="grid grid-cols-12 gap-3">
+
         <div class="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
-            <div class="col-span-12 mt-4">
+            <div class="col-span-12 mt-2">
 
                 <div class="grid grid-cols-12 gap-6 mt-4">
                     
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                        href="#">
+                        routerLink="/admin/cliente">
                         <div class="p-5">
                             <div class="flex justify-between">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-400"
@@ -17,7 +18,7 @@
                                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                 </svg>
                                 <div class="bg-green-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                                    <span class="flex items-center">{{ porcentajeAumento | number:'1.0-2' }}%</span>
+                                    <span class="flex items-center">{{ porcentaje_aumento_clientes | number:'1.0-2' }}%</span>
                                 </div>
                             </div>
                             <div class="ml-2 w-full flex-1">
@@ -30,7 +31,7 @@
                     </a>
 
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                        href="#">
+                        routerLink="/admin/productos">
                         <div class="p-5">
                             <div class="flex justify-between">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-pink-600"
@@ -49,15 +50,16 @@
                             </div>
                             <div class="ml-2 w-full flex-1">
                                 <div>
-                                    <div class="mt-3 text-3xl font-bold leading-8">4.510</div>
+                                    <div class="mt-3 text-3xl font-bold leading-8">{{ totalProductos }}</div>
 
                                     <div class="mt-1 text-base text-gray-600">Productos</div>
                                 </div>
                             </div>
                         </div>
                     </a>
+                    
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                        href="#">
+                        routerLink="/admin/generar-venta">
                         <div class="p-5">
                             <div class="flex justify-between">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-400"
@@ -68,12 +70,12 @@
                                 </svg>
                                 <div
                                     class="bg-red-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                                    <span class="flex items-center">30%</span>
+                                    <span class="flex items-center">{{ porcentaje_aumento_comprobantes | number:'1.0-2' }}%</span>
                                 </div>
                             </div>
                             <div class="ml-2 w-full flex-1">
                                 <div>
-                                    <div class="mt-3 text-3xl font-bold leading-8">4.510</div>
+                                    <div class="mt-3 text-3xl font-bold leading-8">{{ totalVentas }}</div>
 
                                     <div class="mt-1 text-base text-gray-600">Ventas</div>
                                 </div>
@@ -82,7 +84,7 @@
                     </a>
     
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                        href="#">
+                        routerLink="/admin/usuarios">
                         <div class="p-5">
                             <div class="flex justify-between">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-400" 
@@ -92,23 +94,25 @@
                                   
                                 <div
                                     class="bg-blue-500 rounded-full h-6 px-2 flex justify-items-center text-white font-semibold text-sm">
-                                    <span class="flex items-center">30%</span>
+                                    <span class="flex items-center">{{ porcentaje_aumento_usuarios | number:'1.0-2' }}%</span>
                                 </div>
                             </div>
                             <div class="ml-2 w-full flex-1">
                                 <div>
-                                    <div class="mt-3 text-3xl font-bold leading-8">4.510</div>
+                                    <div class="mt-3 text-3xl font-bold leading-8">{{ totalUsuarios }}</div>
 
                                     <div class="mt-1 text-base text-gray-600">User</div>
                                 </div>
                             </div>
                         </div>
                     </a>
+
                 </div>
                 
             </div>
 
         </div>
+        
     </div>
 
 </div>
