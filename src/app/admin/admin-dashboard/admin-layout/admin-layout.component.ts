@@ -35,7 +35,7 @@ export class AdminLayoutComponent {
 
   cerrarSesion() {
     this.authService.logout(); // Llama al método logout() de AuthService
-    this.router.navigate(['login/']); // Redirige a la página de login
+    this.router.navigate(['/login']); // Redirige a la página de login
   }
 
   // PARA CADA UNO --------------------------------------------

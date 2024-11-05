@@ -80,9 +80,13 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
       formData.append('last_name', this.user.last_name);
       formData.append('email', this.user.email);
       formData.append('phone_number', this.user.phone_number);
-      formData.append('password', this.user.password);
       formData.append('name_role', this.selectedRole.id_rol.toString());
-      
+
+      // Solo agregar la contraseña si ha sido modificada
+      if (this.user.password !== this.originalPassword) {
+        formData.append('password', this.user.password);
+      }
+
       if (this.user.id_user) {
         this.userService.updateUser(this.user.id_user, formData).subscribe({
           next: () => {
@@ -111,8 +115,10 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
     }
   }
 
+  originalPassword: string = '';
   editarUser(user: User): void {
     this.user = { ...user };
+    this.originalPassword = user.password; // Almacenar la contraseña original
 
     if (this.user.name_role) {
       this.selectedRole = this.user.name_role;

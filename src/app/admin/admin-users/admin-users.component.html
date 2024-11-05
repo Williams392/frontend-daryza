@@ -122,10 +122,12 @@
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required #password="ngModel">
+              <input type="hidden" [(ngModel)]="originalPassword" name="originalPassword">
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                 <div *ngIf="password.errors?.['required']">La contraseña es obligatoria.</div>
               </div>
             </div>
+            
         
             <div class="form-group">
               <label for="email">Correo<span class="text-danger">*</span></label>
