@@ -58,8 +58,8 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="fechaEmision" class="form-label">Forma Pago</label>
-                        <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
+                        <label for="formaPago" class="form-label">Forma Pago</label>
+                        <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
                           <option value="" disabled selected>Elegir...</option>
                           <option *ngFor="let contado of filtroSucursal">Contado</option>
                       </select> 
@@ -179,11 +179,11 @@
     <!-- Botones Emitir y Cerrar -->
     <div class="row mt-3">
         <div class="col-md-12 text-center">
-            <button class="btn btn-success me-2">
+            <button class="btn btn-success me-2" (click)="emitirComprobante()">
                 <i class="bi bi-check-circle"></i> Emitir
             </button>
-            <button class="btn btn-secondary">
-                <i class="bi bi-x-circle"></i> Cerrar
+            <button class="btn btn-secondary" (click)="resetForm()">
+                <i class="bi bi-x-circle"></i> Cancelar
             </button>
         </div>
     </div>

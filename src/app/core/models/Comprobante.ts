@@ -1,25 +1,27 @@
 import { Cliente } from "./Cliente";
 import { Sucursal } from "./Sucursal";
 
-export interface Detalle {
-    id_producto: string;
+export interface DetalleComprobante {
+    id_detalleComprobante?: number; // opcional
+    id_producto: string;  
     cantidad: number;
-  }
+}
   
-
 export interface FormaPago {
+    id_formaPago?: number; 
     tipo: string;
 }
 
 export interface Comprobante {
-    id_comprobante?: number; // opcional
+    id_comprobante?: number; 
     tipo_operacion: string;
-    tipo_doc: string;
     numero_serie: string;
-    correlativo: string;
+    tipo_doc: string;
     tipo_moneda: string;
+    
     fecha_emision: string;
     hora_emision: string;
+
     empresa_ruc: string;
     razon_social: string;
     nombre_comercial: string;
@@ -30,15 +32,10 @@ export interface Comprobante {
     telefono_emp: string;
     cliente_tipo_doc: string;
   
-    cliente: Cliente;
-    sucursal: Sucursal;
-  
-    monto_Oper_Gravadas: string;
-    monto_Igv: string;
-    valor_venta: string;
-    sub_Total: string;
-    monto_Imp_Venta: string;
-    manual: boolean;
-    detalle: Detalle[];
+    cliente: number;  
+    sucursal: number; 
+
+    detalle: DetalleComprobante[];
     forma_pago: FormaPago;
+
 }
