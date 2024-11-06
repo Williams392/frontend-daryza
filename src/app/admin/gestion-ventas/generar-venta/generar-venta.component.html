@@ -29,25 +29,27 @@
                 <!-- Fila 1: -->
                 <div class="row mb-3">
                   <div class="col-md-4">
-                      <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
-                      <select id="selectedComprobante" name="selectedComprobante" class="form-select" required 
-                      (change)="ElegirComprobante()" [(ngModel)]="selectedComprobante">
-                          <option value="boleta">Boleta</option>
-                          <option value="factura">Factura</option>
-                      </select>
+                    <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
+                    <select id="tipoComprobante" name="tipoComprobante" class="form-select" required
+                            [(ngModel)]="selectedComprobante" (change)="ElegirComprobante()">
+                      <option value="boleta">Boleta</option>
+                      <option value="factura">Factura</option>
+                    </select>
                   </div>
                   <div class="col-md-4">
-                      <label for="serie" class="form-label">SERIE</label>
-                      <input type="text" id="serie" name="serie" class="form-control" readonly>
+                    <label for="serie" class="form-label">SERIE</label>
+                    <input type="text" id="serie" name="serie" class="form-control" readonly>
                   </div>
+
                   <div class="col-md-2">
-                      <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
-                      <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" readonly>
+                    <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
+                    <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" readonly>
                   </div>
                   <div class="col-md-2">
                       <label for="horaEmision" class="form-label">Hora de Emisión:</label>
                       <input type="time" id="horaEmision" name="horaEmision" class="form-control" readonly>
                   </div>
+                  
                 </div>
 
                 
@@ -67,11 +69,12 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="fechaEmision" class="form-label">Tipo de Doc</label>
-                    <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required (change)="ElegirTipoDoc()" [(ngModel)]="selectedTipoDoc">
-                      <option value="" disabled selected>Elegir...</option>
-                      <option>DNI</option>
-                      <option>RUC</option>
+                    <label for="selectedTipoDoc" class="form-label">Tipo de Doc</label>
+                    <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required
+                            [(ngModel)]="selectedTipoDoc">
+                      <option *ngFor="let opcion of opcionesTipoDoc" [value]="opcion.value">
+                        {{ opcion.label }}
+                      </option>
                     </select>
                   </div>
         

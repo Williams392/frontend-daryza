@@ -29,11 +29,11 @@ export class GenerarVentaComponent implements OnInit {
   cliente: string = '';
   producto: string = '';
   sucursal: string = '';
-  
   tipoComprobante: string = '';
-  selectedComprobante: string = '';
 
+  selectedComprobante: string = '';
   selectedTipoDoc: string = '';
+
   selectFormaPago: string = '';
   selectedSucursal: string = '';
   selectedCliente: string = '';
@@ -41,6 +41,9 @@ export class GenerarVentaComponent implements OnInit {
 
   stock: number = 0;
   cantidad: number = 1;
+
+  // Define las opciones disponibles según el comprobante
+  opcionesTipoDoc: { value: string, label: string }[] = [];
 
   productosSeleccionados: { producto: Producto, cantidad: number, valor: number, igv: number, precioConIgv: number }[] = [];
   totalGravada: number = 0;
@@ -60,18 +63,23 @@ export class GenerarVentaComponent implements OnInit {
     this.cargarProductos();
     this.cargarSucursales();
 
-    // Selecciona el elemento de tipo de comprobante y el campo de serie:
+    // Inicializa las opciones de "Tipo de Doc" según el comprobante seleccionado
+    this.actualizarOpcionesTipoDoc();
+  
     const tipoComprobanteSelect = document.getElementById('tipoComprobante') as HTMLSelectElement;
     const serieInput = document.getElementById('serie') as HTMLInputElement;
+  
     tipoComprobanteSelect.addEventListener('change', () => {
-      const tipoComprobante = tipoComprobanteSelect.value;
-      if (tipoComprobante === 'boleta') {
+      this.selectedComprobante = tipoComprobanteSelect.value;
+      if (this.selectedComprobante === 'boleta') {
+        this.tipoDoc = '03';
         serieInput.value = 'B001';
-      } else if (tipoComprobante === 'factura') {
+      } else if (this.selectedComprobante === 'factura') {
+        this.tipoDoc = '01';
         serieInput.value = 'F001';
       }
     });
-    serieInput.value = 'B001';
+    serieInput.value = 'B001';  // Valor inicial
 
     // Configurar la fecha de emisión
     const fechaEmisionInput = document.getElementById('fechaEmision') as HTMLInputElement;
@@ -83,14 +91,20 @@ export class GenerarVentaComponent implements OnInit {
     const hours = new Date().getHours().toString().padStart(2, '0');
     const minutes = new Date().getMinutes().toString().padStart(2, '0');
     horaEmisionInput.value = `${hours}:${minutes}`;
-    
+
+  }
+
+  ElegirComprobante() {
+    this.tipoComprobante = this.selectedComprobante;
+    this.actualizarOpcionesTipoDoc();
+    this.selectedTipoDoc = ''; 
   }
 
   // ------------------------------------------------------
   emitirComprobante() {
     const clienteObj = this.listaClientes.find(cliente => cliente.id_cliente === parseInt(this.selectedCliente));
     const sucursalObj = this.listaSursales.find(sucursal => sucursal.id_sucursal === parseInt(this.selectedSucursal));
-
+  
     if (!clienteObj) {
       alert('Por favor, selecciona un cliente válido');
       return; 
@@ -100,10 +114,24 @@ export class GenerarVentaComponent implements OnInit {
       return; 
     }
   
+    // Valida la selección del Tipo de Documento
+    let clienteTipoDoc = null;
+    if (this.selectedTipoDoc === '1') {
+      clienteTipoDoc = '1'; // DNI
+    } else if (this.selectedTipoDoc === '6') {
+      clienteTipoDoc = '6'; // RUC
+    }
+    
+    if (!clienteTipoDoc) {
+      alert('Por favor, selecciona un tipo de documento válido para el cliente');
+      return;
+    }
+  
+    // Configurar los datos del comprobante
     const comprobanteData: Comprobante = {
       tipo_operacion: '0101',
-      tipo_doc: '03',
-      numero_serie: 'B001',
+      tipo_doc: this.tipoDoc,
+      numero_serie: this.tipoDoc === '03' ? 'B001' : 'F001',
       tipo_moneda: 'PEN',
       fecha_emision: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
       hora_emision: formatDate(new Date(), 'HH:mm:ss.SSS', 'en-US'),
@@ -115,22 +143,19 @@ export class GenerarVentaComponent implements OnInit {
       departamento: 'Lima',
       email_empresa: 'daryza@gmail.com',
       telefono_emp: '+51996638762',
-      cliente_tipo_doc: '1',
-      
-      // Enviar solo los IDs
+      cliente_tipo_doc: clienteTipoDoc, 
       cliente: clienteObj.id_cliente,  
       sucursal: sucursalObj.id_sucursal,  
-      
       detalle: this.productosSeleccionados.map(item => ({
         id_producto: item.producto.id_producto?.toString() || '',
         cantidad: item.cantidad
       })),           
-    
       forma_pago: {
         tipo: this.selectFormaPago
       }
     };
   
+    // Llamada al servicio para crear el comprobante
     this.comprobanteService.crearComprobante(comprobanteData).subscribe(
       response => {
         console.log('Comprobante registrado exitosamente:', response);
@@ -152,13 +177,8 @@ export class GenerarVentaComponent implements OnInit {
         });
       }
     );
-    
   }
 
-
-  ElegirComprobante() {
-    this.tipoComprobante = this.selectedComprobante;
-  }
   ElegirTipoDoc() {
     this.tipoDoc = this.selectedTipoDoc;
   }
@@ -178,6 +198,19 @@ export class GenerarVentaComponent implements OnInit {
     }
   }
 
+  actualizarOpcionesTipoDoc() {
+    if (this.selectedComprobante === 'boleta') {
+      this.opcionesTipoDoc = [
+        { value: '1', label: 'DNI' },
+        { value: '6', label: 'RUC' }
+      ];
+    } else if (this.selectedComprobante === 'factura') {
+      this.opcionesTipoDoc = [
+        { value: '6', label: 'RUC' }
+      ];
+    }
+    this.selectedTipoDoc = ''; 
+  }
   cargarProductos() {
     this.productoService.getProductoLista().subscribe(
       (response: Producto[]) => {
