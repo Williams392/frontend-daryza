@@ -37,7 +37,11 @@
                     </div>
                     <div class="col-md-3">
                         <label for="serie" class="form-label">SERIE</label>
-                        <input type="text" id="serie" name="serie" class="form-control">
+                        <input type="text" id="serie" name="serie" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
+                      <input type="date" id="fechaEmision" name="fechaEmision" class="form-control">
                     </div>
                 </div>                
 
@@ -54,8 +58,10 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
-                        <input type="date" id="fechaEmision" name="fechaEmision" class="form-control">
+                        <label for="fechaEmision" class="form-label">Forma Pago</label>
+                        <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
+                          <option value="" disabled selected>Contado</option>
+                      </select> 
                     </div>
                     <div class="col-md-3">
                         <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento:</label>
@@ -81,18 +87,38 @@
 
                 <!-- Fila 3: Productos -->
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="producto" class="form-label">Buscar Producto:</label>
                       <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
                     </div>
                   
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
                       <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
                         <option value="" disabled selected>Elegir...</option>
                         <option *ngFor="let item of filtroProductos" [value]="item.id_producto"> {{ item.id_producto }} | {{ item.nombre_prod }} </option>
                       </select>
                     </div>
+                  
+                    <div class="col-md-2">
+                      <label for="stock" class="form-label">Stock:</label>
+                      <input type="number" id="stock" name="stock" class="form-control" [(ngModel)]="stock" readonly>
+                    </div>
+                  
+                    <div class="col-md-2 text-center">
+                      <label for="cantidad" class="form-label">Cantidad:</label>
+                      <div class="input-group justify-content-center">
+                        <button class="btn btn-outline-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'));">-</button>
+                        <input type="number" id="cantidad" name="cantidad" class="form-control text-center" [(ngModel)]="cantidad" min="1" (change)="actualizarCantidadInput()" style="appearance: textfield;">
+                        <button class="btn btn-outline-secondary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'));">+</button>
+                      </div>
+                    </div>
+                                     
+                    
+                  
+                    <div class="col-md-2 mt-4">
+                      <button class="btn btn-primary" (click)="anadirArticulo()" style="background-color: #1b5a99; border-color: #1b5a99;">Añadir Artículo</button>
+                    </div>                    
                 </div>
                 
 
@@ -121,7 +147,11 @@
               <td><input type="number" [(ngModel)]="item.cantidad" (input)="actualizarCantidad(i, item.cantidad)" class="form-control" min="1"></td>
               <td>S/ {{ item.producto.precio_venta | number: '1.2-2' }}</td>
               <td>S/ {{ item.valor | number: '1.2-2' }}</td>
-              <td><button (click)="eliminarProducto(i)" class="btn btn-danger btn-sm">X</button></td>
+              <td>
+                <button (click)="eliminarProducto(i)" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i>
+                </button>
+             </td>
             </tr>
           </tbody>
         </table>

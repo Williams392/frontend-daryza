@@ -30,6 +30,9 @@ export class GenerarVentaComponent implements OnInit {
   selectedProducto: string = '';
   selectedSucursal: string = '';
 
+  stock: number = 0;
+  cantidad: number = 1;
+
   productosSeleccionados: { producto: Producto, cantidad: number, valor: number, igv: number, precioConIgv: number }[] = [];
   totalGravada: number = 0;
   igv: number = 0;
@@ -101,17 +104,29 @@ export class GenerarVentaComponent implements OnInit {
     const productoSeleccionado = this.listaProductos.find(
       (prod) => prod.id_producto === parseInt(this.selectedProducto)
     );
+    if (productoSeleccionado) {
+      this.stock = productoSeleccionado.estock;
+      this.cdr.detectChanges(); 
+    }
+  }
+
+  anadirArticulo() {
+    const productoSeleccionado = this.listaProductos.find(
+      (prod) => prod.id_producto === parseInt(this.selectedProducto)
+    );
     if (productoSeleccionado && !this.productosSeleccionados.find(p => p.producto.id_producto === productoSeleccionado.id_producto)) {
       this.productosSeleccionados.push({
         producto: productoSeleccionado,
-        cantidad: 1,
-        valor: productoSeleccionado.precio_venta,
-        igv: productoSeleccionado.precio_venta * 0.18,
-        precioConIgv: productoSeleccionado.precio_venta * 1.18
+        cantidad: this.cantidad,
+        valor: productoSeleccionado.precio_venta * this.cantidad,
+        igv: productoSeleccionado.precio_venta * this.cantidad * 0.18,
+        precioConIgv: productoSeleccionado.precio_venta * this.cantidad * 1.18
       });
+      this.actualizarTotales();
       this.cdr.detectChanges(); 
     }
-  }  
+  }
+
   actualizarCantidad(index: number, cantidad: number) {
     const producto = this.productosSeleccionados[index];
     producto.cantidad = cantidad;
@@ -179,5 +194,10 @@ export class GenerarVentaComponent implements OnInit {
     this.cliente = this.selectedCliente;
   }
   // ------------------------------------------------------
+
+  actualizarCantidadInput() {
+    this.cantidad = parseInt((<HTMLInputElement>document.getElementById('cantidad')).value, 10);
+  }
+  
 
 }

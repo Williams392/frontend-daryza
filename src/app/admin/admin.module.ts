@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { UnidadMedidaComponent } from './gestion-almacen/unidad-medida/unidad-medida.component';
 import { MarcaComponent } from './gestion-almacen/marca/marca.component';
 import { CategoriaComponent } from './gestion-almacen/categoria/categoria.component';
@@ -31,39 +31,29 @@ import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/hist
 import { MovimientoComponent } from './movimiento/movimiento.component';
 
 
-@NgModule({
-  declarations: [
-    UnidadMedidaComponent,
-    MarcaComponent,
-    CategoriaComponent,
-    ProductoComponent,
-    AdminUsersComponent,
-    ClienteComponent,
-    DashboardComponent,
-    AdminLayoutComponent,
-    GenerarVentaComponent,
-    HistorialVentasComponent,
-    MovimientoComponent,
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-
-    HttpClientModule,
-    ReactiveFormsModule,
-
-    FormsModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatPaginatorModule,
-    MatTableModule,
-
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-
-  ]
-})
+@NgModule({ declarations: [
+        UnidadMedidaComponent,
+        MarcaComponent,
+        CategoriaComponent,
+        ProductoComponent,
+        AdminUsersComponent,
+        ClienteComponent,
+        DashboardComponent,
+        AdminLayoutComponent,
+        GenerarVentaComponent,
+        HistorialVentasComponent,
+        MovimientoComponent,
+    ], imports: [CommonModule,
+        AdminRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatButtonModule,
+        MatGridListModule,
+        MatSnackBarModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AdminModule { }
 

@@ -89,3 +89,10 @@ body {
 .btn-secondary:hover {
     background-color: #5a6268;
 }
+
+/* Quitar las flechas de los inputs de tipo número */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
