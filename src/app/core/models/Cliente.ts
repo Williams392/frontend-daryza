@@ -4,8 +4,7 @@ export class Cliente {
     id_cliente: number;
     nombre_clie: string;
     apellido_clie: string;
-
-    //cliente_tipo_doc: string;
+    
     dni_cliente: string;
     ruc_cliente: string;
 
@@ -19,7 +18,6 @@ export class Cliente {
     constructor() {
         this.id_cliente = 0;
         this.nombre_clie = '';
-        //this.cliente_tipo_doc = '';
         this.apellido_clie = '';
         this.dni_cliente = '';
         this.ruc_cliente = '';

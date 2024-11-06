@@ -28,22 +28,55 @@
 
                 <!-- Fila 1: -->
                 <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
-                        <select id="tipoComprobante" name="tipoComprobante" class="form-select">
-                            <option value="boleta">Boleta</option>
-                            <option value="factura">Factura</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="serie" class="form-label">SERIE</label>
-                        <input type="text" id="serie" name="serie" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-3">
+                  <div class="col-md-4">
+                      <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
+                      <select id="selectedComprobante" name="selectedComprobante" class="form-select" required 
+                      (change)="ElegirComprobante()" [(ngModel)]="selectedComprobante">
+                          <option value="boleta">Boleta</option>
+                          <option value="factura">Factura</option>
+                      </select>
+                  </div>
+                  <div class="col-md-4">
+                      <label for="serie" class="form-label">SERIE</label>
+                      <input type="text" id="serie" name="serie" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-2">
                       <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
-                      <input type="date" id="fechaEmision" name="fechaEmision" class="form-control">
-                    </div>
-                </div>                
+                      <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-2">
+                      <label for="horaEmision" class="form-label">Hora de Emisión:</label>
+                      <input type="time" id="horaEmision" name="horaEmision" class="form-control" readonly>
+                  </div>
+                </div>
+
+                
+                <!-- Fila 2.2: -->
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                      <label for="cliente" class="form-label">Buscar Cliente:</label>
+                      <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
+                  </div>
+
+                  <div class="col-md-4">
+                      <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
+                      <select id="selectedCliente" name="selectedCliente" class="form-select" required (change)="ElegirCliente()" [(ngModel)]="selectedCliente">
+                          <option value="" disabled selected>Elegir...</option>
+                          <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> {{ item.id_cliente }} | {{ item.nombre_clie}} </option>
+                      </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="fechaEmision" class="form-label">Tipo de Doc</label>
+                    <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required (change)="ElegirTipoDoc()" [(ngModel)]="selectedTipoDoc">
+                      <option value="" disabled selected>Elegir...</option>
+                      <option>DNI</option>
+                      <option>RUC</option>
+                    </select>
+                  </div>
+        
+
+                </div>
 
                 <!-- Fila 2.1: -->
                 <div class="row mb-3">
@@ -57,33 +90,14 @@
                         </select> 
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="formaPago" class="form-label">Forma Pago</label>
                         <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
                           <option value="" disabled selected>Elegir...</option>
-                          <option *ngFor="let contado of filtroSucursal">Contado</option>
+                          <option>Contado</option>
                       </select> 
                     </div>
-                    <div class="col-md-3">
-                        <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento:</label>
-                        <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control">
-                    </div>
-                </div>
-
-                <!-- Fila 2.2: -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="cliente" class="form-label">Buscar Cliente:</label>
-                        <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
-                        <select id="selectedCliente" name="selectedCliente" class="form-select" required (change)="ElegirCliente()" [(ngModel)]="selectedCliente">
-                            <option value="" disabled selected>Elegir...</option>
-                            <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> {{ item.dni_cliente }} | {{ item.nombre_clie}} </option>
-                        </select>
-                    </div>
+   
                 </div>
 
                 <!-- Fila 3: Productos -->
@@ -149,7 +163,7 @@
               <td>S/ {{ item.producto.precio_venta | number: '1.2-2' }}</td>
               <td>S/ {{ item.valor | number: '1.2-2' }}</td>
               <td>
-                <button (click)="eliminarProducto(i)" class="btn btn-danger btn-sm">
+                <button (click)="eliminarProducto(i)" class="btn btn-dark btn-sm">
                     <i class="bi bi-trash"></i>
                 </button>
              </td>

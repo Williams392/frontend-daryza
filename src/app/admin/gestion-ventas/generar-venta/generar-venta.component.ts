@@ -8,6 +8,7 @@ import { SucursalService } from '../../../core/services/sucursal.service';
 import { ComprobanteService } from '../../../core/services/comprobante.service';
 import { Comprobante, DetalleComprobante, FormaPago }  from '../../../core/models/Comprobante';
 import { formatDate } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-generar-venta',
@@ -24,9 +25,15 @@ export class GenerarVentaComponent implements OnInit {
   filtroCliente: Cliente[] = [];
   filtroSucursal: Sucursal[] = [];
 
+  tipoDoc: string = '';
   cliente: string = '';
   producto: string = '';
   sucursal: string = '';
+  
+  tipoComprobante: string = '';
+  selectedComprobante: string = '';
+
+  selectedTipoDoc: string = '';
   selectFormaPago: string = '';
   selectedSucursal: string = '';
   selectedCliente: string = '';
@@ -66,9 +73,16 @@ export class GenerarVentaComponent implements OnInit {
     });
     serieInput.value = 'B001';
 
+    // Configurar la fecha de emisión
     const fechaEmisionInput = document.getElementById('fechaEmision') as HTMLInputElement;
     const today = new Date().toISOString().split('T')[0];
     fechaEmisionInput.value = today;
+
+    // Configurar la hora de emisión
+    const horaEmisionInput = document.getElementById('horaEmision') as HTMLInputElement;
+    const hours = new Date().getHours().toString().padStart(2, '0');
+    const minutes = new Date().getMinutes().toString().padStart(2, '0');
+    horaEmisionInput.value = `${hours}:${minutes}`;
     
   }
 
@@ -120,18 +134,34 @@ export class GenerarVentaComponent implements OnInit {
     this.comprobanteService.crearComprobante(comprobanteData).subscribe(
       response => {
         console.log('Comprobante registrado exitosamente:', response);
-        alert('Comprobante registrado exitosamente');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'Comprobante registrado exitosamente',
+          confirmButtonText: 'Aceptar'
+        });
         this.resetForm();
       },
       error => {
         console.error('Error al registrar el comprobante:', error);
-        alert('Error al registrar el comprobante');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al registrar el comprobante',
+          confirmButtonText: 'Aceptar'
+        });
       }
     );
+    
   }
-  
-  
 
+
+  ElegirComprobante() {
+    this.tipoComprobante = this.selectedComprobante;
+  }
+  ElegirTipoDoc() {
+    this.tipoDoc = this.selectedTipoDoc;
+  }
   ElegirCliente() {
     this.cliente = this.selectedCliente;
   }
@@ -264,6 +294,11 @@ export class GenerarVentaComponent implements OnInit {
     this.igv = 0;
     this.totalPagar = 0;
     this.cantidad = 1;
+
+    this.tipoDoc = '';
+    this.tipoComprobante = '';
+    this.selectedComprobante = '';
+
     this.selectedProducto = '';
     this.selectedCliente = '';
     this.selectedSucursal = '';
