@@ -1,11 +1,13 @@
 import { Cliente } from "./Cliente";
+import { Sucursal } from "./Sucursal";
 
 export interface Detalle {
     id_detalleComprobante: number;
     id_producto: string;
+    cantidad: number;
+    
     unidad: string;
     descripcion: string;
-    cantidad: number;
     monto_valorUnitario: number;
     igv_detalle: number;
     monto_Precio_Unitario: string;
@@ -45,7 +47,10 @@ export interface Comprobante {
     email_empresa: string;
     telefono_emp: string;
     cliente_tipo_doc: string;
+
     cliente: Cliente;
+    sucursal: Sucursal;
+
     monto_Oper_Gravadas: string;
     monto_Igv: string;
     valor_venta: string;
@@ -56,5 +61,5 @@ export interface Comprobante {
     detalle: Detalle[];
     forma_pago: FormaPago;
     legend_comprobante: LegendComprobante;
-    pdf_url: string;
+    //pdf_url: string;
 }

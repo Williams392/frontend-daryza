@@ -36,6 +36,24 @@
                         </select>
                     </div>
                     <div class="col-md-3">
+                        <label for="serie" class="form-label">SERIE</label>
+                        <input type="text" id="serie" name="serie" class="form-control">
+                    </div>
+                </div>                
+
+                <!-- Fila 2.1: -->
+                <div class="row mb-3">
+
+                    <div class="col-md-6">
+                        <label for="ruc" class="form-label" placeholder="Buscar por sucursal..." >Sucursal (Id/Nombre):</label>
+
+                        <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
+                            <option value="" disabled selected>Elegir...</option>
+                            <option *ngFor="let sucursal of filtroSucursal" [value]="sucursal.id_sucursal">{{sucursal.nombre_sucursal}}</option>
+                        </select> 
+                    </div>
+
+                    <div class="col-md-3">
                         <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
                         <input type="date" id="fechaEmision" name="fechaEmision" class="form-control">
                     </div>
@@ -45,16 +63,15 @@
                     </div>
                 </div>
 
-                <!-- Fila 2: -->
+                <!-- Fila 2.2: -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="cliente" class="form-label">Buscar Cliente:</label>
-                        <input type="text" id="cliente" name="cliente" class="form-control">
+                        <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="ruc" class="form-label" (input)="buscarCliente($event)" [(ngModel)]="cliente" placeholder="Buscar por cliente..." >Cliente (Id/Nombre):</label>
-
+                        <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
                         <select id="selectedCliente" name="selectedCliente" class="form-select" required (change)="ElegirCliente()" [(ngModel)]="selectedCliente">
                             <option value="" disabled selected>Elegir...</option>
                             <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> {{ item.dni_cliente }} | {{ item.nombre_clie}} </option>
@@ -65,17 +82,19 @@
                 <!-- Fila 3: Productos -->
                 <div class="row mb-3">
                     <div class="col-md-6">
-                    <label for="producto" class="form-label">Buscar Producto:</label>
-                    <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
+                      <label for="producto" class="form-label">Buscar Producto:</label>
+                      <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
                     </div>
+                  
                     <div class="col-md-6">
-                    <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
-                    <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
+                      <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
+                      <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
                         <option value="" disabled selected>Elegir...</option>
                         <option *ngFor="let item of filtroProductos" [value]="item.id_producto"> {{ item.id_producto }} | {{ item.nombre_prod }} </option>
-                    </select>
+                      </select>
                     </div>
                 </div>
+                
 
             </form>
         </div>
@@ -85,48 +104,47 @@
     <!-- Tabla de Productos -->
     <div class="table-responsive mb-4">
         <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>CODÍGO</th>
-                    <th>PRODUCTO</th>
-                    <th>CANTIDAD</th>
-                    <th>PRECIO UNITARIO</th>
-                    <th>VALOR</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Producto 1</td>
-                    <td><input type="number" value="0" class="form-control"></td>
-                    <td>S/ 0</td>
-                    <td>S/ 0</td>
-                </tr>
-            </tbody>
+          <thead style="background-color: #1b5a99; color: #1b5a99;">
+            <tr>
+              <th>CODÍGO</th>
+              <th>PRODUCTO</th>
+              <th>CANTIDAD</th>
+              <th>PRECIO UNITARIO</th>
+              <th>VALOR</th>
+              <th>ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of productosSeleccionados; let i = index">
+              <td>{{ item.producto.codigo }}</td>
+              <td>{{ item.producto.nombre_prod }}</td>
+              <td><input type="number" [(ngModel)]="item.cantidad" (input)="actualizarCantidad(i, item.cantidad)" class="form-control" min="1"></td>
+              <td>S/ {{ item.producto.precio_venta | number: '1.2-2' }}</td>
+              <td>S/ {{ item.valor | number: '1.2-2' }}</td>
+              <td><button (click)="eliminarProducto(i)" class="btn btn-danger btn-sm">X</button></td>
+            </tr>
+          </tbody>
         </table>
     </div>
 
     <!-- Pie de página -->
     <div class="row">
-        <div class="col-md-6">
-            <label for="legend" class="form-label">SON: CUATRO CIENTOS</label>
-        </div>
-        <div class="col-md-6 text-end">
-            <div class="d-flex justify-content-end align-items-center">
-                <p class="mb-0 me-2">Gravado:</p>
-                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <p class="mb-0 me-2">IGV:</p>
-                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <p class="mb-0 me-2">Importe Total:</p>
-                <input type="text" class="form-control input-amount" value="S/ 0,00" readonly>
-            </div>
+        <div class="col-md-6 offset-md-6">
+          <div class="d-flex justify-content-end align-items-center mb-2">
+            <p class="mb-0 me-2">Gravado:</p>
+            <input type="text" class="form-control input-amount text-end" [value]="totalGravada | currency:'S/. '" style="width: 140px;">
+          </div>
+          <div class="d-flex justify-content-end align-items-center mb-2">
+            <p class="mb-0 me-2">IGV (18%):</p>
+            <input type="text" class="form-control input-amount text-end" [value]="igv | currency:'S/. '" style="width: 140px;">
+          </div>
+          <div class="d-flex justify-content-end align-items-center mb-2">
+            <p class="mb-0 me-2">Importe Total:</p>
+            <input type="text" class="form-control input-amount text-end" [value]="totalPagar | currency:'S/. '" style="width: 140px;">
+          </div>
         </div>
     </div>
-
+      
     <!-- Botones Emitir y Cerrar -->
     <div class="row mt-3">
         <div class="col-md-12 text-center">

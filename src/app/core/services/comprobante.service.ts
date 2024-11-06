@@ -13,19 +13,24 @@ export class ComprobanteService {
 
     constructor(private http: HttpClient) {}
 
-    // Obtener todos los comprobantes
-    getComprobantes(): Observable<Comprobante[]> {
+    crearComprobante(comprobante: Comprobante): Observable<Comprobante> {
+        return this.http.post<Comprobante>(this.apiUrl, comprobante);
+    }
+
+    obtenerComprobantes(): Observable<Comprobante[]> {
         return this.http.get<Comprobante[]>(this.apiUrl);
     }
 
-    // Obtener un comprobante por ID
-    getComprobante(id: number): Observable<Comprobante> {
-        return this.http.get<Comprobante>(`${this.apiUrl}/${id}`);
+    obtenerComprobantePorId(id: number): Observable<Comprobante> {
+        return this.http.get<Comprobante>(`${this.apiUrl}${id}/`);
     }
 
-    // Eliminar un comprobante
-    deleteComprobante(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    actualizarComprobante(id: number, comprobante: Comprobante): Observable<Comprobante> {
+        return this.http.put<Comprobante>(`${this.apiUrl}${id}/`, comprobante);
+    }
+
+    eliminarComprobante(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}${id}/`);
     }
 
 }

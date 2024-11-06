@@ -34,7 +34,7 @@ export class HistorialVentasComponent {
   }
 
   obtenerHistorialVentas() {
-    this.historialVentasService.getComprobantes().subscribe(comprobantes => {
+    this.historialVentasService.obtenerComprobantes().subscribe(comprobantes => {
       this.dataSource.data = comprobantes;
       this.dataSource.paginator = this.paginator;
     });

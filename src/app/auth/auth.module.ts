@@ -19,6 +19,7 @@ import { SharedModule } from '../shared.module';
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    
     RouterOutlet,
     SharedModule
   ]

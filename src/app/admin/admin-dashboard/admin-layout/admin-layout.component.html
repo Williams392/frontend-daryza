@@ -31,17 +31,17 @@
                         </a>
                     </li>                           
                     
+                    <li class="sidebar-item" *ngIf="role === 'Administrador' || role === 'Ventas'">
+                        <a routerLink="/admin/generar-venta" routerLinkActive="active" class="sidebar-link">
+                            <i class="bi bi-cash-stack pe-2"></i> Venta
+                        </a>
+                    </li>
 
                     <li class="sidebar-item dropdown" *ngIf="role === 'Administrador' || role === 'Ventas'">
                         <a href="#" class="sidebar-link dropdown-toggle" (click)="toggleVentasMenu($event)" aria-expanded="false">
                             <i class="bi bi-bar-chart-fill pe-2"></i> VENTAS
                         </a>
                         <ul id="ventasMenu" class="list-unstyled collapse">
-                            <li class="sidebar-subitem">
-                                <a routerLink="/admin/generar-venta" routerLinkActive="active" class="sidebar-link">
-                                    <i class="bi bi-cash-stack pe-2"></i> Generar Venta
-                                </a>
-                            </li>
                             <li class="sidebar-subitem">
                                 <a routerLink="/admin/historial-ventas" routerLinkActive="active" class="sidebar-link">
                                     <i class="bi bi-cash-stack pe-2"></i> Historial Venta
