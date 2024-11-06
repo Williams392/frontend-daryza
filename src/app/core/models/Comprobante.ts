@@ -2,35 +2,17 @@ import { Cliente } from "./Cliente";
 import { Sucursal } from "./Sucursal";
 
 export interface Detalle {
-    id_detalleComprobante: number;
     id_producto: string;
     cantidad: number;
-    
-    unidad: string;
-    descripcion: string;
-    monto_valorUnitario: number;
-    igv_detalle: number;
-    monto_Precio_Unitario: string;
-    monto_Valor_Venta: string;
-}
+  }
+  
 
 export interface FormaPago {
-    id_formaPago: number;
     tipo: string;
-    monto: string;
-    cuota: number;
-    fecha_emision: string;
-    fecha_vencimiento: string;
-}
-
-export interface LegendComprobante {
-    id_legend: number;
-    legend_code: string;
-    legend_value: string;
 }
 
 export interface Comprobante {
-    id_comprobante: number;
+    id_comprobante?: number; // opcional
     tipo_operacion: string;
     tipo_doc: string;
     numero_serie: string;
@@ -47,19 +29,16 @@ export interface Comprobante {
     email_empresa: string;
     telefono_emp: string;
     cliente_tipo_doc: string;
-
+  
     cliente: Cliente;
     sucursal: Sucursal;
-
+  
     monto_Oper_Gravadas: string;
     monto_Igv: string;
     valor_venta: string;
     sub_Total: string;
     monto_Imp_Venta: string;
-    estado_Documento: string;
     manual: boolean;
     detalle: Detalle[];
     forma_pago: FormaPago;
-    legend_comprobante: LegendComprobante;
-    //pdf_url: string;
 }

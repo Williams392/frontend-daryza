@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ClienteService } from '../../../core/services/cliente.service';
 import { Cliente } from '../../../core/models/Cliente';
 import { ProductoService } from '../../../core/services/producto.service';
 import { Producto } from '../../../core/models/Producto';
 import { Sucursal } from '../../../core/models/Sucursal';
 import { SucursalService } from '../../../core/services/sucursal.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { ComprobanteService } from '../../../core/services/comprobante.service';
+import { Comprobante, Detalle, FormaPago }  from '../../../core/models/Comprobante';
 
 @Component({
   selector: 'app-generar-venta',
@@ -70,6 +70,77 @@ export class GenerarVentaComponent implements OnInit {
 
   }
 
+  emitirComprobante() {
+    // Buscar el objeto completo del cliente seleccionado
+    const clienteSeleccionado = this.listaClientes.find(cli => cli.id_cliente === parseInt(this.selectedCliente));
+    
+    if (!clienteSeleccionado) {
+        alert("Por favor, selecciona un cliente válido.");
+        return;
+    }
+
+    // Buscar el objeto completo de la sucursal seleccionada
+    const sucursalSeleccionada = this.listaSursales.find(suc => suc.id_sucursal === parseInt(this.selectedSucursal));
+    
+    if (!sucursalSeleccionada) {
+        alert("Por favor, selecciona una sucursal válida.");
+        return;
+    }
+
+    // Crear el objeto del detalle de comprobante
+    const detalleComprobante = this.productosSeleccionados.map((producto) => ({
+      id_producto: producto.producto.id_producto?.toString() || '', // Convertir a string y manejar undefined
+      cantidad: producto.cantidad,
+    }));
+
+
+    // Crear el objeto del forma pago
+    const formaPago: FormaPago = {
+        tipo: 'Contado',
+    };
+
+    // Crear el objeto del comprobante
+    const comprobante: Comprobante = {
+        tipo_operacion: '0101',
+        tipo_doc: '03',
+        numero_serie: (document.getElementById('serie') as HTMLInputElement).value,
+        correlativo: '00000001',
+        tipo_moneda: 'PEN',
+        fecha_emision: new Date().toISOString().split('T')[0],
+        hora_emision: new Date().toISOString().split('T')[1],
+        empresa_ruc: '20144109458',
+        razon_social: 'Daryza S.A.C.',
+        nombre_comercial: 'Daryza',
+        urbanizacion: 'Lurin',
+        distrito: 'Lurin',
+        departamento: 'Lima',
+        email_empresa: 'daryza@gmail.com',
+        telefono_emp: '+51996638762',
+        cliente_tipo_doc: '1',
+        cliente: clienteSeleccionado,
+        sucursal: sucursalSeleccionada,
+        monto_Oper_Gravadas: this.totalGravada.toFixed(2),
+        monto_Igv: this.igv.toFixed(2),
+        valor_venta: this.totalGravada.toFixed(2),
+        sub_Total: (this.totalGravada + this.igv).toFixed(2),
+        monto_Imp_Venta: this.totalPagar.toFixed(2),
+        manual: false,
+        detalle: detalleComprobante,
+        forma_pago: formaPago
+    };
+
+    // Llamada al servicio para enviar el comprobante
+    this.comprobanteService.crearComprobante(comprobante).subscribe({
+        next: (response) => {
+            alert('Comprobante creado exitosamente!');
+        },
+        error: (error) => {
+            console.error('Error al crear el comprobante:', error);
+        }
+    });
+  }
+
+  
   // ------------------------------------------------------
   cargarProductos() {
     this.productoService.getProductoLista().subscribe(

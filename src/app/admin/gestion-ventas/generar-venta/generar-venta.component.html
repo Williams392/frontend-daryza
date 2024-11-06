@@ -60,7 +60,8 @@
                     <div class="col-md-3">
                         <label for="fechaEmision" class="form-label">Forma Pago</label>
                         <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
-                          <option value="" disabled selected>Contado</option>
+                          <option value="" disabled selected>Elegir...</option>
+                          <option *ngFor="let contado of filtroSucursal">Contado</option>
                       </select> 
                     </div>
                     <div class="col-md-3">
