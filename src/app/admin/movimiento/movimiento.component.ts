@@ -15,6 +15,7 @@ export class MovimientoComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['id_movimiento', 'nombre_prod', 'referencia', 'cant_total', 'tipo_movimiento', 'created_at'];
   dataSource = new MatTableDataSource<Movimiento>();
+  ordenarPor: string = 'asc';
   tipoMovimientoFiltro: string = 'Todos';
 
   constructor(private movimientoService: MovimientoService) {}
@@ -37,7 +38,21 @@ export class MovimientoComponent implements OnInit, AfterViewInit {
       this.dataSource.filter = '';
     } else {
       this.dataSource.filter = filterValue.trim().toLowerCase();
+    };
+    this.applySort();
+  }
+  applySort() {
+    const sortDirection = this.ordenarPor;
+    this.dataSource.data = this.dataSource.data.sort((a, b) => {
+      const isAsc = sortDirection === 'asc';
+      return this.compare(a.id_movimiento, b.id_movimiento, isAsc);
+    });
+  }
+  compare(a: number | string | undefined, b: number | string | undefined, isAsc: boolean) {
+    if (a === undefined || b === undefined) {
+      return 0;
     }
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   // ------- Metodos para descargar el PDF y Excel -------

@@ -86,20 +86,23 @@ export class GenerarVentaComponent implements OnInit {
     const today = new Date().toISOString().split('T')[0];
     fechaEmisionInput.value = today;
 
-    // Configurar la hora de emisión
-    const horaEmisionInput = document.getElementById('horaEmision') as HTMLInputElement;
-    const hours = new Date().getHours().toString().padStart(2, '0');
-    const minutes = new Date().getMinutes().toString().padStart(2, '0');
-    horaEmisionInput.value = `${hours}:${minutes}`;
+    this.actualizarHoraEmision();
 
   }
+  actualizarHoraEmision() {
+    const horaEmisionInput = document.getElementById('horaEmision') as HTMLInputElement;
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    horaEmisionInput.value = `${hours}:${minutes}`;
+    this.cdr.detectChanges(); // Forzar la actualización de la vista
+  }  
 
   ElegirComprobante() {
     this.tipoComprobante = this.selectedComprobante;
     this.actualizarOpcionesTipoDoc();
     this.selectedTipoDoc = ''; 
   }
-
   // ------------------------------------------------------
   emitirComprobante() {
     const clienteObj = this.listaClientes.find(cliente => cliente.id_cliente === parseInt(this.selectedCliente));
@@ -163,9 +166,21 @@ export class GenerarVentaComponent implements OnInit {
           icon: 'success',
           title: '¡Éxito!',
           text: 'Comprobante registrado exitosamente',
-          confirmButtonText: 'Aceptar'
+          showCancelButton: true,
+          confirmButtonText: 'Aceptar',
+          cancelButtonText: 'Descargar PDF'
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.cancel) {
+            // Descargar el PDF automáticamente
+            if (response.id_comprobante !== undefined) {
+              this.descargarPDF(response.id_comprobante);
+            } else {
+              console.error('El id_comprobante es undefined');
+            }
+          }
         });
         this.resetForm();
+        this.actualizarHoraEmision();
       },
       error => {
         console.error('Error al registrar el comprobante:', error);
@@ -238,8 +253,20 @@ export class GenerarVentaComponent implements OnInit {
       this.cdr.detectChanges(); 
     }
   }
-  // ------------------------------------------------------
 
+  // ------------------------------------------------------
+  descargarPDF(id: number) {
+    this.comprobanteService.obtenerComprobantePDF(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comprobante_${id}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  // ------------------------------------------------------
   removeProducto(item: Producto) {
     this.filtroProductos = this.filtroProductos.filter(prod => prod.id_producto !== item.id_producto);
   }

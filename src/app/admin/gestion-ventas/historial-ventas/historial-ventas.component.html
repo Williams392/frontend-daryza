@@ -39,6 +39,7 @@
             </select>
             <i class="bi bi-sort-alpha-down" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
           </div>
+          
         </div>
       </div>
     
@@ -85,12 +86,15 @@
         </table>
     
         <div *ngIf="dataSource.data.length === 0" style="text-align: center; padding: 20px;">
-          No hay datos disponibles
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
     
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
     </div>
+    
     
     
 

@@ -33,6 +33,15 @@
                 <i class="bi bi-filter" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
             </div>
 
+            <!-- Select para ordenar -->
+            <div style="position: relative; display: inline-block; margin-left: 10px;">
+              <select class="form-control" [(ngModel)]="ordenarPor" (change)="applySort()" style="margin-right: 10px; width: 200px; padding-left: 30px;">
+                <option value="asc">Menor a Mayor</option>
+                <option value="desc">Mayor a Menor</option>
+              </select>
+              <i class="bi bi-sort-alpha-down" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+            </div>
+
             <!-- Espacio flexible para empujar los botones a la derecha -->
             <div style="flex-grow: 1;"></div>
             <!-- Botones de descarga PDF y Excel -->
@@ -88,6 +97,12 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
+        <div *ngIf="dataSource.data.length === 0" style="text-align: center; padding: 20px;">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
     
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
