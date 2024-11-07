@@ -24,7 +24,6 @@
     "chart.js": "^4.4.6",
     "frontend-daryza": "file:",
     "ng2-charts": "^5.0.0",
-    "ng2-pdf-viewer": "^10.3.4",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.14.1",
     "tailwindcss": "^3.4.4",
