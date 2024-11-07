@@ -24,6 +24,9 @@ export class ComprobanteService {
     obtenerComprobantePorId(id: number): Observable<Comprobante> {
         return this.http.get<Comprobante>(`${this.apiUrl}${id}/`);
     }
+    obtenerComprobantePDF(id: number): Observable<Blob> {
+        return this.http.get(`${this.apiUrl}pdf/${id}/`, { responseType: 'blob' });
+    }
 
     actualizarComprobante(id: number, comprobante: Comprobante): Observable<Comprobante> {
         return this.http.put<Comprobante>(`${this.apiUrl}${id}/`, comprobante);

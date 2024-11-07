@@ -15,7 +15,10 @@ import { RouterLink } from '@angular/router';
 @NgModule({ declarations: [
         AppComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [
+        AppComponent
+    ], imports: [
+        BrowserModule,
         AppRoutingModule,
         RouterLink, // yo
         BrowserAnimationsModule, // yo

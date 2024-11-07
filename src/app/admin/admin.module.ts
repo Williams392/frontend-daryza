@@ -29,6 +29,7 @@ import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layou
 import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 import { MovimientoComponent } from './movimiento/movimiento.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({ declarations: [
@@ -46,6 +47,7 @@ import { MovimientoComponent } from './movimiento/movimiento.component';
     ], imports: [CommonModule,
         AdminRoutingModule,
         ReactiveFormsModule,
+        PdfViewerModule,
         FormsModule,
         MatButtonModule,
         MatGridListModule,
@@ -54,6 +56,7 @@ import { MovimientoComponent } from './movimiento/movimiento.component';
         MatTableModule,
         MatFormFieldModule,
         MatSelectModule,
-        MatInputModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        MatInputModule], 
+    providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AdminModule { }
 

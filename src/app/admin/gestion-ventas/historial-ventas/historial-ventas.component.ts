@@ -9,13 +9,14 @@ import { ComprobanteService } from '../../../core/services/comprobante.service';
   templateUrl: './historial-ventas.component.html',
   styleUrl: './historial-ventas.component.css'
 })
-export class HistorialVentasComponent {
+export class HistorialVentasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns: string[] = ['id_comprobante', 'numero_serie', 'tipo_moneda', 'fecha_emision', 'departamento', 'pdf_url'];	
   dataSource = new MatTableDataSource<Comprobante>();
   tipoVentaFiltro: string = 'Todos';
+  pdfSrc: string | Uint8Array | undefined = undefined;
 
   constructor(private historialVentasService: ComprobanteService) {}
 
@@ -37,6 +38,17 @@ export class HistorialVentasComponent {
     this.historialVentasService.obtenerComprobantes().subscribe(comprobantes => {
       this.dataSource.data = comprobantes;
       this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  descargarPDF(id: number) {
+    this.historialVentasService.obtenerComprobantePDF(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comprobante_${id}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
     });
   }
 
