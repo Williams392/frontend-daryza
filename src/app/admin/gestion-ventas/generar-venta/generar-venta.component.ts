@@ -98,12 +98,13 @@ export class GenerarVentaComponent implements OnInit {
     this.cdr.detectChanges(); // Forzar la actualización de la vista
   }  
 
+
+  // ------------------------------------------------------
   ElegirComprobante() {
     this.tipoComprobante = this.selectedComprobante;
     this.actualizarOpcionesTipoDoc();
     this.selectedTipoDoc = ''; 
   }
-  // ------------------------------------------------------
   emitirComprobante() {
     const clienteObj = this.listaClientes.find(cliente => cliente.id_cliente === parseInt(this.selectedCliente));
     const sucursalObj = this.listaSursales.find(sucursal => sucursal.id_sucursal === parseInt(this.selectedSucursal));
