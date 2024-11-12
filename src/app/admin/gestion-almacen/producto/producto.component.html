@@ -28,12 +28,12 @@
                 <div style="flex-grow: 1;"></div>
                 
                 <!-- Botones de descarga PDF y Excel -->
-                <button class="btn btn-pdf me-2" (click)="descargarPDF()">
+                <button type="button" class="btn btn-outline-danger btn-sm me-2" style="padding: 8px 20px" (click)="descargarPDF()">
                     <i class="bi bi-file-earmark-pdf"></i> PDF
                 </button>
-                <button class="btn btn-excel me-2" (click)="descargarExcel()">
+                <button type="button" class="btn btn-outline-success btn-sm me-2" style="padding: 8px 20px" (click)="descargarExcel()">
                     <i class="bi bi-file-earmark-excel"></i> Excel
-                </button>                
+                </button>         
         
                 <!-- Botón AGREGAR -->
                 <button class="btn btn-custom-blue" (click)="abrirModalParaAgregar()">

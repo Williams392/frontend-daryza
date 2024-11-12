@@ -12,8 +12,6 @@ export class DashboardService {
 
     constructor(private http: HttpClient) {}
 
-    // Método para obtener el conteo y el porcentaje de aumento:
-
     getConteoProductos(): Observable<{ total_productos: number; porcentaje_aumento_producto: number }> {
         return this.http.get<{ total_productos: number; porcentaje_aumento_producto: number }>(`${this.apiUrlDashboard}/dashboard/productos/conteo_y_aumento_productos/`);
     }
@@ -28,6 +26,15 @@ export class DashboardService {
 
     getConteoUsuarios(): Observable<{ total_usuarios: number; porcentaje_aumento_usuarios: number }> {
         return this.http.get<{ total_usuarios: number; porcentaje_aumento_usuarios: number }>(`${this.apiUrlDashboard}/dashboard/usuarios/conteo_y_aumento_usuarios/`);
+    }
+
+    // grafico:
+    getVentasPorDiaSemana(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrlDashboard}/dashboard/comprobantes/ventas_por_dia_semana/`);
+    }
+    
+    getMovimientos(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrlDashboard}/movimientos/movimientos/`);
     }
 
 }

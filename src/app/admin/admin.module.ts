@@ -29,6 +29,7 @@ import { AdminLayoutComponent } from './admin-dashboard/admin-layout/admin-layou
 import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-venta.component';
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 import { MovimientoComponent } from './movimiento/movimiento.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({ declarations: [
         UnidadMedidaComponent,
@@ -42,7 +43,8 @@ import { MovimientoComponent } from './movimiento/movimiento.component';
         GenerarVentaComponent,
         HistorialVentasComponent,
         MovimientoComponent,
-    ], imports: [CommonModule,
+    ], imports: [
+        CommonModule,
         AdminRoutingModule,
         ReactiveFormsModule,
         FormsModule,
@@ -53,7 +55,10 @@ import { MovimientoComponent } from './movimiento/movimiento.component';
         MatTableModule,
         MatFormFieldModule,
         MatSelectModule,
-        MatInputModule], 
+        MatInputModule,
+
+        NgApexchartsModule
+    ], 
     providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AdminModule { }
 

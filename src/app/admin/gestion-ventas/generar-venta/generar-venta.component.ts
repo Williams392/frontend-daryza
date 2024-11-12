@@ -31,7 +31,7 @@ export class GenerarVentaComponent implements OnInit {
   sucursal: string = '';
   tipoComprobante: string = '';
 
-  selectedComprobante: string = '';
+  selectedComprobante: string = ''; // POR DEFECTO
   selectedTipoDoc: string = '';
 
   selectFormaPago: string = '';
@@ -131,6 +131,12 @@ export class GenerarVentaComponent implements OnInit {
       return;
     }
   
+    // Validar el monto máximo para boletas
+    if (this.selectedComprobante === 'boleta' && this.totalPagar > 700.00) {
+      alert('El monto máximo permitido para una boleta es de 700.00');
+      return;
+    }
+  
     // Configurar los datos del comprobante
     const comprobanteData: Comprobante = {
       tipo_operacion: '0101',
@@ -194,6 +200,7 @@ export class GenerarVentaComponent implements OnInit {
       }
     );
   }
+  
 
   ElegirTipoDoc() {
     this.tipoDoc = this.selectedTipoDoc;

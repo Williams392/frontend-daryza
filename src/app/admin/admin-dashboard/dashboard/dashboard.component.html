@@ -1,3 +1,4 @@
+<!-- <div class="flex flex-col flex-1 w-full overflow-y-auto"> -->
 <div class="grid mb-2 pb-10 px-4 rounded-1xl bg-gray-100 border-3 ">
 
     <div class="grid grid-cols-12 gap-3">
@@ -5,8 +6,13 @@
         <div class="grid grid-cols-12 col-span-12 gap-6 xxl:col-span-9">
             <div class="col-span-12 mt-2">
 
-                <div class="grid grid-cols-12 gap-6 mt-4">
+                <div class="flex items-center h-10 intro-y">
+                    <h2 class="mr-5 text-lg font-medium truncate">Dashboard</h2>
+                </div>
+
+                <div class="grid grid-cols-12 gap-6 mt-1">
                     
+                    <!-- clientes -->
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
                         routerLink="/admin/cliente">
                         <div class="p-5">
@@ -30,6 +36,7 @@
                         </div>
                     </a>
 
+                    <!-- productos -->
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
                         routerLink="/admin/productos">
                         <div class="p-5">
@@ -58,6 +65,7 @@
                         </div>
                     </a>
                     
+                    <!-- ventas -->
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
                         routerLink="/admin/generar-venta">
                         <div class="p-5">
@@ -83,6 +91,7 @@
                         </div>
                     </a>
     
+                    <!-- user -->
                     <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
                         routerLink="/admin/usuarios">
                         <div class="p-5">
@@ -112,6 +121,54 @@
             </div>
 
         </div>
+
+        <div class="col-span-12 mt-3">
+            <div class="grid gap-2 grid-cols-1 lg:grid-cols-2">
+
+                <div class="bg-white shadow-lg p-4">
+                    <apx-chart 
+                      [series]="ventasChartOptions.series" 
+                      [chart]="ventasChartOptions.chart" 
+                      [xaxis]="ventasChartOptions.xaxis" 
+                      [title]="ventasChartOptions.title">
+                    </apx-chart>
+                </div>
+                <!-- Movimientos de  entradas y salidas: -->
+                <div class="bg-white shadow-lg p-4">
+                    <apx-chart 
+                    [series]="movimientosChartOptions.series" 
+                    [chart]="movimientosChartOptions.chart" 
+                    [xaxis]="movimientosChartOptions.xaxis" 
+                    [title]="movimientosChartOptions.title">
+                    </apx-chart>
+                </div>
+
+                <!-- <div class="bg-white shadow-lg p-4">
+                    <apx-chart 
+                        [series]="pieChartOptions.series" 
+                        [chart]="pieChartOptions.chart" 
+                        [labels]="pieChartOptions.labels" 
+                        [title]="pieChartOptions.title" 
+                        [plotOptions]="pieChartOptions.plotOptions">
+                    </apx-chart>
+                </div> -->
+            
+            </div>
+        </div>
+
+        <!-- Grafico de linea de Movimientos de  entradas y salidas: -->
+        <!-- <div class="col-span-12 mt-3">
+            <div class="grid gap-2 grid-cols-2">
+                <div class="bg-white shadow-lg p-4">
+                    <apx-chart 
+                    [series]="movimientosChartOptions.series" 
+                    [chart]="movimientosChartOptions.chart" 
+                    [xaxis]="movimientosChartOptions.xaxis" 
+                    [title]="movimientosChartOptions.title">
+                    </apx-chart>
+                </div>
+            </div>
+        </div> -->
         
     </div>
 

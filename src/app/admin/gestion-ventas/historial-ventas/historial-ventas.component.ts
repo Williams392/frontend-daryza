@@ -21,6 +21,7 @@ export class HistorialVentasComponent implements OnInit {
   tipoVentaFiltro: string = 'Todos';
   ordenarPor: string = 'asc';
   pdfSrc: string | Uint8Array | undefined = undefined;
+  isLoading: boolean = true; // Para el estado de carga
 
   constructor(
     private historialVentasService: ComprobanteService,
@@ -30,6 +31,21 @@ export class HistorialVentasComponent implements OnInit {
   ngOnInit() {
     this.obtenerHistorialVentas();
     this.applyFilter();
+  }
+  obtenerHistorialVentas() {
+    this.isLoading = true; // Activa el estado de carga
+    this.historialVentasService.obtenerComprobantes().subscribe(comprobantes => {
+      this.dataSource.data = comprobantes.map(comprobante => ({
+        ...comprobante,
+        fecha_emision: this.datePipe.transform(comprobante.fecha_emision, 'yyyy-MM-dd') || ''
+      }));
+      this.dataSource.paginator = this.paginator;
+      this.applyFilter();
+      this.isLoading = false; // Desactiva el estado de carga una vez que se han obtenido los datos
+    }, error => {
+      this.isLoading = false; // Desactiva el estado de carga en caso de error
+      console.error("Error al obtener los comprobantes", error);
+    });
   }
 
   applyFilter() {
@@ -54,17 +70,6 @@ export class HistorialVentasComponent implements OnInit {
       return 0;
     }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  obtenerHistorialVentas() {
-    this.historialVentasService.obtenerComprobantes().subscribe(comprobantes => {
-      this.dataSource.data = comprobantes.map(comprobante => ({
-        ...comprobante,
-        fecha_emision: this.datePipe.transform(comprobante.fecha_emision, 'yyyy-MM-dd') || ''
-      }));
-      this.dataSource.paginator = this.paginator;
-      this.applyFilter();
-    });
   }
 
   descargarPDF(id: number) {

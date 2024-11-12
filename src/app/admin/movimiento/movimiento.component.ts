@@ -17,6 +17,7 @@ export class MovimientoComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Movimiento>();
   ordenarPor: string = 'asc';
   tipoMovimientoFiltro: string = 'Todos';
+  isLoading: boolean = true; // Para el estado de carga
 
   constructor(private movimientoService: MovimientoService) {}
 
@@ -25,10 +26,15 @@ export class MovimientoComponent implements OnInit, AfterViewInit {
   }
 
   obtenerMovimientos() {
+    this.isLoading = true; // Inicia la carga
     this.movimientoService.getMovimientos().subscribe(movimientos => {
       this.dataSource.data = movimientos;
       this.dataSource.paginator = this.paginator;
       this.applyFilter(); // Aplicar filtro después de obtener los datos
+      this.isLoading = false; // Finaliza la carga
+    }, error => {
+      this.isLoading = false; // En caso de error, también finaliza la carga
+      console.error('Error al obtener movimientos:', error);
     });
   }
 
