@@ -91,12 +91,18 @@ export class GenerarVentaComponent implements OnInit {
 
   // ------------------------------------------------------
   ElegirComprobante() {
-    // Filtra clientes según el tipo de comprobante
     if (this.selectedComprobante === 'factura') {
-      // Solo muestra clientes con RUC
       this.filtroCliente = this.listaClientes.filter(cliente => cliente.ruc_cliente != null && cliente.ruc_cliente !== '');
+      this.opcionesTipoDoc = [
+        { value: '6', label: 'RUC' }
+      ];
+      this.selectedTipoDoc = '6';  // Selecciona automáticamente RUC
     } else {
       this.filtroCliente = this.listaClientes;
+      this.opcionesTipoDoc = [
+        { value: '1', label: 'DNI' },
+        { value: '6', label: 'RUC' }
+      ];
     }
   }
 
@@ -322,8 +328,21 @@ export class GenerarVentaComponent implements OnInit {
   // ------------------------------------------------------
 
   ElegirCliente() {
-    this.cliente = this.selectedCliente;
+    const clienteSeleccionado = this.listaClientes.find(cliente => cliente.id_cliente === Number(this.selectedCliente));
+    if (clienteSeleccionado) {
+      this.opcionesTipoDoc = [];
+      if (clienteSeleccionado.dni_cliente) {
+        this.opcionesTipoDoc.push({ value: '1', label: 'DNI' });
+      }
+      if (clienteSeleccionado.ruc_cliente) {
+        this.opcionesTipoDoc.push({ value: '6', label: 'RUC' });
+      }
+      if (this.opcionesTipoDoc.length === 1) {
+        this.selectedTipoDoc = this.opcionesTipoDoc[0].value;  // Selecciona automáticamente si solo hay una opción
+      }
+    }
   }
+  
   cargarClientes() {
     this.clienteService.getClientes().subscribe((data) => {
       this.listaClientes = data;
