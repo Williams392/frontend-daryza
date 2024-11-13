@@ -64,41 +64,46 @@
                   </div>
 
                   <div class="col-md-6">
-                      <label for="formaPago" class="form-label">Forma Pago</label>
-                      <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
-                        <option value="" disabled selected>Elegir...</option>
-                        <option>Efectivo</option>
+                    <label for="formaPago" class="form-label">Forma Pago</label>
+                    <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
+                      <option value="" disabled>Elegir...</option>
+                      <option value="Efectivo">Efectivo</option>
+                      <!-- <option value="Yape">Yape</option> -->
                     </select> 
                   </div>
+                  
  
               </div>
    
                 <!-- Fila 3 - cliente: -->
                 <div class="row mb-3">
-                  <div class="col-md-4">
-                      <label for="cliente" class="form-label">Buscar Cliente:</label>
-                      <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
-                  </div>
 
                   <div class="col-md-4">
-                      <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
-                      <select id="selectedCliente" name="selectedCliente" class="form-select" required (change)="ElegirCliente()" [(ngModel)]="selectedCliente">
-                          <option value="" disabled selected>Elegir...</option>
-                          <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> {{ item.id_cliente }} | {{ item.nombre_clie}} </option>
-                      </select>
+                    <label for="cliente" class="form-label">Buscar Cliente:</label>
+                    <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
+                  </div>
+                
+                  <div class="col-md-4">
+                    <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
+                    <select id="selectedCliente" name="selectedCliente" class="form-select" required 
+                            [(ngModel)]="selectedCliente" (change)="ElegirCliente()">
+                      <option value="" disabled selected>Elegir...</option>
+                      <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> 
+                        {{ item.id_cliente }} | {{ item.nombre_clie }} 
+                      </option>
+                    </select>
                   </div>
 
                   <div class="col-md-4">
                     <label for="selectedTipoDoc" class="form-label">Tipo de Doc</label>
-                    <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required
-                            [(ngModel)]="selectedTipoDoc">
-                      <option *ngFor="let opcion of opcionesTipoDoc" [value]="opcion.value">
-                        {{ opcion.label }}
-                      </option>
+                    <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc">
+                      <option value="1">DNI</option>
+                      <!-- Solo mostrar RUC si el tipo de comprobante es 'boleta' -->
+                      <option value="6">RUC</option>
                     </select>
                   </div>
-        
-
+                              
+                  
                 </div>
 
                 <!-- Fila 4: Productos -->

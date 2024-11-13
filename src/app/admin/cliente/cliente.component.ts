@@ -53,33 +53,24 @@ export class ClienteComponent implements OnInit, AfterViewInit {
       });
     }
 
-    // guardarClientes() {
-    //     if (this.clienteForm.valid) {
-    //         if (this.cliente.id_cliente) {
-    //             this.clienteService.updateCliente(this.cliente.id_cliente, this.cliente).subscribe({
-    //                 next: () => this.onSuccess('Cliente actualizado con éxito'),
-    //                 error: () => this.onError('Error al actualizar cliente')
-    //             });
-    //         } else {
-    //             this.clienteService.createCliente(this.cliente).subscribe({
-    //                 next: () => this.onSuccess('Cliente guardado con éxito'),
-    //                 error: () => this.onError('Error al guardar cliente')
-    //             });
-    //         }
-    //     } else {
-    //         this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
-    //     }
-    // }
+
 
     guardarClientes() {
+        // Elimina el campo ruc_cliente si está vacío o null
+        if (!this.cliente.ruc_cliente) {
+            delete this.cliente.ruc_cliente;
+        }
+    
         if (this.clienteForm.valid) {
-            console.log(this.cliente); // Agrega esto para ver los datos
+            console.log(this.cliente); // Ver los datos
             if (this.cliente.id_cliente) {
+                // Si ya existe un cliente, actualizamos
                 this.clienteService.updateCliente(this.cliente.id_cliente, this.cliente).subscribe({
                     next: () => this.onSuccess('Cliente actualizado con éxito'),
                     error: () => this.onError('Error al actualizar cliente')
                 });
             } else {
+                // Si es un cliente nuevo, lo creamos
                 this.clienteService.createCliente(this.cliente).subscribe({
                     next: () => this.onSuccess('Cliente guardado con éxito'),
                     error: () => this.onError('Error al guardar cliente')
@@ -88,8 +79,7 @@ export class ClienteComponent implements OnInit, AfterViewInit {
         } else {
             this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
         }
-    }
-    
+    }  
     
 
     editarCliente(cliente: Cliente) {

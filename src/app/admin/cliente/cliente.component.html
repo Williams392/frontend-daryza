@@ -130,14 +130,14 @@
                             </div>
                         
                             <div class="col-md-6 mb-3">
-                                <label for="ruc_cliente" class="form-label">RUC del cliente<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="ruc_cliente" name="ruc_cliente" required maxlength="11"
+                                <label for="ruc_cliente" class="form-label">RUC del cliente</label>
+                                <input type="text" class="form-control" id="ruc_cliente" name="ruc_cliente" maxlength="11"
                                     [(ngModel)]="cliente.ruc_cliente" #ruc_cliente="ngModel">
-                                <div *ngIf="ruc_cliente.invalid && (ruc_cliente.dirty || ruc_cliente.touched)" class="text-danger">
-                                    <div *ngIf="ruc_cliente.errors?.['required']">El RUC es obligatorio.</div>
-                                    <div *ngIf="ruc_cliente.errors?.['maxlength']">El RUC debe tener máximo 11 caracteres.</div>
+                                <div *ngIf="ruc_cliente.dirty || ruc_cliente.touched">
+                                    <div *ngIf="ruc_cliente.errors?.['maxlength'] && cliente.ruc_cliente">El RUC debe tener máximo 11 caracteres.</div>
                                 </div>
-                            </div>
+                            </div>                            
+                            
                         
                         </div>
                         

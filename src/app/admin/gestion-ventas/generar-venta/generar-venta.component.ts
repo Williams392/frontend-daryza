@@ -34,7 +34,7 @@ export class GenerarVentaComponent implements OnInit {
   selectedComprobante: string = ''; // POR DEFECTO
   selectedTipoDoc: string = '';
 
-  selectFormaPago: string = '';
+  selectFormaPago: string = 'Efectivo';
   selectedSucursal: string = '';
   selectedCliente: string = '';
   selectedProducto: string = '';
@@ -63,8 +63,6 @@ export class GenerarVentaComponent implements OnInit {
     this.cargarProductos();
     this.cargarSucursales();
 
-    // Inicializa las opciones de "Tipo de Doc" según el comprobante seleccionado
-    this.actualizarOpcionesTipoDoc();
   
     const tipoComprobanteSelect = document.getElementById('tipoComprobante') as HTMLSelectElement;
     const serieInput = document.getElementById('serie') as HTMLInputElement;
@@ -89,22 +87,21 @@ export class GenerarVentaComponent implements OnInit {
     this.actualizarHoraEmision();
 
   }
-  actualizarHoraEmision() {
-    const horaEmisionInput = document.getElementById('horaEmision') as HTMLInputElement;
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    horaEmisionInput.value = `${hours}:${minutes}`;
-    this.cdr.detectChanges(); // Forzar la actualización de la vista
-  }  
 
 
   // ------------------------------------------------------
   ElegirComprobante() {
-    this.tipoComprobante = this.selectedComprobante;
-    this.actualizarOpcionesTipoDoc();
-    this.selectedTipoDoc = ''; 
+    // Filtra clientes según el tipo de comprobante
+    if (this.selectedComprobante === 'factura') {
+      // Solo muestra clientes con RUC
+      this.filtroCliente = this.listaClientes.filter(cliente => cliente.ruc_cliente != null && cliente.ruc_cliente !== '');
+    } else {
+      this.filtroCliente = this.listaClientes;
+    }
   }
+
+
+  // ------------------------------------------------------
   emitirComprobante() {
     const clienteObj = this.listaClientes.find(cliente => cliente.id_cliente === parseInt(this.selectedCliente));
     const sucursalObj = this.listaSursales.find(sucursal => sucursal.id_sucursal === parseInt(this.selectedSucursal));
@@ -188,6 +185,7 @@ export class GenerarVentaComponent implements OnInit {
         });
         this.resetForm();
         this.actualizarHoraEmision();
+        this.cargarSucursales(); // para manterner.
       },
       error => {
         console.error('Error al registrar el comprobante:', error);
@@ -205,12 +203,11 @@ export class GenerarVentaComponent implements OnInit {
   ElegirTipoDoc() {
     this.tipoDoc = this.selectedTipoDoc;
   }
-  ElegirCliente() {
-    this.cliente = this.selectedCliente;
-  }
+
   elegirSucursal() {
     this.sucursal = this.selectedSucursal;
   }
+
   ElegirProducto() {
     const productoSeleccionado = this.listaProductos.find(
       (prod) => prod.id_producto === parseInt(this.selectedProducto)
@@ -220,20 +217,7 @@ export class GenerarVentaComponent implements OnInit {
       this.cdr.detectChanges(); 
     }
   }
-
-  actualizarOpcionesTipoDoc() {
-    if (this.selectedComprobante === 'boleta') {
-      this.opcionesTipoDoc = [
-        { value: '1', label: 'DNI' },
-        { value: '6', label: 'RUC' }
-      ];
-    } else if (this.selectedComprobante === 'factura') {
-      this.opcionesTipoDoc = [
-        { value: '6', label: 'RUC' }
-      ];
-    }
-    this.selectedTipoDoc = ''; 
-  }
+  
   cargarProductos() {
     this.productoService.getProductoLista().subscribe(
       (response: Producto[]) => {
@@ -327,31 +311,48 @@ export class GenerarVentaComponent implements OnInit {
     this.sucursalService.cargarSucursales().subscribe((data) => {
       this.listaSursales = data;
       this.filtroSucursal = data;
+      
+      // Establecer el primer ID de sucursal como valor predeterminado
+      if (this.filtroSucursal.length > 0) {
+        this.selectedSucursal = this.filtroSucursal[0].id_sucursal.toString();
+      }
     });
   }
 
+  // ------------------------------------------------------
+
+  ElegirCliente() {
+    this.cliente = this.selectedCliente;
+  }
   cargarClientes() {
     this.clienteService.getClientes().subscribe((data) => {
       this.listaClientes = data;
-      this.filtroCliente = data;
+      this.ElegirComprobante(); // Llama a este método después de cargar los clientes para aplicar el filtro inicial
     });
   }
+  // Método para buscar clientes
   buscarCliente(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const searchText = inputElement.value.toLowerCase();
-  
-    if (searchText) {
+
+    if (this.selectedComprobante === 'factura') {
+      // Solo permite buscar clientes con RUC
       this.filtroCliente = this.listaClientes.filter(
         (pro) =>
-          pro.dni_cliente.toLowerCase().includes(searchText) ||
-          pro.nombre_clie.toLowerCase().includes(searchText)
+          (pro.ruc_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText)) &&
+          pro.ruc_cliente != null
       );
     } else {
-      // Restaura la lista original cuando el campo de búsqueda está vacío
-      this.filtroCliente = this.listaClientes;
+      // Permite buscar todos los clientes si el comprobante es boleta
+      this.filtroCliente = this.listaClientes.filter(
+        (pro) =>
+          (pro.dni_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText))
+      );
     }
-  }  
+  }
+
   // ------------------------------------------------------
+  // SECUNDARIO:
 
   actualizarCantidadInput() {
     this.cantidad = parseInt((<HTMLInputElement>document.getElementById('cantidad')).value, 10);
@@ -372,5 +373,14 @@ export class GenerarVentaComponent implements OnInit {
     this.selectedSucursal = '';
     this.cdr.detectChanges();
   }
+
+  actualizarHoraEmision() {
+    const horaEmisionInput = document.getElementById('horaEmision') as HTMLInputElement;
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    horaEmisionInput.value = `${hours}:${minutes}`;
+    this.cdr.detectChanges(); // Forzar la actualización de la vista
+  }  
 
 }
