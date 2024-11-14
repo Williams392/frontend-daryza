@@ -42,13 +42,13 @@ export class GenerarVentaComponent implements OnInit {
   stock: number = 0;
   cantidad: number = 1;
 
-  // Define las opciones disponibles según el comprobante
-  opcionesTipoDoc: { value: string, label: string }[] = [];
-
   productosSeleccionados: { producto: Producto, cantidad: number, valor: number, igv: number, precioConIgv: number }[] = [];
   totalGravada: number = 0;
   igv: number = 0;
   totalPagar: number = 0;
+
+  // Define las opciones disponibles según el comprobante
+  opcionesTipoDoc: { value: string, label: string }[] = [];
 
   constructor(
     private comprobanteService: ComprobanteService,
@@ -62,7 +62,7 @@ export class GenerarVentaComponent implements OnInit {
     this.cargarClientes();
     this.cargarProductos();
     this.cargarSucursales();
-
+    this.ElegirComprobante();
   
     const tipoComprobanteSelect = document.getElementById('tipoComprobante') as HTMLSelectElement;
     const serieInput = document.getElementById('serie') as HTMLInputElement;
@@ -85,7 +85,6 @@ export class GenerarVentaComponent implements OnInit {
     fechaEmisionInput.value = today;
 
     this.actualizarHoraEmision();
-
   }
 
 
@@ -204,16 +203,9 @@ export class GenerarVentaComponent implements OnInit {
       }
     );
   }
-  
-
-  ElegirTipoDoc() {
-    this.tipoDoc = this.selectedTipoDoc;
-  }
-
   elegirSucursal() {
     this.sucursal = this.selectedSucursal;
   }
-
   ElegirProducto() {
     const productoSeleccionado = this.listaProductos.find(
       (prod) => prod.id_producto === parseInt(this.selectedProducto)
@@ -223,7 +215,6 @@ export class GenerarVentaComponent implements OnInit {
       this.cdr.detectChanges(); 
     }
   }
-  
   cargarProductos() {
     this.productoService.getProductoLista().subscribe(
       (response: Producto[]) => {
@@ -298,15 +289,12 @@ export class GenerarVentaComponent implements OnInit {
   calcularTotalGravada(): number {
     return this.productosSeleccionados.reduce((total, item) => total + (item.valor || 0), 0); 
   }
-
   calcularIgv(): number {
     return this.productosSeleccionados.reduce((total, item) => total + (item.igv || 0), 0);  
   }
-
   calcularTotalPagar(): number {
     return this.productosSeleccionados.reduce((total, item) => total + (item.precioConIgv || 0), 0); 
   }
-
   eliminarProducto(index: number) {
     this.productosSeleccionados.splice(index, 1);
     this.actualizarTotales();
@@ -326,7 +314,10 @@ export class GenerarVentaComponent implements OnInit {
   }
 
   // ------------------------------------------------------
-
+  ElegirTipoDoc() {
+    this.tipoDoc = this.selectedTipoDoc;
+    this.ElegirComprobante(); 
+  }
   ElegirCliente() {
     const clienteSeleccionado = this.listaClientes.find(cliente => cliente.id_cliente === Number(this.selectedCliente));
     if (clienteSeleccionado) {
@@ -340,13 +331,17 @@ export class GenerarVentaComponent implements OnInit {
       if (this.opcionesTipoDoc.length === 1) {
         this.selectedTipoDoc = this.opcionesTipoDoc[0].value;  // Selecciona automáticamente si solo hay una opción
       }
+      // Asegúrate de que si el tipo de comprobante es factura, el tipo de documento sea RUC
+      if (this.selectedComprobante === 'factura') {
+        this.selectedTipoDoc = '6';
+      }
+      this.ElegirComprobante(); 
     }
   }
-  
   cargarClientes() {
     this.clienteService.getClientes().subscribe((data) => {
       this.listaClientes = data;
-      this.ElegirComprobante(); // Llama a este método después de cargar los clientes para aplicar el filtro inicial
+      this.ElegirComprobante(); 
     });
   }
   // Método para buscar clientes
@@ -359,7 +354,8 @@ export class GenerarVentaComponent implements OnInit {
       this.filtroCliente = this.listaClientes.filter(
         (pro) =>
           (pro.ruc_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText)) &&
-          pro.ruc_cliente != null
+          pro.ruc_cliente != null,
+          this.ElegirComprobante() // NUEVO .------------------------------
       );
     } else {
       // Permite buscar todos los clientes si el comprobante es boleta

@@ -87,6 +87,15 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  loadVentasData() {
+    this.dashboardService.getVentasPorDiaSemana().subscribe((data: { dia_semana: string, total_ventas: number }[]) => {
+      const dias = data.map(item => item.dia_semana);
+      const ventas = data.map(item => item.total_ventas);
+      this.createVentasChart(dias, ventas);
+    });
+  }
+  
+
   createVentasChart(dias: string[], ventas: number[]) {
     this.ventasChartOptions = {
       series: [

@@ -1,210 +1,209 @@
 <div class="container-fluid mt-1 p-2">
 
-    <!-- Encabezado: Logo y empresa -->
-    <div class="header">
-        <div class="logo">
-            <img src="assets/daryza_logo_v3.jpg" alt="Logo Empresa">
+  <!-- Encabezado: Logo y empresa -->
+  <div class="header">
+      <div class="logo">
+          <img src="assets/daryza_logo_v3.jpg" alt="Logo Empresa">
+      </div>
+      <div class="empresa-info">
+          <h2 class="fw-bold">Daryza S.A.C</h2>
+          <p>Giro: Desarrollo de venta de Productos de Limpieza</p>
+          <p>Granja 1-Alt km.30 Antigua Panamericana Sur, Lurín</p>
+      </div>
+      <div class="comprobante-info">
+          <p>R.U.C.: 20144109458</p>
+          <p>COMPROBANTE DE VENTA</p>
+          <p>Nº NO ASIGNADO</p>
+      </div>
+  </div>
+
+  <!-- Panel: Venta: -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form>
+
+        <!-- Fila 1 - Comprobvante: -->
+        <div class="row mb-3">
+          
+          <div class="col-md-4">
+            <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
+            <select id="tipoComprobante" name="tipoComprobante" class="form-select" required
+                    [(ngModel)]="selectedComprobante" (change)="ElegirComprobante()">
+              <option value="boleta">Boleta</option>
+              <option value="factura">Factura</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="serie" class="form-label">SERIE</label>
+            <input type="text" id="serie" name="serie" class="form-control" readonly>
+          </div>
+          <div class="col-md-2">
+            <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
+            <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" readonly>
+          </div>
+          <div class="col-md-2">
+            <label for="horaEmision" class="form-label">Hora de Emisión:</label>
+            <input type="time" id="horaEmision" name="horaEmision" class="form-control" readonly>
+          </div>                  
+
         </div>
-        <div class="empresa-info">
-            <h2 class="fw-bold">Daryza S.A.C</h2>
-            <p>Giro: Desarrollo de venta de Productos de Limpieza</p>
-            <p>Granja 1-Alt km.30 Antigua Panamericana Sur, Lurín</p>
+
+        <!-- Fila 2 - Sucursal - pago: -->
+        <div class="row mb-3">
+
+          <div class="col-md-6">
+              <label for="ruc" class="form-label" placeholder="Buscar por sucursal..." >Sucursal (Id/Nombre):</label>
+
+              <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
+                  <option value="" disabled selected>Elegir...</option>
+                  <option *ngFor="let sucursal of filtroSucursal" [value]="sucursal.id_sucursal">{{sucursal.nombre_sucursal}}</option>
+              </select> 
+          </div>
+
+          <div class="col-md-6">
+            <label for="formaPago" class="form-label">Forma Pago</label>
+            <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
+              <option value="" disabled>Elegir...</option>
+              <option value="Efectivo">Efectivo</option>
+              <!-- <option value="Yape">Yape</option> -->
+            </select> 
+          </div>
+          
+
         </div>
-        <div class="comprobante-info">
-            <p>R.U.C.: 20144109458</p>
-            <p>COMPROBANTE DE VENTA</p>
-            <p>Nº NO ASIGNADO</p>
+
+        <!-- Fila 3 - cliente: -->
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="cliente" class="form-label">Buscar Cliente:</label>
+            <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
+          </div>
+          <div class="col-md-4">
+            <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):<span class="text-danger">*</span></label>
+            <select id="selectedCliente" name="selectedCliente" class="form-select" required 
+                    [(ngModel)]="selectedCliente" (change)="ElegirCliente()">
+              <option value="" disabled selected>Elegir...</option>
+              <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> 
+                {{ item.id_cliente }} | {{ item.nombre_clie }} 
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="selectedTipoDoc" class="form-label">Tipo de Doc<span class="text-danger">*</span></label>
+            <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc" (change)="ElegirTipoDoc()">
+              <option *ngFor="let doc of opcionesTipoDoc" [value]="doc.value">{{ doc.label }}</option>
+            </select>
+          </div>   
+                 
         </div>
-    </div>
 
-    <!-- Panel: Venta: -->
-    <div class="card mb-4">
 
-        <div class="card-body">
-            <form>
-
-                <!-- Fila 1 - Comprobvante: -->
-                <div class="row mb-3">
-                  
-                  <div class="col-md-4">
-                    <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
-                    <select id="tipoComprobante" name="tipoComprobante" class="form-select" required
-                            [(ngModel)]="selectedComprobante" (change)="ElegirComprobante()">
-                      <option value="boleta">Boleta</option>
-                      <option value="factura">Factura</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-4">
-                    <label for="serie" class="form-label">SERIE</label>
-                    <input type="text" id="serie" name="serie" class="form-control" readonly>
-                  </div>
-
-                  <div class="col-md-2">
-                    <label for="fechaEmision" class="form-label">Fecha de Emisión:</label>
-                    <input type="date" id="fechaEmision" name="fechaEmision" class="form-control" readonly>
-                  </div>
-                  <div class="col-md-2">
-                    <label for="horaEmision" class="form-label">Hora de Emisión:</label>
-                    <input type="time" id="horaEmision" name="horaEmision" class="form-control" readonly>
-                  </div>                  
-
-                </div>
-
-                <!-- Fila 2 - Sucursal - pago: -->
-                <div class="row mb-3">
-
-                  <div class="col-md-6">
-                      <label for="ruc" class="form-label" placeholder="Buscar por sucursal..." >Sucursal (Id/Nombre):</label>
-
-                      <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
-                          <option value="" disabled selected>Elegir...</option>
-                          <option *ngFor="let sucursal of filtroSucursal" [value]="sucursal.id_sucursal">{{sucursal.nombre_sucursal}}</option>
-                      </select> 
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="formaPago" class="form-label">Forma Pago</label>
-                    <select id="selectedFormaPago" name="selectedFormaPago" class="form-select" required [(ngModel)]="selectFormaPago">
-                      <option value="" disabled>Elegir...</option>
-                      <option value="Efectivo">Efectivo</option>
-                      <!-- <option value="Yape">Yape</option> -->
-                    </select> 
-                  </div>
-                  
- 
+        <!-- Fila 4: Productos -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="producto" class="form-label">Buscar Producto:</label>
+              <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
+            </div>
+          
+            <div class="col-md-4">
+              <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
+              <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
+                <option value="" disabled selected>Elegir...</option>
+                <option *ngFor="let item of filtroProductos" [value]="item.id_producto"> {{ item.id_producto }} | {{ item.nombre_prod }} </option>
+              </select>
+            </div>
+          
+            <div class="col-md-2">
+              <label for="stock" class="form-label">Stock:</label>
+              <input type="number" id="stock" name="stock" class="form-control" [(ngModel)]="stock" readonly>
+            </div>
+          
+            <div class="col-md-2 text-center">
+              <label for="cantidad" class="form-label">Cantidad:</label>
+              <div class="input-group justify-content-center">
+                <button class="btn btn-outline-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'));">-</button>
+                <input type="number" id="cantidad" name="cantidad" class="form-control text-center" [(ngModel)]="cantidad" min="1" (change)="actualizarCantidadInput()" style="appearance: textfield;">
+                <button class="btn btn-outline-secondary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'));">+</button>
               </div>
-   
-              <!-- Fila 3 - cliente: -->
-              <div class="row mb-3">
-                <div class="col-md-4">
-                  <label for="cliente" class="form-label">Buscar Cliente:</label>
-                  <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
-                </div>
-                <div class="col-md-4">
-                  <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):</label>
-                  <select id="selectedCliente" name="selectedCliente" class="form-select" required 
-                          [(ngModel)]="selectedCliente" (change)="ElegirCliente()">
-                    <option value="" disabled selected>Elegir...</option>
-                    <option *ngFor="let item of filtroCliente" [value]="item.id_cliente"> 
-                      {{ item.id_cliente }} | {{ item.nombre_clie }} 
-                    </option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label for="selectedTipoDoc" class="form-label">Tipo de Doc</label>
-                  <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc">
-                    <option *ngFor="let doc of opcionesTipoDoc" [value]="doc.value">{{ doc.label }}</option>
-                  </select>
-                </div>
-              </div>
-
-
-                <!-- Fila 4: Productos -->
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                      <label for="producto" class="form-label">Buscar Producto:</label>
-                      <input type="text" id="producto" name="producto" class="form-control" (input)="buscarProducto($event)">
-                    </div>
-                  
-                    <div class="col-md-4">
-                      <label for="selectedProducto" class="form-label">Producto (Id/Nombre):</label>
-                      <select id="selectedProducto" name="selectedProducto" class="form-select" required (change)="ElegirProducto()" [(ngModel)]="selectedProducto">
-                        <option value="" disabled selected>Elegir...</option>
-                        <option *ngFor="let item of filtroProductos" [value]="item.id_producto"> {{ item.id_producto }} | {{ item.nombre_prod }} </option>
-                      </select>
-                    </div>
-                  
-                    <div class="col-md-2">
-                      <label for="stock" class="form-label">Stock:</label>
-                      <input type="number" id="stock" name="stock" class="form-control" [(ngModel)]="stock" readonly>
-                    </div>
-                  
-                    <div class="col-md-2 text-center">
-                      <label for="cantidad" class="form-label">Cantidad:</label>
-                      <div class="input-group justify-content-center">
-                        <button class="btn btn-outline-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'));">-</button>
-                        <input type="number" id="cantidad" name="cantidad" class="form-control text-center" [(ngModel)]="cantidad" min="1" (change)="actualizarCantidadInput()" style="appearance: textfield;">
-                        <button class="btn btn-outline-secondary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'));">+</button>
-                      </div>
-                    </div>
-                                     
-                    <div class="col-md-2 mt-4">
-                      <button class="btn btn-primary" (click)="anadirArticulo()" style="background-color: #1b5a99; border-color: #1b5a99;">Añadir Artículo</button>
-                    </div>                    
-                </div>
-                
-            </form>
+            </div>
+                              
+            <div class="col-md-2 mt-4">
+              <button class="btn btn-primary" (click)="anadirArticulo()" style="background-color: #1b5a99; border-color: #1b5a99;">Añadir Artículo</button>
+            </div>                    
         </div>
-
-    </div>
-
-    <!-- Tabla de Productos -->
-    <div class="table-responsive mb-4">
-        <table class="table table-bordered">
-          <thead style="background-color: #1b5a99; color: #1b5a99;">
-            <tr>
-              <th>CODÍGO</th>
-              <th>PRODUCTO</th>
-              <th>CANTIDAD</th>
-              <th>PRECIO UNITARIO</th>
-              <th>VALOR</th>
-              <th>ACCIÓN</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of productosSeleccionados; let i = index">
-              <td>{{ item.producto.codigo }}</td>
-              <td>{{ item.producto.nombre_prod }}</td>
-              
-              <td>
-                <div class="input-group justify-content-center">
-                  <button class="btn btn-outline-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('input'));">-</button>
-                  <input type="number" [(ngModel)]="item.cantidad" (input)="actualizarCantidad(i, item.cantidad)" class="form-control text-center" min="1" style="appearance: textfield;">
-                  <button class="btn btn-outline-secondary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('input'));">+</button>
-                </div>
-              </td>
-
-              <td>S/ {{ item.producto.precio_venta | number: '1.2-2' }}</td>
-              <td>S/ {{ item.valor | number: '1.2-2' }}</td>
-              <td>
-                <button (click)="eliminarProducto(i)" class="btn btn-dark btn-sm">
-                    <i class="bi bi-trash"></i>
-                </button>
-             </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
-
-    <!-- Pie de página -->
-    <div class="row">
-        <div class="col-md-6 offset-md-6">
-          <div class="d-flex justify-content-end align-items-center mb-2">
-            <p class="mb-0 me-2">Gravado:</p>
-            <input type="text" class="form-control input-amount text-end" [value]="totalGravada | currency:'S/. '" style="width: 140px;">
-          </div>
-          <div class="d-flex justify-content-end align-items-center mb-2">
-            <p class="mb-0 me-2">IGV (18%):</p>
-            <input type="text" class="form-control input-amount text-end" [value]="igv | currency:'S/. '" style="width: 140px;">
-          </div>
-          <div class="d-flex justify-content-end align-items-center mb-2">
-            <p class="mb-0 me-2">Importe Total:</p>
-            <input type="text" class="form-control input-amount text-end" [value]="totalPagar | currency:'S/. '" style="width: 140px;">
-          </div>
-        </div>
-    </div>
+          
+      </form>
       
-    <!-- Botones Emitir y Cerrar -->
-    <div class="row mt-3">
-        <div class="col-md-12 text-center">
-            <button class="btn btn-success me-2" (click)="emitirComprobante()">
-                <i class="bi bi-check-circle"></i> Emitir
-            </button>
-            <button class="btn btn-secondary" (click)="resetForm()">
-                <i class="bi bi-x-circle"></i> Cancelar
-            </button>
-        </div>
     </div>
+  </div>
+
+  <!-- Tabla de Productos -->
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered">
+      <thead style="background-color: #1b5a99; color: #1b5a99;">
+        <tr>
+          <th>CODÍGO</th>
+          <th>PRODUCTO</th>
+          <th>CANTIDAD</th>
+          <th>PRECIO UNITARIO</th>
+          <th>VALOR</th>
+          <th>ACCIÓN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of productosSeleccionados; let i = index">
+          <td>{{ item.producto.codigo }}</td>
+          <td>{{ item.producto.nombre_prod }}</td>
+          
+          <td>
+            <div class="input-group justify-content-center">
+              <button class="btn btn-outline-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('input'));">-</button>
+              <input type="number" [(ngModel)]="item.cantidad" (input)="actualizarCantidad(i, item.cantidad)" class="form-control text-center" min="1" style="appearance: textfield;">
+              <button class="btn btn-outline-secondary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('input'));">+</button>
+            </div>
+          </td>
+
+          <td>S/ {{ item.producto.precio_venta | number: '1.2-2' }}</td>
+          <td>S/ {{ item.valor | number: '1.2-2' }}</td>
+          <td>
+            <button (click)="eliminarProducto(i)" class="btn btn-dark btn-sm">
+                <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pie de página -->
+  <div class="row">
+      <div class="col-md-6 offset-md-6">
+        <div class="d-flex justify-content-end align-items-center mb-2">
+          <p class="mb-0 me-2">Gravado:</p>
+          <input type="text" class="form-control input-amount text-end" [value]="totalGravada | currency:'S/. '" style="width: 140px;">
+        </div>
+        <div class="d-flex justify-content-end align-items-center mb-2">
+          <p class="mb-0 me-2">IGV (18%):</p>
+          <input type="text" class="form-control input-amount text-end" [value]="igv | currency:'S/. '" style="width: 140px;">
+        </div>
+        <div class="d-flex justify-content-end align-items-center mb-2">
+          <p class="mb-0 me-2">Importe Total:</p>
+          <input type="text" class="form-control input-amount text-end" [value]="totalPagar | currency:'S/. '" style="width: 140px;">
+        </div>
+      </div>
+  </div>
+      
+  <!-- Botones Emitir y Cerrar -->
+  <div class="row mt-3">
+      <div class="col-md-12 text-center">
+          <button class="btn btn-success me-2" (click)="emitirComprobante()">
+              <i class="bi bi-check-circle"></i> Emitir
+          </button>
+          <button class="btn btn-secondary" (click)="resetForm()">
+              <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+      </div>
+  </div>
 
 </div>
