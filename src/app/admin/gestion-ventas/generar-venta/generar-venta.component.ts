@@ -63,6 +63,7 @@ export class GenerarVentaComponent implements OnInit {
     this.cargarProductos();
     this.cargarSucursales();
     this.ElegirComprobante();
+    this.ElegirTipoDoc();
   
     const tipoComprobanteSelect = document.getElementById('tipoComprobante') as HTMLSelectElement;
     const serieInput = document.getElementById('serie') as HTMLInputElement;
@@ -190,6 +191,7 @@ export class GenerarVentaComponent implements OnInit {
         });
         this.resetForm();
         this.actualizarHoraEmision();
+        this.ElegirTipoDoc();
         this.cargarSucursales(); // para manterner.
       },
       error => {
@@ -335,7 +337,7 @@ export class GenerarVentaComponent implements OnInit {
       if (this.selectedComprobante === 'factura') {
         this.selectedTipoDoc = '6';
       }
-      this.ElegirComprobante(); 
+      //this.ElegirComprobante(); 
     }
   }
   cargarClientes() {
@@ -364,6 +366,7 @@ export class GenerarVentaComponent implements OnInit {
           (pro.dni_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText))
       );
     }
+    this.ElegirComprobante(); 
   }
 
   // ------------------------------------------------------

@@ -137,12 +137,13 @@
                                     <div *ngIf="productoForm.controls['nombre']?.errors?.['required']">El nombre es obligatorio.</div>
                                 </div>
                             </div>
+                            <!-- <div class="col-md-4">
+                                <label for="serie" class="form-label">SERIE</label>
+                                <input type="text" id="serie" name="serie" class="form-control" readonly>
+                            </div> -->
                             <div class="col-md-6 mb-3">
-                                <label for="codigo">Código <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="codigo" [(ngModel)]="producto.codigo" name="codigo" required>
-                                <div *ngIf="productoForm.controls['codigo']?.invalid && (productoForm.controls['codigo']?.dirty || productoForm.controls['codigo']?.touched)" class="text-danger">
-                                    <div *ngIf="productoForm.controls['codigo']?.errors?.['required']">El código es obligatorio.</div>
-                                </div>
+                                    <label for="serie" class="form-label">SERIE</label>
+                                    <input type="text" id="serie" name="serie" class="form-control" readonly placeholder="P-000000001">
                             </div>
                         </div>
 

@@ -56,9 +56,10 @@
               <label for="ruc" class="form-label" placeholder="Buscar por sucursal..." >Sucursal (Id/Nombre):</label>
 
               <select id="selectedSucursal" name="selectedSucursal" class="form-select" required (change)="elegirSucursal()" [(ngModel)]="selectedSucursal">
-                  <option value="" disabled selected>Elegir...</option>
-                  <option *ngFor="let sucursal of filtroSucursal" [value]="sucursal.id_sucursal">{{sucursal.nombre_sucursal}}</option>
+                <option value="" disabled selected>Elegir...</option>
+                <option *ngFor="let sucursal of filtroSucursal" [value]="sucursal.id_sucursal">{{sucursal.nombre_sucursal}}</option>
               </select> 
+
           </div>
 
           <div class="col-md-6">
