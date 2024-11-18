@@ -63,7 +63,7 @@ export class GenerarVentaComponent implements OnInit {
     this.cargarProductos();
     this.cargarSucursales();
     this.ElegirComprobante();
-    this.ElegirTipoDoc();
+    //this.ElegirTipoDoc();
   
     const tipoComprobanteSelect = document.getElementById('tipoComprobante') as HTMLSelectElement;
     const serieInput = document.getElementById('serie') as HTMLInputElement;
@@ -86,26 +86,32 @@ export class GenerarVentaComponent implements OnInit {
     fechaEmisionInput.value = today;
 
     this.actualizarHoraEmision();
+
   }
 
 
   // ------------------------------------------------------
   ElegirComprobante() {
+    
     if (this.selectedComprobante === 'factura') {
+      // Filtrar solo clientes con RUC
       this.filtroCliente = this.listaClientes.filter(cliente => cliente.ruc_cliente != null && cliente.ruc_cliente !== '');
-      this.opcionesTipoDoc = [
-        { value: '6', label: 'RUC' }
-      ];
-      this.selectedTipoDoc = '6';  // Selecciona automáticamente RUC
-    } else {
+      this.opcionesTipoDoc = [{ value: '6', label: 'RUC' }];
+      this.selectedTipoDoc = '6'; // Forzar automáticamente RUC
+    } else if (this.selectedComprobante === 'boleta') {
+      // Permitir tanto DNI como RUC
       this.filtroCliente = this.listaClientes;
       this.opcionesTipoDoc = [
         { value: '1', label: 'DNI' },
         { value: '6', label: 'RUC' }
       ];
+      // No cambiar el tipo de documento automáticamente
+      if (!this.opcionesTipoDoc.some(doc => doc.value === this.selectedTipoDoc)) {
+        this.selectedTipoDoc = ''; // Resetear si el tipo actual no es válido
+      }
     }
   }
-
+  
 
   // ------------------------------------------------------
   emitirComprobante() {
@@ -119,6 +125,23 @@ export class GenerarVentaComponent implements OnInit {
     if (!sucursalObj) {
       alert('Por favor, selecciona una sucursal válida');
       return; 
+    }
+
+    // Validar coherencia entre Tipo de Comprobante y Tipo de Documento
+    if (this.selectedComprobante === 'factura' && this.selectedTipoDoc !== '6') {
+      alert('El tipo de documento debe ser RUC para emitir una Factura.');
+      return;
+    }
+
+    if (this.selectedComprobante === 'boleta' && !['1', '6'].includes(this.selectedTipoDoc)) {
+      alert('El tipo de documento debe ser DNI o RUC para emitir una Boleta.');
+      return;
+    }
+
+    // Validar monto máximo para boleta
+    if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
+      alert('El monto máximo permitido para una boleta con RUC es de 700.00.');
+      return;
     }
   
     // Valida la selección del Tipo de Documento
@@ -166,10 +189,12 @@ export class GenerarVentaComponent implements OnInit {
       forma_pago: {
         tipo: this.selectFormaPago
       }
+
     };
   
     // Llamada al servicio para crear el comprobante
     this.comprobanteService.crearComprobante(comprobanteData).subscribe(
+
       response => {
         console.log('Comprobante registrado exitosamente:', response);
         Swal.fire({
@@ -191,7 +216,9 @@ export class GenerarVentaComponent implements OnInit {
         });
         this.resetForm();
         this.actualizarHoraEmision();
-        this.ElegirTipoDoc();
+
+        //this.ElegirTipoDoc();
+
         this.cargarSucursales(); // para manterner.
       },
       error => {
@@ -203,77 +230,16 @@ export class GenerarVentaComponent implements OnInit {
           confirmButtonText: 'Aceptar'
         });
       }
+
     );
+
   }
+
   elegirSucursal() {
     this.sucursal = this.selectedSucursal;
   }
-  ElegirProducto() {
-    const productoSeleccionado = this.listaProductos.find(
-      (prod) => prod.id_producto === parseInt(this.selectedProducto)
-    );
-    if (productoSeleccionado) {
-      this.stock = productoSeleccionado.estock;
-      this.cdr.detectChanges(); 
-    }
-  }
-  cargarProductos() {
-    this.productoService.getProductoLista().subscribe(
-      (response: Producto[]) => {
-        this.listaProductos = response;
-        this.filtroProductos = this.listaProductos;
-      },
-      (error) => {
-        console.error('Error al obtener los productos:', error);
-      }
-    );
-  }
-  anadirArticulo() {
-    const productoSeleccionado = this.listaProductos.find(
-      (prod) => prod.id_producto === parseInt(this.selectedProducto)
-    );
-    if (productoSeleccionado && !this.productosSeleccionados.find(p => p.producto.id_producto === productoSeleccionado.id_producto)) {
-      this.productosSeleccionados.push({
-        producto: productoSeleccionado,
-        cantidad: this.cantidad,
-        valor: productoSeleccionado.precio_venta * this.cantidad,
-        igv: productoSeleccionado.precio_venta * this.cantidad * 0.18,
-        precioConIgv: productoSeleccionado.precio_venta * this.cantidad * 1.18
-      });
-      this.actualizarTotales();
-      this.cdr.detectChanges(); 
-    }
-  }
 
   // ------------------------------------------------------
-  descargarPDF(id: number) {
-    this.comprobanteService.obtenerComprobantePDF(id).subscribe(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `comprobante_${id}.pdf`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
-  }
-
-  // ------------------------------------------------------
-  removeProducto(item: Producto) {
-    this.filtroProductos = this.filtroProductos.filter(prod => prod.id_producto !== item.id_producto);
-  }
-  buscarProducto(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const searchText = inputElement.value.toLowerCase();
-    if (searchText) {
-      this.filtroProductos = this.listaProductos.filter(
-        (prod) =>
-          prod.codigo.toLowerCase().includes(searchText) ||
-          prod.nombre_prod.toLowerCase().includes(searchText)
-      );
-    } else {
-      this.filtroProductos = this.listaProductos;
-    }
-  }
   actualizarCantidad(index: number, cantidad: number) {
     const producto = this.productosSeleccionados[index];
     producto.cantidad = cantidad;
@@ -316,28 +282,47 @@ export class GenerarVentaComponent implements OnInit {
   }
 
   // ------------------------------------------------------
-  ElegirTipoDoc() {
-    this.tipoDoc = this.selectedTipoDoc;
-    this.ElegirComprobante(); 
-  }
+  //ElegirTipoDoc() {
+    //this.tipoDoc = this.selectedTipoDoc;
+  
+    // // Validar coherencia sin cambiar automáticamente el comprobante
+    // if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
+    //   alert('Para Boletas con RUC, el monto máximo permitido es 700.00.');
+    //   this.selectedTipoDoc = ''; // Resetear si es necesario
+    //   return;
+    // }
+  
+      // Sincronizar la configuración de comprobantes y tipos de documento
+      //this.ElegirComprobante();
+    //}
+  
+
+  
   ElegirCliente() {
     const clienteSeleccionado = this.listaClientes.find(cliente => cliente.id_cliente === Number(this.selectedCliente));
+  
     if (clienteSeleccionado) {
       this.opcionesTipoDoc = [];
+      
+      // Agregar las opciones de documentos disponibles para el cliente
       if (clienteSeleccionado.dni_cliente) {
         this.opcionesTipoDoc.push({ value: '1', label: 'DNI' });
       }
       if (clienteSeleccionado.ruc_cliente) {
         this.opcionesTipoDoc.push({ value: '6', label: 'RUC' });
       }
+  
+      // Si hay solo una opción de tipo de documento, seleccionarla automáticamente
       if (this.opcionesTipoDoc.length === 1) {
-        this.selectedTipoDoc = this.opcionesTipoDoc[0].value;  // Selecciona automáticamente si solo hay una opción
+        this.selectedTipoDoc = this.opcionesTipoDoc[0].value;
       }
-      // Asegúrate de que si el tipo de comprobante es factura, el tipo de documento sea RUC
+  
+      // Reglas específicas para Factura
       if (this.selectedComprobante === 'factura') {
+        // Forzar que solo se vea el tipo RUC
+        this.opcionesTipoDoc = [{ value: '6', label: 'RUC' }];
         this.selectedTipoDoc = '6';
       }
-      //this.ElegirComprobante(); 
     }
   }
   cargarClientes() {
@@ -357,7 +342,7 @@ export class GenerarVentaComponent implements OnInit {
         (pro) =>
           (pro.ruc_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText)) &&
           pro.ruc_cliente != null,
-          this.ElegirComprobante() // NUEVO .------------------------------
+          //this.ElegirComprobante() // NUEVO .------------------------------
       );
     } else {
       // Permite buscar todos los clientes si el comprobante es boleta
@@ -366,7 +351,73 @@ export class GenerarVentaComponent implements OnInit {
           (pro.dni_cliente?.toLowerCase().includes(searchText) || pro.nombre_clie.toLowerCase().includes(searchText))
       );
     }
-    this.ElegirComprobante(); 
+    //this.ElegirComprobante(); 
+  }
+
+  // ------------------------------------------------------
+  ElegirProducto() {
+    const productoSeleccionado = this.listaProductos.find(
+      (prod) => prod.id_producto === parseInt(this.selectedProducto)
+    );
+    if (productoSeleccionado) {
+      this.stock = productoSeleccionado.estock;
+      this.cdr.detectChanges(); 
+    }
+  }
+  cargarProductos() {
+    this.productoService.getProductoLista().subscribe(
+      (response: Producto[]) => {
+        this.listaProductos = response;
+        this.filtroProductos = this.listaProductos;
+      },
+      (error) => {
+        console.error('Error al obtener los productos:', error);
+      }
+    );
+  }
+  anadirArticulo() {
+    const productoSeleccionado = this.listaProductos.find(
+      (prod) => prod.id_producto === parseInt(this.selectedProducto)
+    );
+    if (productoSeleccionado && !this.productosSeleccionados.find(p => p.producto.id_producto === productoSeleccionado.id_producto)) {
+      this.productosSeleccionados.push({
+        producto: productoSeleccionado,
+        cantidad: this.cantidad,
+        valor: productoSeleccionado.precio_venta * this.cantidad,
+        igv: productoSeleccionado.precio_venta * this.cantidad * 0.18,
+        precioConIgv: productoSeleccionado.precio_venta * this.cantidad * 1.18
+      });
+      this.actualizarTotales();
+      this.cdr.detectChanges(); 
+    }
+  }
+  removeProducto(item: Producto) {
+    this.filtroProductos = this.filtroProductos.filter(prod => prod.id_producto !== item.id_producto);
+  }
+  buscarProducto(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchText = inputElement.value.toLowerCase();
+    if (searchText) {
+      this.filtroProductos = this.listaProductos.filter(
+        (prod) =>
+          prod.codigo.toLowerCase().includes(searchText) ||
+          prod.nombre_prod.toLowerCase().includes(searchText)
+      );
+    } else {
+      this.filtroProductos = this.listaProductos;
+    }
+  }
+
+  // ------------------------------------------------------
+  descargarPDF(id: number) {
+    this.comprobanteService.obtenerComprobantePDF(id).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comprobante_${id}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   // ------------------------------------------------------
