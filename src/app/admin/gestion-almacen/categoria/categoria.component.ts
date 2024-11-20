@@ -78,6 +78,9 @@ export class CategoriaComponent implements OnInit {
 
   guardarCategoria() {
     if (this.categoriaForm.valid) {
+      // Asegurar que estado_categoria siempre tiene un valor booleano
+      this.categoria.estado_categoria = !!this.categoria.estado_categoria;
+  
       if (this.categoria.id_categoria) {
         this.categoriaService.putActualizarCategoria(this.categoria.id_categoria, this.categoria).subscribe({
           next: () => this.onSuccess('Categoría actualizada con éxito'),
@@ -89,15 +92,21 @@ export class CategoriaComponent implements OnInit {
           error: (error) => this.handleError(error)
         });
       }
-    } 
-  }
-  handleError(error: any) { // Método para manejar errores
-    if (error.error.nombre_categoria) {
-      this.snack.open('El campo Nombre está en uso', 'Aceptar', { duration: 3000 });
-    } else {
-      this.snack.open('Error al guardar nombre_categoria', 'Aceptar', { duration: 3000 });
     }
   }
+  
+  handleError(error: any) {
+    console.error('Detalles del error del servidor:', error.error); // Muestra la respuesta detallada
+    if (error.error.nombre_categoria) {
+        this.snack.open('El campo Nombre está en uso', 'Aceptar', { duration: 3000 });
+    } else if (error.error.estado_categoria) {
+        this.snack.open('Error en el estado de la categoría', 'Aceptar', { duration: 3000 });
+    } else {
+        this.snack.open('Error al guardar la categoría', 'Aceptar', { duration: 3000 });
+    }
+  }
+
+
 
   eliminarCategoria(id: number): void {
     Swal.fire({
@@ -126,10 +135,10 @@ export class CategoriaComponent implements OnInit {
     this.categoriaForm.reset({
       id_categoria: null,
       nombre_categoria: '',
-      estado_categoria: true
+      estado_categoria: false // Por defecto, inactivo
     });
     this.abrirModal();
-  }
+  }  
 
   // -------------- venta modal --------------
   onSuccess(message: string) {

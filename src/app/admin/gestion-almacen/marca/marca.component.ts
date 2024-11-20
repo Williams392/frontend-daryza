@@ -61,6 +61,9 @@ export class MarcaComponent implements OnInit, AfterViewInit {
 
     guardarMarca() {
       if (this.marcaForm.valid) {
+
+          this.marca.estado_marca = !!this.marca.estado_marca;
+
           if (this.marca.id_marca) {
               this.marcaService.putActualizarMarca(this.marca.id_marca, this.marca).subscribe({
                   next: () => this.onSuccess('Marca actualizada con éxito'),
@@ -77,6 +80,7 @@ export class MarcaComponent implements OnInit, AfterViewInit {
       }
   }
   handleError(error: any) {  // Método para manejar errores
+    console.error('Detalles del error del servidor:', error.error); // Muestra la respuesta detallada
     if (error.error) {
         if (error.error.nombre_marca) {
           this.snack.open('El campo Nombre está en uso', 'Aceptar', { duration: 3000 });
@@ -113,7 +117,7 @@ export class MarcaComponent implements OnInit, AfterViewInit {
     this.marcaForm.reset({
       id_marca: null,
       nombre_marca: '',
-      estado_marca: true
+      estado_marca: false
     });
     this.abrirModal();
   }

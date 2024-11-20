@@ -97,8 +97,7 @@
 
           <div class="col-md-4">
             <label for="selectedTipoDoc" class="form-label">Tipo de Doc<span class="text-danger">*</span></label>
-            <!-- <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc" (change)="ElegirTipoDoc()"> -->
-            <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc">
+            <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required (change)="ElegirTipoDoc()" [(ngModel)]="selectedTipoDoc">
               <option *ngFor="let doc of opcionesTipoDoc" [value]="doc.value">{{ doc.label }}</option>
             </select>
           </div>   

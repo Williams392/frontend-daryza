@@ -216,9 +216,6 @@ export class GenerarVentaComponent implements OnInit {
         });
         this.resetForm();
         this.actualizarHoraEmision();
-
-        //this.ElegirTipoDoc();
-
         this.cargarSucursales(); // para manterner.
       },
       error => {
@@ -235,69 +232,11 @@ export class GenerarVentaComponent implements OnInit {
 
   }
 
-  elegirSucursal() {
-    this.sucursal = this.selectedSucursal;
+  ElegirTipoDoc() {
+    this.tipoDoc = this.selectedTipoDoc;
   }
 
   // ------------------------------------------------------
-  actualizarCantidad(index: number, cantidad: number) {
-    const producto = this.productosSeleccionados[index];
-    producto.cantidad = cantidad;
-    producto.valor = producto.cantidad * producto.producto.precio_venta;
-    producto.igv = producto.valor * 0.18;
-    producto.precioConIgv = producto.valor + producto.igv;
-    this.actualizarTotales();
-  }
-  actualizarTotales() {
-    this.totalGravada = this.calcularTotalGravada();
-    this.igv = this.calcularIgv();
-    this.totalPagar = this.calcularTotalPagar();
-    this.cdr.detectChanges();
-  }
-  calcularTotalGravada(): number {
-    return this.productosSeleccionados.reduce((total, item) => total + (item.valor || 0), 0); 
-  }
-  calcularIgv(): number {
-    return this.productosSeleccionados.reduce((total, item) => total + (item.igv || 0), 0);  
-  }
-  calcularTotalPagar(): number {
-    return this.productosSeleccionados.reduce((total, item) => total + (item.precioConIgv || 0), 0); 
-  }
-  eliminarProducto(index: number) {
-    this.productosSeleccionados.splice(index, 1);
-    this.actualizarTotales();
-  }
-  
-  // ------------------------------------------------------
-  cargarSucursales() {
-    this.sucursalService.cargarSucursales().subscribe((data) => {
-      this.listaSursales = data;
-      this.filtroSucursal = data;
-      
-      // Establecer el primer ID de sucursal como valor predeterminado
-      if (this.filtroSucursal.length > 0) {
-        this.selectedSucursal = this.filtroSucursal[0].id_sucursal.toString();
-      }
-    });
-  }
-
-  
-
-  // ------------------------------------------------------
-  // ElegirTipoDoc() {
-  //   this.tipoDoc = this.selectedTipoDoc;
-  
-  //   // Validar coherencia sin cambiar automáticamente el comprobante
-  //   if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
-  //     alert('Para Boletas con RUC, el monto máximo permitido es 700.00.');
-  //     this.selectedTipoDoc = ''; // Resetear si es necesario
-  //     return;
-  //   }
-  
-  //     //Sincronizar la configuración de comprobantes y tipos de documento
-  //     this.ElegirComprobante();
-  //   }
-  
 
   ElegirCliente() {
     const clienteSeleccionado = this.listaClientes.find(cliente => cliente.id_cliente === Number(this.selectedCliente));
@@ -324,6 +263,7 @@ export class GenerarVentaComponent implements OnInit {
         this.opcionesTipoDoc = [{ value: '6', label: 'RUC' }];
         this.selectedTipoDoc = '6';
       }
+      
     }
   }
   cargarClientes() {
@@ -356,6 +296,36 @@ export class GenerarVentaComponent implements OnInit {
   }
 
   // ------------------------------------------------------
+  actualizarCantidad(index: number, cantidad: number) {
+    const producto = this.productosSeleccionados[index];
+    producto.cantidad = cantidad;
+    producto.valor = producto.cantidad * producto.producto.precio_venta;
+    producto.igv = producto.valor * 0.18;
+    producto.precioConIgv = producto.valor + producto.igv;
+    this.actualizarTotales();
+  }
+  actualizarTotales() {
+    this.totalGravada = this.calcularTotalGravada();
+    this.igv = this.calcularIgv();
+    this.totalPagar = this.calcularTotalPagar();
+    this.cdr.detectChanges();
+  }
+  calcularTotalGravada(): number {
+    return this.productosSeleccionados.reduce((total, item) => total + (item.valor || 0), 0); 
+  }
+  calcularIgv(): number {
+    return this.productosSeleccionados.reduce((total, item) => total + (item.igv || 0), 0);  
+  }
+  calcularTotalPagar(): number {
+    return this.productosSeleccionados.reduce((total, item) => total + (item.precioConIgv || 0), 0); 
+  }
+  eliminarProducto(index: number) {
+    this.productosSeleccionados.splice(index, 1);
+    this.actualizarTotales();
+  }
+
+
+  // ------------------------------------------------------
   ElegirProducto() {
     const productoSeleccionado = this.listaProductos.find(
       (prod) => prod.id_producto === parseInt(this.selectedProducto)
@@ -376,7 +346,7 @@ export class GenerarVentaComponent implements OnInit {
         console.error('Error al obtener los productos:', error);
       }
     );
-}
+  }
 
   anadirArticulo() {
     const productoSeleccionado = this.listaProductos.find(
@@ -411,6 +381,18 @@ export class GenerarVentaComponent implements OnInit {
     }
   }
 
+  cargarSucursales() {
+    this.sucursalService.cargarSucursales().subscribe((data) => {
+      this.listaSursales = data;
+      this.filtroSucursal = data;
+      
+      // Establecer el primer ID de sucursal como valor predeterminado
+      if (this.filtroSucursal.length > 0) {
+        this.selectedSucursal = this.filtroSucursal[0].id_sucursal.toString();
+      }
+    });
+  }
+
   // ------------------------------------------------------
   descargarPDF(id: number) {
     this.comprobanteService.obtenerComprobantePDF(id).subscribe(blob => {
@@ -425,6 +407,10 @@ export class GenerarVentaComponent implements OnInit {
 
   // ------------------------------------------------------
   // SECUNDARIO:
+
+  elegirSucursal() {
+    this.sucursal = this.selectedSucursal;
+  }
 
   actualizarCantidadInput() {
     this.cantidad = parseInt((<HTMLInputElement>document.getElementById('cantidad')).value, 10);
@@ -456,3 +442,20 @@ export class GenerarVentaComponent implements OnInit {
   }  
 
 }
+
+
+
+// ------------------------------------------------------
+// ElegirTipoDoc() {
+//   this.tipoDoc = this.selectedTipoDoc;
+
+//   // Validar coherencia sin cambiar automáticamente el comprobante
+//   if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
+//     alert('Para Boletas con RUC, el monto máximo permitido es 700.00.');
+//     this.selectedTipoDoc = ''; // Resetear si es necesario
+//     return;
+//   }
+
+//     //Sincronizar la configuración de comprobantes y tipos de documento
+//     this.ElegirComprobante();
+//   }

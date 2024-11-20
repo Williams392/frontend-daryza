@@ -138,23 +138,38 @@
                 </div>
                 <form #productoForm="ngForm" (ngSubmit)="guardarProducto()">
                     <div class="modal-body">
+
                         <div class="row">
+                            <!-- Campo Nombre -->
                             <div class="col-md-6 mb-3">
-                                <label for="nombre">Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nombre" [(ngModel)]="producto.nombre_prod" name="nombre" required>
-                                <div *ngIf="productoForm.controls['nombre']?.invalid && (productoForm.controls['nombre']?.dirty || productoForm.controls['nombre']?.touched)" class="text-danger">
+                                <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="nombre"
+                                    [(ngModel)]="producto.nombre_prod"
+                                    name="nombre"
+                                    required>
+                                <div
+                                    *ngIf="productoForm.controls['nombre']?.invalid && (productoForm.controls['nombre']?.dirty || productoForm.controls['nombre']?.touched)"
+                                    class="text-danger mt-1">
                                     <div *ngIf="productoForm.controls['nombre']?.errors?.['required']">El nombre es obligatorio.</div>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-4">
-                                <label for="serie" class="form-label">SERIE</label>
-                                <input type="text" id="serie" name="serie" class="form-control" readonly>
-                            </div> -->
+
+                            <!-- Campo Serie -->
                             <div class="col-md-6 mb-3">
-                                    <label for="serie" class="form-label">SERIE</label>
-                                    <input type="text" id="serie" name="serie" class="form-control" readonly placeholder="P-000000001">
+                                <label for="serie" class="form-label">Serie</label>
+                                <input
+                                    type="text"
+                                    id="serie"
+                                    name="serie"
+                                    class="form-control"
+                                    readonly
+                                    placeholder="P-000000001">
                             </div>
                         </div>
+
 
                         <div class="mb-3">
                             <label for="descripcion_pro" class="block mb-2 text-sm font-medium text-black">Descripción</label>
@@ -209,20 +224,21 @@
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="estock">Estock <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
-                                <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
-                                    <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label for="estock_minimo">Estock Mínimo <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
                                 <div *ngIf="productoForm.controls['estock_minimo']?.invalid && (productoForm.controls['estock_minimo']?.dirty || productoForm.controls['estock_minimo']?.touched)" class="text-danger">
                                     <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['required']">El estock mínimo es obligatorio.</div>
                                 </div>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estock">Estock <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
+                                <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
+                                    <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="marca">Marca <span class="text-danger">*</span></label>
