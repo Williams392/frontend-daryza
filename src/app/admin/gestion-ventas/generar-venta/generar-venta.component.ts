@@ -60,7 +60,7 @@ export class GenerarVentaComponent implements OnInit {
 
   ngOnInit() {
     this.cargarClientes();
-    this.cargarProductos();
+    this.obtenerProductos();
     this.cargarSucursales();
     this.ElegirComprobante();
     //this.ElegirTipoDoc();
@@ -281,23 +281,24 @@ export class GenerarVentaComponent implements OnInit {
     });
   }
 
-  // ------------------------------------------------------
-  //ElegirTipoDoc() {
-    //this.tipoDoc = this.selectedTipoDoc;
-  
-    // // Validar coherencia sin cambiar automáticamente el comprobante
-    // if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
-    //   alert('Para Boletas con RUC, el monto máximo permitido es 700.00.');
-    //   this.selectedTipoDoc = ''; // Resetear si es necesario
-    //   return;
-    // }
-  
-      // Sincronizar la configuración de comprobantes y tipos de documento
-      //this.ElegirComprobante();
-    //}
   
 
+  // ------------------------------------------------------
+  // ElegirTipoDoc() {
+  //   this.tipoDoc = this.selectedTipoDoc;
   
+  //   // Validar coherencia sin cambiar automáticamente el comprobante
+  //   if (this.selectedComprobante === 'boleta' && this.selectedTipoDoc === '6' && this.totalPagar > 700.00) {
+  //     alert('Para Boletas con RUC, el monto máximo permitido es 700.00.');
+  //     this.selectedTipoDoc = ''; // Resetear si es necesario
+  //     return;
+  //   }
+  
+  //     //Sincronizar la configuración de comprobantes y tipos de documento
+  //     this.ElegirComprobante();
+  //   }
+  
+
   ElegirCliente() {
     const clienteSeleccionado = this.listaClientes.find(cliente => cliente.id_cliente === Number(this.selectedCliente));
   
@@ -364,17 +365,19 @@ export class GenerarVentaComponent implements OnInit {
       this.cdr.detectChanges(); 
     }
   }
-  cargarProductos() {
+  obtenerProductos() {
     this.productoService.getProductoLista().subscribe(
       (response: Producto[]) => {
-        this.listaProductos = response;
-        this.filtroProductos = this.listaProductos;
+        // Filtrar productos con estado_producto = true
+        this.listaProductos = response.filter(producto => producto.estado);
+        this.filtroProductos = this.listaProductos; // Puedes aplicar el filtro si lo necesitas
       },
       (error) => {
         console.error('Error al obtener los productos:', error);
       }
     );
-  }
+}
+
   anadirArticulo() {
     const productoSeleccionado = this.listaProductos.find(
       (prod) => prod.id_producto === parseInt(this.selectedProducto)

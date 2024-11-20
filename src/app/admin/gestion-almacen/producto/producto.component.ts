@@ -81,7 +81,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    obtenerProductos() {
+    obtenerProductos() { // img:
         this.productoService.getProductoLista().subscribe(productos => {
             this.dataSource.data = productos.map(producto => ({
                 ...producto,
@@ -92,30 +92,32 @@ export class ProductoComponent implements OnInit, AfterViewInit {
         });
     }
 
-
+    // -------------------------------------------
     obtenerCategorias() {
-        this.categoriaService.getCategoriaLista().subscribe(categorias => { // Usa el servicio de categoría
-            this.categorias = categorias;
+        this.categoriaService.getCategoriaLista().subscribe(categorias => {
+            // Filtrar categorías con estado_categoria = true
+            this.categorias = categorias.filter(categoria => categoria.estado_categoria);
         }, error => {
             this.onError('Error al obtener categorías');
         });
-    }
-
+    }    
     obtenerMarcas() {
-        this.marcaService.getMarcaLista().subscribe(marcas => { // Usa el servicio de marca
-            this.marcas = marcas;
+        this.marcaService.getMarcaLista().subscribe(marcas => {
+            // Filtrar marcas con estado_marca = true
+            this.marcas = marcas.filter(marca => marca.estado_marca);
         }, error => {
             this.onError('Error al obtener marcas');
         });
-    }
-
+    }    
     obtenerUnidadesMedida() {
-        this.unidadMedidaService.getUnidadMedidaLista().subscribe(unidades => { // Usa el servicio de unidad de medida
-            this.unidadesMedida = unidades;
+        this.unidadMedidaService.getUnidadMedidaLista().subscribe(unidades => {
+            // Filtrar unidades de medida con estado_unidad = true
+            this.unidadesMedida = unidades.filter(unidad => unidad.estado_unidad);
         }, error => {
             this.onError('Error al obtener unidades de medida');
         });
-    }
+    }    
+    // -------------------------------------------
 
     guardarProducto() {
         if (this.productoForm.valid) {

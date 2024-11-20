@@ -32,9 +32,9 @@ export class DashboardService {
     getVentasPorDiaSemana(): Observable<any> {
         return this.http.get<any>(`${this.apiUrlDashboard}/dashboard/comprobantes/ventas_por_dia_semana/`);
     }
-    
-    getMovimientos(): Observable<any> {
-        return this.http.get<any>(`${this.apiUrlDashboard}/movimientos/movimientos/`);
+        
+    getMovimientosSemanales(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrlDashboard}/dashboard/movimientos/movimientos_semanales/`);
     }
 
 }

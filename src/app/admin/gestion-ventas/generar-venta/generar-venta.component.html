@@ -1,4 +1,4 @@
-<div class="container-fluid mt-1 p-2">
+<div class="container-fluid mt-1 p-2" style="max-width: 1800px;">
 
   <!-- Encabezado: Logo y empresa -->
   <div class="header">
@@ -83,6 +83,7 @@
             <label for="cliente" class="form-label">Buscar Cliente:</label>
             <input type="text" id="cliente" name="cliente" class="form-control" (input)="buscarCliente($event)">
           </div>
+          
           <div class="col-md-4">
             <label for="selectedProducto" class="form-label">Cliente (Id/Nombre):<span class="text-danger">*</span></label>
             <select id="selectedCliente" name="selectedCliente" class="form-select" required 
@@ -93,6 +94,7 @@
               </option>
             </select>
           </div>
+
           <div class="col-md-4">
             <label for="selectedTipoDoc" class="form-label">Tipo de Doc<span class="text-danger">*</span></label>
             <!-- <select id="selectedTipoDoc" name="selectedTipoDoc" class="form-select" required [(ngModel)]="selectedTipoDoc" (change)="ElegirTipoDoc()"> -->
@@ -201,14 +203,14 @@
       
   <!-- Botones Emitir y Cerrar -->
   <div class="row mt-3">
-      <div class="col-md-12 text-center">
-          <button class="btn btn-success me-2" (click)="emitirComprobante()">
-              <i class="bi bi-check-circle"></i> Emitir
-          </button>
-          <button class="btn btn-secondary" (click)="resetForm()">
-              <i class="bi bi-x-circle"></i> Cancelar
-          </button>
-      </div>
+    <div class="col-md-12 text-center">
+      <button class="btn btn-success me-2" (click)="emitirComprobante()">
+          <i class="bi bi-check-circle"></i> Emitir
+      </button>
+      <button class="btn btn-secondary" (click)="resetForm()">
+          <i class="bi bi-x-circle"></i> Cancelar
+      </button>
+    </div>
   </div>
 
 </div>

@@ -28,3 +28,20 @@ table {
     border-color: #4d7aa3;
     color: white;
 }
+
+
+/* Clase para el estado 'Activo' */
+.activo {
+  color: white; /* Letra negra */
+  background-color: #268d26; /* Verde claro */
+  padding: 3px 11px; /* Espaciado alrededor del texto */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Clase para el estado 'Inactivo' */
+.inactivo {
+color: white; /* Letra blanca */
+background-color: #8b0000; /* Rojo oscuro */
+padding: 3px  5px; /* Espaciado alrededor del texto */
+border-radius: 4px; /* Bordes redondeados */
+}

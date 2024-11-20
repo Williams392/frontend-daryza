@@ -66,18 +66,7 @@ export class DashboardComponent implements OnInit {
       console.error("Error fetching user data:", error);
     });
 
-    // GRAFCIO:
-    this.dashboardService.getMovimientos().subscribe(data => {
-      const fechas = data.map((mov: any) => this.formatDate(mov.created_at));
-      const entradas = data
-        .filter((mov: any) => mov.tipo_movimiento === 1)  // tipo_movimiento 1 = Entrada
-        .map((mov: any) => mov.cant_total);
-      const salidas = data
-        .filter((mov: any) => mov.tipo_movimiento === 2)  // tipo_movimiento 2 = Salida
-        .map((mov: any) => mov.cant_total);
-
-      this.createMovimientosChart(fechas, entradas, salidas);
-    });
+    // GRAFCIO:    
     this.dashboardService.getVentasPorDiaSemana().subscribe(data => {
       const dias = data.map((venta: any) => venta.dia_semana);
       const ventas = data.map((venta: any) => venta.total_ventas);
@@ -85,17 +74,16 @@ export class DashboardComponent implements OnInit {
       this.createVentasChart(dias, ventas);
     });
 
-  }
+    this.dashboardService.getMovimientosSemanales().subscribe(data => {
+      const diasSemana = data.map((mov: any) => mov.dia_semana);
+      const entradas = data.map((mov: any) => mov.entradas);
+      const salidas = data.map((mov: any) => mov.salidas);
 
-  loadVentasData() {
-    this.dashboardService.getVentasPorDiaSemana().subscribe((data: { dia_semana: string, total_ventas: number }[]) => {
-      const dias = data.map(item => item.dia_semana);
-      const ventas = data.map(item => item.total_ventas);
-      this.createVentasChart(dias, ventas);
+      this.createMovimientosChart(diasSemana, entradas, salidas);
     });
+
   }
   
-
   createVentasChart(dias: string[], ventas: number[]) {
     this.ventasChartOptions = {
       series: [

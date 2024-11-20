@@ -22,8 +22,10 @@ export class UnidadMedidaComponent implements OnInit {
   unidadMedidaForm: FormGroup;
   unidadMedida: UnidadMedida = new UnidadMedida();
 
-  displayedColumns: string[] = ['id_unidad_medida', 'nombre', 'abreviacion', 'created_at', 'update_at', 'acciones'];
+  displayedColumns: string[] = ['id_unidad_medida', 'nombre', 'abreviacion', 'estado','created_at', 'update_at', 'acciones'];
   unidades_dataSource = new MatTableDataSource<UnidadMedida>();
+
+  unidad_medida: UnidadMedida = { nombre_unidad: '', abreviacion: '', estado_unidad: true };
   
   constructor(
     private fb: FormBuilder,
@@ -35,8 +37,10 @@ export class UnidadMedidaComponent implements OnInit {
     this.unidadMedidaForm = this.fb.group({
       id_unidadMedida: [null],
       nombre_unidad: ['', [Validators.required]],
-      abreviacion: ['', [Validators.required]]
+      abreviacion: ['', [Validators.required]],
+      estado_unidad: [true]  // Añadir el control para estado_unidad
     });
+    
   }
 
   ngOnInit() {
@@ -148,7 +152,8 @@ export class UnidadMedidaComponent implements OnInit {
     this.unidadMedidaForm.reset({
       id_unidadMedida: null,
       nombre_unidad: '',
-      abreviacion: ''
+      abreviacion: '',
+      estado_unidad: true
     });
   }
 

@@ -18,10 +18,12 @@ export class MarcaComponent implements OnInit, AfterViewInit {
   @ViewChild('marcaForm', { static: false }) marcaForm!: NgForm;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id_marca', 'nombre', 'created_at', 'update_at', 'acciones'];
+  displayedColumns: string[] = ['id_marca', 'nombre', 'estado', 'created_at', 'update_at', 'acciones'];
   dataSource = new MatTableDataSource<Marca>();
 
-  marca: Marca = new Marca();
+  marca: Marca = { nombre_marca: '', estado_marca: true };
+
+  // marca: Marca = new Marca();
 
     constructor(
         private marcaService: MarcaService,
@@ -84,21 +86,6 @@ export class MarcaComponent implements OnInit, AfterViewInit {
     }
   }
   
-  // handleError(error: any) {
-  //   let errorMessage = 'Error al guardar la marca';
-  //   if (error.error) {
-  //       if (error.error.nombre_marca) {
-  //           errorMessage = error.error.nombre_marca;
-  //       } 
-  //       if (error.error.nombre_categoria) {
-  //           errorMessage = error.error.nombre_categoria;
-  //       }
-  //   }
-  //   Swal.fire('Error', errorMessage, 'error');
-  // }
-
-  
-
   eliminarMarca(id: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -124,9 +111,9 @@ export class MarcaComponent implements OnInit, AfterViewInit {
 
   abrirModalParaAgregar() {
     this.marcaForm.reset({
-      id_unidadMedida: null,
-      nombre_unidad: '',
-      abreviacion: ''
+      id_marca: null,
+      nombre_marca: '',
+      estado_marca: true
     });
     this.abrirModal();
   }
@@ -143,7 +130,8 @@ export class MarcaComponent implements OnInit, AfterViewInit {
   }
 
   cancelar() {
-    this.marca = new Marca();  // Reset the form data
+    //this.marca = new Marca();  // Reset the form data
+    this.marca = { nombre_marca: '', estado_marca: true }; 
   }
   abrirModal() {
     const modalElement = document.getElementById('agregarMarcaModal');
