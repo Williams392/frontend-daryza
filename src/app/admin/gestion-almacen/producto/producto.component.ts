@@ -121,54 +121,50 @@ export class ProductoComponent implements OnInit, AfterViewInit {
 
     guardarProducto() {
         if (this.productoForm.valid) {
-            const productoData = new FormData(); // Utiliza FormData para enviar la imagen y otros datos
-    
-            // Asegúrate de agregar todos los campos, y usa el operador ?? para manejar undefined
+            const productoData = new FormData();
             productoData.append('nombre_prod', this.producto.nombre_prod);
             productoData.append('precio_compra', (this.producto.precio_compra ?? 0).toString());
             productoData.append('precio_venta', (this.producto.precio_venta ?? 0).toString());
             productoData.append('codigo', this.producto.codigo);
-            productoData.append('Prueba v5', this.producto.descripcion_pro || '');
             productoData.append('estock', (this.producto.estock ?? 0).toString());
             productoData.append('estock_minimo', (this.producto.estock_minimo ?? 0).toString());
             productoData.append('marca', (this.producto.marca ?? 0).toString());
             productoData.append('categoria', (this.producto.categoria ?? 0).toString());
             productoData.append('unidad_medida', (this.producto.unidad_medida ?? 0).toString());
-            //productoData.append('descripcion_pro', this.producto.descripcion_pro || '');
             productoData.append('estado', (this.producto.estado ?? true).toString());
     
-            // Solo agregar la imagen si fue seleccionada
             if (this.imagenSeleccionada) {
                 productoData.append('imagen', this.imagenSeleccionada);
             }
     
-            // Si `id_producto` existe, actualiza el producto (PUT). Si no, crea un nuevo producto (POST)
-            if (this.producto.id_producto) {
-                // Usar `PUT` para actualizar el producto existente
-                this.productoService.putActualizarProducto(this.producto.id_producto, productoData).subscribe({
-                    next: () => this.onSuccess('Producto actualizado con éxito'),
-                    error: (err) => {
-                        console.error(err); // Para depurar el error
-                        this.onError('Error al actualizar el producto');
+            // Realizar la llamada al servicio para crear o actualizar el producto
+            const request = this.producto.id_producto ? 
+                this.productoService.putActualizarProducto(this.producto.id_producto, productoData) : 
+                this.productoService.postAgregarProducto(productoData);
+    
+            request.subscribe({
+                next: () => {
+                    this.onSuccess('Producto guardado con éxito');
+                    this.obtenerProductos(); // Actualiza la lista de productos
+                },
+                error: (err) => {
+                    // Maneja los errores específicos basados en la respuesta del backend
+                    if (err.error?.detail?.includes('El nombre ya existe')) {
+                        this.snack.open('El nombre de producto ya está registrado.', 'Aceptar', { duration: 3000 });
+                    } else if (err.error?.detail?.includes('El precio de compra debe ser mayor que el precio de venta')) {
+                        this.snack.open('El precio de compra debe ser mayor que el precio de venta.', 'Aceptar', { duration: 3000 });
+                    } else if (err.error?.detail?.includes('El estock debe ser mayor que el estock mínimo')) {
+                        this.snack.open('El stock debe ser mayor que el stock mínimo y no pueden ser iguales.', 'Aceptar', { duration: 3000 });
+                    } else {
+                        this.onError('Hubo un error al guardar el producto');
                     }
-                });
-            } else {
-                // Usar `POST` para agregar un nuevo producto
-                this.productoService.postAgregarProducto(productoData).subscribe({
-                    next: () => {
-                        this.onSuccess('Producto agregado con éxito');
-                        this.obtenerProductos(); // Actualiza la lista de productos después de agregar uno nuevo
-                    },
-                    error: (err) => {
-                        console.error(err); // Para depurar el error
-                        this.onError('Error al agregar el producto');
-                    }
-                });
-            }
+                }
+            });
         } else {
-            this.snack.open('Rellene todos los campos', 'Aceptar', { duration: 3000 });
+            this.snack.open('Rellene todos los campos correctamente.', 'Aceptar', { duration: 3000 });
         }
     }
+    
     
     
     eliminarProducto(id: number): void {

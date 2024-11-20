@@ -179,29 +179,24 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="precio_compra">Precio de Compra <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.precio_compra" name="precio_compra" required>
+                                <input type="number" class="form-control" id="precio_compra" [(ngModel)]="producto.precio_compra" name="precio_compra" required min="1">
                                 <div *ngIf="productoForm.controls['precio_compra']?.invalid && (productoForm.controls['precio_compra']?.dirty || productoForm.controls['precio_compra']?.touched)" class="text-danger">
                                     <div *ngIf="productoForm.controls['precio_compra']?.errors?.['required']">El precio de compra es obligatorio.</div>
+                                    <div *ngIf="productoForm.controls['precio_compra']?.errors?.['min']">El precio de compra no puede ser menor a 1.</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="precio_venta">Precio de Venta <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.precio_venta" name="precio_venta" required>
+                                <input type="number" class="form-control" id="precio_venta" [(ngModel)]="producto.precio_venta" name="precio_venta" required min="1">
                                 <div *ngIf="productoForm.controls['precio_venta']?.invalid && (productoForm.controls['precio_venta']?.dirty || productoForm.controls['precio_venta']?.touched)" class="text-danger">
                                     <div *ngIf="productoForm.controls['precio_venta']?.errors?.['required']">El precio de venta es obligatorio.</div>
+                                    <div *ngIf="productoForm.controls['precio_venta']?.errors?.['min']">El precio de venta no puede ser menor a 1.</div>
                                 </div>
                             </div>
                         </div>
                         
+                        
                         <div class="row">
-
-                            <!-- <div class="col-md-6 mb-3">
-                                <label for="estado">Estado</label>
-                                <select class="form-control" id="estado" [(ngModel)]="producto.estado" name="estado">
-                                    <option [ngValue]="true">Activo</option>
-                                    <option [ngValue]="false">Inactivo</option>
-                                </select>
-                            </div> -->
 
                             <div class="col-md-6 mb-3">
                                 <label for="estado" class="form-label">Estado</label>
@@ -225,19 +220,22 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="estock_minimo">Estock Mínimo <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required>
+                                <input type="number" class="form-control" id="estock_minimo" [(ngModel)]="producto.estock_minimo" name="estock_minimo" required min="1">
                                 <div *ngIf="productoForm.controls['estock_minimo']?.invalid && (productoForm.controls['estock_minimo']?.dirty || productoForm.controls['estock_minimo']?.touched)" class="text-danger">
                                     <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['required']">El estock mínimo es obligatorio.</div>
+                                    <div *ngIf="productoForm.controls['estock_minimo']?.errors?.['min']">El estock mínimo no puede ser menor a 1.</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="estock">Estock <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required>
+                                <input type="number" class="form-control" id="estock" [(ngModel)]="producto.estock" name="estock" required min="1">
                                 <div *ngIf="productoForm.controls['estock']?.invalid && (productoForm.controls['estock']?.dirty || productoForm.controls['estock']?.touched)" class="text-danger">
                                     <div *ngIf="productoForm.controls['estock']?.errors?.['required']">El estock es obligatorio.</div>
+                                    <div *ngIf="productoForm.controls['estock']?.errors?.['min']">El estock no puede ser menor a 1.</div>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
