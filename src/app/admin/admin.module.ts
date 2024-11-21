@@ -30,6 +30,7 @@ import { GenerarVentaComponent } from './gestion-ventas/generar-venta/generar-ve
 import { HistorialVentasComponent } from './gestion-ventas/historial-ventas/historial-ventas.component';
 import { MovimientoComponent } from './movimiento/movimiento.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AuditoriaComponent } from './auditoria/auditoria.component';
 
 @NgModule({ declarations: [
         UnidadMedidaComponent,
@@ -43,6 +44,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         GenerarVentaComponent,
         HistorialVentasComponent,
         MovimientoComponent,
+        AuditoriaComponent,
     ], imports: [
         CommonModule,
         AdminRoutingModule,

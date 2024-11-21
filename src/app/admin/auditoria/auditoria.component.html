@@ -1,0 +1,72 @@
+<div class="container-fluid " style="padding: 0px;">
+
+    <div class="Breadcrumb bg-white rounded">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <i class="bi bi-house p-2"></i>
+            <li class="breadcrumb-item p-2"><a href="admin/dashboard/">Inicio</a></li>
+            <li class="breadcrumb-item active p-2" aria-current="page">Auditoría</li>
+          </ol>
+        </nav>
+    </div>
+
+    <div class="bg-white">
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <i style="font-size: 25px;"></i>
+            <p style="font-size: 24px; line-height: 1.2; margin: 0 0 0 10px;">AUDITORÍA</p>
+        </div>  
+        <hr>
+    </div>    
+
+    <div class="mat-elevation-z8" style="margin-top: 0px 20px;">
+        <table mat-table [dataSource]="dataSource" class="mat-table">
+            <!-- Columnas de la tabla -->
+            <ng-container matColumnDef="codigoAu">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Código </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.codigo_au }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="usuarioAu">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Usuario </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.usuario_au }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="tabla">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Tabla </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.tabla }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="accion">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Acción </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.accion }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="registro">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Registro </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.registro }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Nombre </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.nombre }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Descripción </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.descripcion || 'N/A' }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="fechaHora">
+                <th mat-header-cell *matHeaderCellDef style="background-color: black; color: white;"> Fecha y Hora </th>
+                <td mat-cell *matCellDef="let auditoria"> {{ auditoria.fecha_hora | date: 'yyyy-MM-dd HH:mm' }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+    </div>
+
+</div>
